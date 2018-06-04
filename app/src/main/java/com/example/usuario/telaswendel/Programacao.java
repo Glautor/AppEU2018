@@ -68,16 +68,25 @@ public class Programacao extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+
+        } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(getApplicationContext(), Home.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+
+
+
+        } else if(id == R.id.nav_share){
+
             Intent intent = new Intent(getApplicationContext(), Areas.class);
             startActivity(intent);
+
+
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(getApplicationContext(), Config.class);
             startActivity(intent);
+
 
 
         } else if (id == R.id.nav_send) {
