@@ -1,11 +1,9 @@
 package com.example.usuario.telaswendel;
 
-<<<<<<< HEAD
+import android.annotation.SuppressLint;
 import android.app.Activity;
-=======
 import android.Manifest;
 import android.content.Context;
->>>>>>> f0e09fbcc8a5d05adf4852f00a1e044b71d59876
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -50,7 +48,7 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        checkin = (Button)  findViewById(R.id.checkin);
+        checkin = (Button) findViewById(R.id.checkin);
         final Activity activity = this;
 
         checkin.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +181,17 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
 
     }
