@@ -9,7 +9,7 @@
     <string name="action_sign_in">Logue-se</string>
     <string name="action_sign_in_short"></string>
     <string name="error_invalid_email">Email Errado ou Inválido</string>
-    <string name="error_invalid_password">Ei cara de chibata, tua senha ta muito curta !:P</string>
+    <string name="error_invalid_password">Senha muito curta!</string>
     <string name="error_incorrect_password">Senha Incorreta</string>
     <string name="error_field_required">Você não digitou nada!</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email

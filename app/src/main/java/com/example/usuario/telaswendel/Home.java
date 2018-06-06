@@ -3,7 +3,10 @@ package com.example.usuario.telaswendel;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -28,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -39,6 +43,7 @@ public class Home extends AppCompatActivity
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
     LocationManager locationManager = null;
     LocationProvider provider = null;
+    TextView textView1;
 
     Button checkin;
 
@@ -72,50 +77,39 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        textView1 = (TextView) findViewById(R.id.textView1);
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+
+                // MY_PERMISSIONS_REQUEST_FINE_LOCATION is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
     }
 
-//    @Override
-//    protected void onResume(){
-//        super.onResume();
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//                // Show an expanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//
-//            } else {
-//
-//                // No explanation needed, we can request the permission.
-//
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-//
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//            }
-//        }
-//        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//        provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
-//        Criteria criteria = new Criteria();
-//        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//        criteria.setCostAllowed(false);
-//
-//        String providerName = locationManager.getBestProvider(criteria, true);
-//        locationManager.requestLocationUpdates(providerName,1000,0,this);
-//        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//
-//
-//
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -128,13 +122,8 @@ public class Home extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                    provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
-                    Criteria criteria = new Criteria();
-                    criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                    criteria.setCostAllowed(false);
 
-                    String providerName = locationManager.getBestProvider(criteria, true);
+                    String providerName = setConfigGPS();
 
 
                     // If no suitable provider is found, null is returned.
@@ -147,6 +136,8 @@ public class Home extends AppCompatActivity
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 }
                 return;
             }
@@ -154,6 +145,23 @@ public class Home extends AppCompatActivity
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    protected String setConfigGPS(){
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setCostAllowed(false);
+
+        String providerName = locationManager.getBestProvider(criteria, true);
+
+
+        locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
+        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        textView1.setText(String.valueOf(mylocation.getLongitude()));
+        return providerName;
     }
 
     @Override
@@ -170,7 +178,27 @@ public class Home extends AppCompatActivity
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
             // the location services, then when the user clicks the "OK" button,
-            enableLocationSettings();
+            Dialog dialog = new AlertDialog.Builder(this)
+                    .setMessage("Precisamos que você ligue seu GPS")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            enableLocationSettings();
+
+                        }
+                    })
+                    .setNegativeButton("Não quero", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    }).create();
+
+            dialog.show();
+        }else{
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                String providerName = setConfigGPS();
+            }
         }
     }
 
@@ -181,19 +209,9 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
-
+        //@SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(location.getLongitude()));
+        textView1.setText(String.valueOf(location.getLongitude()));
     }
 
     @Override
@@ -201,9 +219,12 @@ public class Home extends AppCompatActivity
 
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onProviderEnabled(String provider) {
-
+        locationManager.requestSingleUpdate(provider, this, null);//Updates(providerName,1000,0,this);
+        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        textView1.setText(String.valueOf(mylocation.getLongitude()));
     }
 
     @Override
