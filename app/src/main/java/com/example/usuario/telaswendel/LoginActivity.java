@@ -33,6 +33,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -67,6 +69,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        EditText cpf = (EditText) findViewById(R.id.textCpf);
+        MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", cpf);
+
+        cpf.addTextChangedListener(maskCPF);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -199,6 +206,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
+    }
+
+    private boolean isCpfValid (String cpf){
+        return cpf.length() >= 4;
     }
 
     /**
