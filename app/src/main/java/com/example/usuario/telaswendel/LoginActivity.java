@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,15 +93,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
+            //            @Override
+//            public void onClick(View view) {
+//                attemptLogin();
+//            }
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                TextView loginCpf = (TextView) findViewById(R.id.textCpf);
+                TextView loginMatricula = (TextView) findViewById(R.id.textMatricula);
+                String Clogin = loginCpf.getText().toString();
+                String Mlogin = loginMatricula.getText().toString();
+                if(Clogin.equals("111.111.111-11") && Mlogin.equals("111111")){
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(Clogin, Mlogin);
+                    mAuthTask.execute((Void) null);
+                }
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -308,12 +322,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String mCpf;
+        private final String mMatricula;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserLoginTask(String cpf, String matricula) {
+            mCpf = cpf;
+            mMatricula = matricula;
         }
 
         @Override
@@ -329,9 +343,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mCpf)) {
                     // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    return pieces[1].equals(mMatricula);
                 }
             }
 
