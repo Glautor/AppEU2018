@@ -136,8 +136,7 @@ public class Home extends AppCompatActivity
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),"Não podemos acessar a localização sem sua permissão", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -159,8 +158,6 @@ public class Home extends AppCompatActivity
 
 
         locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
-        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        textView1.setText(String.valueOf(mylocation.getLongitude()));
         return providerName;
     }
 
@@ -174,6 +171,7 @@ public class Home extends AppCompatActivity
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -197,6 +195,7 @@ public class Home extends AppCompatActivity
             if (ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
+
                 String providerName = setConfigGPS();
             }
         }
@@ -219,12 +218,9 @@ public class Home extends AppCompatActivity
 
     }
 
-    @SuppressLint("MissingPermission")
+
     @Override
     public void onProviderEnabled(String provider) {
-        locationManager.requestSingleUpdate(provider, this, null);//Updates(providerName,1000,0,this);
-        Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        textView1.setText(String.valueOf(mylocation.getLongitude()));
     }
 
     @Override
@@ -280,7 +276,12 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-
+            final Activity activity = this;
+            IntentIntegrator integrator = new IntentIntegrator(activity);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+            integrator.setPrompt("Camera Scan");
+            integrator.setCameraId(0);
+            integrator.initiateScan();
 
 
         } else if (id == R.id.nav_gallery) {
