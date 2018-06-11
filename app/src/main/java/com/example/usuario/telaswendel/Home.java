@@ -37,12 +37,16 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.List;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
     LocationManager locationManager = null;
     LocationProvider provider = null;
+    LocationManager mLocationManager;
+    Location myLocation;
     TextView textView1;
 
     Button checkin;
@@ -158,7 +162,35 @@ public class Home extends AppCompatActivity
 
 
         locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
+        //locationManager.requestLocationUpdates(providerName,1000,0,this);
+
+        myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(myLocation != null) {
+            Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+        }else{
+            myLocation = getLastLocation();
+            if(myLocation != null){
+                Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+            }
+        }
         return providerName;
+    }
+
+    private Location getLastLocation() {
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            @SuppressLint("MissingPermission") Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
     @Override
@@ -208,9 +240,10 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        //@SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(location.getLongitude()));
+        @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         textView1.setText(String.valueOf(location.getLongitude()));
+        Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -256,6 +289,7 @@ public class Home extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            this.finish();
         }
     }
 

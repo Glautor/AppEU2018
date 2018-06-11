@@ -1,5 +1,6 @@
 package com.example.usuario.telaswendel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.zxing.integration.android.IntentIntegrator;
 
 public class Areas extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +74,12 @@ public class Areas extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            final Activity activity = this;
+            IntentIntegrator integrator = new IntentIntegrator(activity);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+            integrator.setPrompt("Camera Scan");
+            integrator.setCameraId(0);
+            integrator.initiateScan();
 
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(getApplicationContext(), Home.class);
