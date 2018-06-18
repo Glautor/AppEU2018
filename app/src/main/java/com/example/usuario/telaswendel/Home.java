@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,10 +16,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -34,9 +35,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 public class Home extends AppCompatActivity
@@ -49,6 +64,7 @@ public class Home extends AppCompatActivity
     Location myLocation;
     TextView textView1;
 
+    String resultado = "";
     Button checkin;
 
     @Override
@@ -58,6 +74,8 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
+
+
         final Activity activity = this;
 
         checkin.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +99,31 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         textView1 = (TextView) findViewById(R.id.textView1);
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://10.0.2.2/usuario/";
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        resultado = response.toString();
+                        new AcessoBanco().execute();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                textView1.setText("That didn't work!");
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        //textView1 = (TextView) findViewById(R.id.textView1);
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -166,11 +207,11 @@ public class Home extends AppCompatActivity
 
         myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(myLocation != null) {
-            Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
         }else{
             myLocation = getLastLocation();
             if(myLocation != null){
-                Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
             }
         }
         return providerName;
@@ -243,7 +284,7 @@ public class Home extends AppCompatActivity
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         textView1.setText(String.valueOf(location.getLongitude()));
-        Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -345,5 +386,76 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class AcessoBanco extends AsyncTask<Void, Void, User>{
+        private ProgressDialog load;
+        //private String resultado = "";
+        @Override
+        protected User doInBackground(Void... params) {
+
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+
+
+//            // Instantiate the RequestQueue.
+//            RequestQueue queue = Volley.newRequestQueue(Home.this);
+//            String url ="https://randomuser.me/api/0.7";
+//
+//            // Request a string response from the provided URL.
+//            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            // Display the first 500 characters of the response string.
+//                            resultado = response.substring(0,500);
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
+//                }
+//            });
+//
+//// Add the request to the RequestQueue.
+//            queue.add(stringRequest);
+
+            if(resultado.length()>5){
+                try{
+                    JSONObject jsonObj = new JSONObject(resultado);
+                    JSONObject usuario = jsonObj.getJSONObject("usuario");
+                    String nome = usuario.getString("nome");
+                    String cpf = usuario.getString("cpf");
+                    int matricula = usuario.getInt("matricula");
+                    User novo_usuario = new User(matricula, nome);
+                    db.userDao().insertAll(novo_usuario);
+                    return db.userDao().findByName(nome);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            User novo_usuario = new User(0, "");
+
+            return novo_usuario;
+
+        }
+
+        @Override
+        protected void onPostExecute(User ret) {
+
+
+                Context contexto = getApplicationContext();
+                int duracao = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
+                toast.show();
+                textView1.setText(ret.getNome());
+
+            load.dismiss();
+        }
+        @Override
+        protected void onPreExecute(){
+            load = ProgressDialog.show(Home.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+        }
     }
 }
