@@ -63,7 +63,6 @@ public class Home extends AppCompatActivity
     LocationManager mLocationManager;
     Location myLocation;
     TextView textView1;
-
     String resultado = "";
     Button checkin;
 
@@ -443,13 +442,14 @@ public class Home extends AppCompatActivity
 
         @Override
         protected void onPostExecute(User ret) {
-
+                String usuario_nome;
 
                 Context contexto = getApplicationContext();
                 int duracao = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
                 toast.show();
                 textView1.setText(ret.getNome());
+                usuario_nome = ret.getNome();
 
             load.dismiss();
         }
