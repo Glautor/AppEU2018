@@ -102,7 +102,7 @@ public class Home extends AppCompatActivity
         textView1 = (TextView) findViewById(R.id.textView1);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.2.2/usuario/";
+        String url ="https://marcoslunciel.github.io/teste/";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
