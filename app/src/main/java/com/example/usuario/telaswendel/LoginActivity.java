@@ -3,6 +3,9 @@ package com.example.usuario.telaswendel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -30,6 +33,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    String resultado = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,30 +98,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            //            @Override
+//        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+//            //            @Override
+////            public void onClick(View view) {
+////                attemptLogin();
+////            }
+//            @Override
 //            public void onClick(View view) {
-//                attemptLogin();
+//                TextView loginCpf = (TextView) findViewById(R.id.textCpf);
+//                TextView loginMatricula = (TextView) findViewById(R.id.textMatricula);
+//                String Clogin = loginCpf.getText().toString();
+//                String Mlogin = loginMatricula.getText().toString();
+//                if(Clogin.equals("111.111.111-11") && Mlogin.equals("111111")){
+//                    showProgress(true);
+//                    mAuthTask = new UserLoginTask(Clogin, Mlogin);
+//                    mAuthTask.execute((Void) null);
+//                }
 //            }
-            @Override
-            public void onClick(View view) {
-                TextView loginCpf = (TextView) findViewById(R.id.textCpf);
-                TextView loginMatricula = (TextView) findViewById(R.id.textMatricula);
-                String Clogin = loginCpf.getText().toString();
-                String Mlogin = loginMatricula.getText().toString();
-                if(Clogin.equals("111.111.111-11") && Mlogin.equals("111111")){
-                    showProgress(true);
-                    mAuthTask = new UserLoginTask(Clogin, Mlogin);
-                    mAuthTask.execute((Void) null);
-                }
-            }
-        });
+//        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
 
+    public void login(View view){
+
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -376,6 +385,76 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    public class AcessoBanco extends AsyncTask<Void, Void, User>{
+        private ProgressDialog load;
+        //private String resultado = "";
+        @Override
+        protected User doInBackground(Void... params) {
+
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+
+
+//            // Instantiate the RequestQueue.
+//            RequestQueue queue = Volley.newRequestQueue(Home.this);
+//            String url ="https://randomuser.me/api/0.7";
+//
+//            // Request a string response from the provided URL.
+//            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            // Display the first 500 characters of the response string.
+//                            resultado = response.substring(0,500);
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
+//                }
+//            });
+//
+//// Add the request to the RequestQueue.
+//            queue.add(stringRequest);
+
+            if(resultado.length()>5){
+                try{
+                    JSONObject jsonObj = new JSONObject(resultado);
+                    JSONObject usuario = jsonObj.getJSONObject("usuario");
+                    String nome = usuario.getString("nome");
+                    String cpf = usuario.getString("cpf");
+                    int matricula = usuario.getInt("matricula");
+                    User novo_usuario = new User(matricula, nome);
+                    db.userDao().insertAll(novo_usuario);
+                    return db.userDao().findByName(nome);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            User novo_usuario = new User(0, "");
+
+            return novo_usuario;
+
+        }
+
+        @Override
+        protected void onPostExecute(User ret) {
+
+
+            Context contexto = getApplicationContext();
+            int duracao = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
+            toast.show();
+
+            load.dismiss();
+        }
+        @Override
+        protected void onPreExecute(){
+            load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
     }
 }

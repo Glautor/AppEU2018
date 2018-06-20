@@ -8,13 +8,13 @@ public class User {
 
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
     @ColumnInfo
-    public int matricula;
+    private int matricula;
 
     @ColumnInfo
-    public String nome;
+    private String nome;
 
     public User(){}
 
