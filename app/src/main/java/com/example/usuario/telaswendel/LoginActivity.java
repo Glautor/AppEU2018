@@ -3,6 +3,7 @@ package com.example.usuario.telaswendel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -33,6 +34,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -70,12 +78,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    TextView loginCpf;
+    TextView loginMatricula;
 
     String resultado = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loginCpf = (TextView) findViewById(R.id.textCpf);
+        loginMatricula = (TextView) findViewById(R.id.textMatricula);
 
         EditText cpf = (EditText) findViewById(R.id.textCpf);
         MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", cpf);
@@ -85,17 +98,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+//        mPasswordView = (EditText) findViewById(R.id.password);
+//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+//                    //attemptLogin();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 //        mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -123,7 +136,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void login(View view){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://marcoslunciel.github.io/teste/";
 
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        resultado = response.toString();
+                        mAuthTask = new UserLoginTask(loginCpf.getText().toString(), loginMatricula.getText().toString());
+                        mAuthTask.execute((Void) null);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Não conseguimos nos conectar ao servidor", Toast.LENGTH_LONG);
+                //textView1.setText("That didn't work!");
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -174,52 +210,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
+//    private void attemptLogin() {
+//        if (mAuthTask != null) {
+//            return;
+//        }
+//
+//        // Reset errors.
+//        mEmailView.setError(null);
+//        mPasswordView.setError(null);
+//
+//        // Store values at the time of the login attempt.
+//        String email = mEmailView.getText().toString();
+//        String password = mPasswordView.getText().toString();
+//
+//        boolean cancel = false;
+//        View focusView = null;
+//
+//        // Check for a valid password, if the user entered one.
+//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+//            mPasswordView.setError(getString(R.string.error_invalid_password));
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
+//
+//        // Check for a valid email address.
+//        if (TextUtils.isEmpty(email)) {
+//            mEmailView.setError(getString(R.string.error_field_required));
+//            focusView = mEmailView;
+//            cancel = true;
+//        } else if (!isEmailValid(email)) {
+//            mEmailView.setError(getString(R.string.error_invalid_email));
+//            focusView = mEmailView;
+//            cancel = true;
+//        }
+//
+//        if (cancel) {
+//            // There was an error; don't attempt login and focus the first
+//            // form field with an error.
+//            focusView.requestFocus();
+//        } else {
+//            // Show a progress spinner, and kick off a background task to
+//            // perform the user login attempt.
+//            showProgress(true);
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
+//        }
+//    }
+//
+//    private void userInvalid(){
+//        Toast.makeText(getApplicationContext(),"Cpf ou matrícula incorreto(s)",Toast.LENGTH_LONG);
+//    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
@@ -329,96 +369,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, User> {
 
         private final String mCpf;
         private final String mMatricula;
+        private ProgressDialog load;
+
 
         UserLoginTask(String cpf, String matricula) {
             mCpf = cpf;
             mMatricula = matricula;
+
         }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mCpf)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mMatricula);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-
-                Intent intent = new Intent(getApplicationContext(), Home.class);
-                startActivity(intent);
-
-
-
-
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
-    public class AcessoBanco extends AsyncTask<Void, Void, User>{
-        private ProgressDialog load;
-        //private String resultado = "";
         @Override
         protected User doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").build();
-
-
-//            // Instantiate the RequestQueue.
-//            RequestQueue queue = Volley.newRequestQueue(Home.this);
-//            String url ="https://randomuser.me/api/0.7";
-//
-//            // Request a string response from the provided URL.
-//            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                    new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            // Display the first 500 characters of the response string.
-//                            resultado = response.substring(0,500);
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
-//                }
-//            });
-//
-//// Add the request to the RequestQueue.
-//            queue.add(stringRequest);
 
             if(resultado.length()>5){
                 try{
@@ -427,7 +396,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     String nome = usuario.getString("nome");
                     String cpf = usuario.getString("cpf");
                     int matricula = usuario.getInt("matricula");
-                    User novo_usuario = new User(matricula, nome);
+                    User novo_usuario = new User(matricula, nome, cpf);
                     db.userDao().insertAll(novo_usuario);
                     return db.userDao().findByName(nome);
                 }catch(Exception e){
@@ -435,27 +404,111 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            User novo_usuario = new User(0, "");
+            User novo_usuario = new User(0, "","");
 
             return novo_usuario;
 
         }
 
         @Override
-        protected void onPostExecute(User ret) {
+        protected void onPostExecute(final User user) {
+            mAuthTask = null;
+            showProgress(false);
+            //load.dismiss();
+
+            if (mCpf.equals(user.getCpf()) &&  mMatricula.equals(String.valueOf(user.getMatricula()))) {
 
 
-            Context contexto = getApplicationContext();
-            int duracao = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
-            toast.show();
+                Intent intent = new Intent(getApplicationContext(), Home.class);
+                startActivity(intent);
+            } else {
 
-            load.dismiss();
+                loginMatricula.setError(getString(R.string.error_user_not_found));
+                loginCpf.setError(getString(R.string.error_user_not_found));
+            }
+
         }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+
         @Override
         protected void onPreExecute(){
-            load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+            //load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
     }
+
+//    public class AcessoBanco extends AsyncTask<Void, Void, User>{
+//        private ProgressDialog load;
+//        //private String resultado = "";
+//        @Override
+//        protected User doInBackground(Void... params) {
+//
+//            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+//                    AppDatabase.class, "database-name").build();
+//
+//
+////            // Instantiate the RequestQueue.
+////            RequestQueue queue = Volley.newRequestQueue(Home.this);
+////            String url ="https://randomuser.me/api/0.7";
+////
+////            // Request a string response from the provided URL.
+////            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+////                    new Response.Listener<String>() {
+////                        @Override
+////                        public void onResponse(String response) {
+////                            // Display the first 500 characters of the response string.
+////                            resultado = response.substring(0,500);
+////                        }
+////                    }, new Response.ErrorListener() {
+////                @Override
+////                public void onErrorResponse(VolleyError error) {
+////                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
+////                }
+////            });
+////
+////// Add the request to the RequestQueue.
+////            queue.add(stringRequest);
+//
+//            if(resultado.length()>5){
+//                try{
+//                    JSONObject jsonObj = new JSONObject(resultado);
+//                    JSONObject usuario = jsonObj.getJSONObject("usuario");
+//                    String nome = usuario.getString("nome");
+//                    String cpf = usuario.getString("cpf");
+//                    int matricula = usuario.getInt("matricula");
+//                    User novo_usuario = new User(matricula, nome);
+//                    db.userDao().insertAll(novo_usuario);
+//                    return db.userDao().findByName(nome);
+//                }catch(Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            User novo_usuario = new User(0, "");
+//
+//            return novo_usuario;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(User ret) {
+//
+//
+//            Context contexto = getApplicationContext();
+//            int duracao = Toast.LENGTH_LONG;
+//            Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
+//            toast.show();
+//
+//            load.dismiss();
+//        }
+//        @Override
+//        protected void onPreExecute(){
+//            load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+//        }
+//    }
 }
 

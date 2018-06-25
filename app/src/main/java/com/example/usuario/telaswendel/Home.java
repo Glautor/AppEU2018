@@ -104,24 +104,7 @@ public class Home extends AppCompatActivity
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://marcoslunciel.github.io/teste/";
 
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        resultado = response.toString();
-                        new AcessoBanco().execute();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView1.setText("That didn't work!");
-            }
-        });
 
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
 
         //textView1 = (TextView) findViewById(R.id.textView1);
         if (ContextCompat.checkSelfPermission(this,
@@ -207,11 +190,11 @@ public class Home extends AppCompatActivity
 
         myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(myLocation != null) {
-            //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
         }else{
             myLocation = getLastLocation();
             if(myLocation != null){
-                //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
             }
         }
         return providerName;
@@ -284,7 +267,7 @@ public class Home extends AppCompatActivity
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         textView1.setText(String.valueOf(location.getLongitude()));
-        //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -388,74 +371,5 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    public class AcessoBanco extends AsyncTask<Void, Void, User>{
-        private ProgressDialog load;
-        //private String resultado = "";
-        @Override
-        protected User doInBackground(Void... params) {
 
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name").build();
-
-
-//            // Instantiate the RequestQueue.
-//            RequestQueue queue = Volley.newRequestQueue(Home.this);
-//            String url ="https://randomuser.me/api/0.7";
-//
-//            // Request a string response from the provided URL.
-//            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                    new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            // Display the first 500 characters of the response string.
-//                            resultado = response.substring(0,500);
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
-//                }
-//            });
-//
-//// Add the request to the RequestQueue.
-//            queue.add(stringRequest);
-
-            if(resultado.length()>5){
-                try{
-                    JSONObject jsonObj = new JSONObject(resultado);
-                    JSONObject usuario = jsonObj.getJSONObject("usuario");
-                    String nome = usuario.getString("nome");
-                    String cpf = usuario.getString("cpf");
-                    int matricula = usuario.getInt("matricula");
-                    User novo_usuario = new User(matricula, nome);
-                    db.userDao().insertAll(novo_usuario);
-                    return db.userDao().findByName(nome);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            User novo_usuario = new User(0, "");
-
-            return novo_usuario;
-
-        }
-
-        @Override
-        protected void onPostExecute(User ret) {
-
-
-                Context contexto = getApplicationContext();
-                int duracao = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
-                toast.show();
-                textView1.setText(ret.getNome());
-
-            load.dismiss();
-        }
-        @Override
-        protected void onPreExecute(){
-            load = ProgressDialog.show(Home.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
-        }
-    }
 }
