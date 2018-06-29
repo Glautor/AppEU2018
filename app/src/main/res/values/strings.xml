@@ -24,8 +24,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configurações</string>
-    <string name="title_activity_programacao">Programacao</string>
-    <string name="title_activity_areas">Areas</string>
+    <string name="title_activity_programacao">Programação</string>
+    <string name="title_activity_areas">Áreas de Atuação</string>
     <string name="title_activity_config">Configurações</string>
 
     <!-- Strings related to Settings -->

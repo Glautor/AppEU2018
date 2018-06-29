@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:background="#FFFFE0"
+    android:background="#ffffe0"
     tools:context=".Programacao"
     tools:showIn="@layout/app_bar_programacao">
 
