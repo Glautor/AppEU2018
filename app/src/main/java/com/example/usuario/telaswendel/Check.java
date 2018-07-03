@@ -23,6 +23,12 @@ public class Check {
 
     public Check(){}
 
+    public Check(int Uid, Date dHI, boolean atServidor){
+        this.user_id = Uid;
+        this.dHourIn = dHI;
+        this.atServidor = atServidor;
+    }
+
     public int getId_check() {
         return id_check;
     }

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,27 +30,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.net.HttpURLConnection;
 import java.util.List;
 
 public class Home extends AppCompatActivity
@@ -63,9 +55,11 @@ public class Home extends AppCompatActivity
     LocationManager mLocationManager;
     Location myLocation;
     TextView textView1;
-
+    ListView checkView;
     String resultado = "";
     Button checkin;
+    String[] dados;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +68,14 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
+        checkView = (ListView) findViewById(R.id.checkView);
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
 
 
         final Activity activity = this;
+
+
 
         checkin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,6 +227,8 @@ public class Home extends AppCompatActivity
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -291,7 +292,8 @@ public class Home extends AppCompatActivity
         if(result != null){
             if(result.getContents() != null){
                 alert(result.getContents());
-
+                RealizaCheck rc = new RealizaCheck(result.getContents());
+                rc.execute();
             } else{
                 alert("Scan Cancelado");
 
@@ -369,6 +371,85 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class RealizaCheck extends AsyncTask<Void, Void, Boolean>{
+        private final String qrCode;
+
+        public RealizaCheck(String qC){
+            this.qrCode = qC;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params){
+            if(qrCode != null){
+                if(qrCode.equals("icaEU")){
+                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                            AppDatabase.class, "database-name").build();
+                    User user = db.userDao().findById(1);
+                    Date date = new Date();
+                    System.out.println("Data:"+ date);
+                    Check check = new Check(user.getId(),date,false);
+                    db.checkDao().insertAll(check);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean param) {
+            if(param) {
+                Toast.makeText(getApplicationContext(), "Checkin realizado com sucesso", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Checkin não realizado", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
+    }
+
+    public class BuscaCheck extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected Boolean doInBackground(Void... params){
+            List<Check> checkins;
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+            checkins = db.checkDao().loadAllByAtServdor(false);
+            dados = new String[checkins.size()];
+            if(checkins != null && checkins.size()>=1) {
+                for (int i = 0; i < checkins.size(); i++) {
+                    dados[i] = checkins.get(i).getDHourIn().toString();
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean param) {
+            if(param == true) {
+                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
+
+
+                checkView.setAdapter(adapter);
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
     }
 
 

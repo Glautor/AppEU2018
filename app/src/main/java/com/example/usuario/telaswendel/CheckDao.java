@@ -12,6 +12,8 @@ public interface CheckDao {
     @Query("SELECT * FROM `check` WHERE user_id IN (:userId)")
     List<Check> loadAllByIds(int userId);
 
+    @Query("SELECT * FROM `check` WHERE atServidor IN (:ser) ORDER BY `dHourIn`")
+    List<Check> loadAllByAtServdor(boolean ser);
 
     @Insert
     void insertAll(Check... checks);

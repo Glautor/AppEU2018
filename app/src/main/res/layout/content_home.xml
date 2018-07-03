@@ -14,9 +14,9 @@
         android:layout_width="339dp"
         android:layout_height="78dp"
         android:background="@drawable/botaocheck"
+        android:radius="13dp"
         android:text="FAZER CHECK-IN"
         android:textColor="#ffffff"
-        android:radius = "13dp"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,26 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="358dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <view
-        class="android.support.v7.widget.CardView"
-        id="@+id/view"
+    <ListView
+        android:id="@+id/checkView"
         android:layout_width="339dp"
         android:layout_height="360dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="17dp"
+        android:background="@drawable/campot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkin"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/checkin" />
 
 </android.support.constraint.ConstraintLayout>

@@ -16,6 +16,9 @@ public interface ResumoDao {
     @Query("SELECT * FROM resumo WHERE id LIKE :id LIMIT 1 ")
     Resumo findById(int id);
 
+    @Query("SELECT * FROM resumo WHERE titulo LIKE :titulo LIMIT 1")
+    Resumo findByName(String titulo);
+
     @Insert
     void insertAll(Resumo... resumos);
 
