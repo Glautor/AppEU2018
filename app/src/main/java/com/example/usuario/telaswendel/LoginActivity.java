@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -56,6 +57,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -86,6 +88,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+        boolean autenticado = infoLogin.getBoolean("autenticado",false);
+        if(autenticado == true){
+            Intent intent = new Intent(getApplicationContext(), Home.class);
+            startActivity(intent);
+            this.finish();
+        }
 
         loginCpf = (TextView) findViewById(R.id.textCpf);
         loginMatricula = (TextView) findViewById(R.id.textMatricula);
@@ -285,6 +295,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+
+    public void saveInfoLogin(String cpf, String matricula){
+        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+        SharedPreferences.Editor editor = infoLogin.edit();
+        editor.putBoolean("autenticado",true);
+
+        editor.commit();
+
+    }
+
+    public void finalizaActivity(){
+        this.finish();
+    }
+
     public class UserLoginTask extends AsyncTask<Void, Void, User> {
 
         private final String mCpf;
@@ -334,9 +358,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (mCpf.equals(user.getCpf()) &&  mMatricula.equals(String.valueOf(user.getMatricula()))) {
 
-
+                saveInfoLogin(mCpf,mMatricula);
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
+                finalizaActivity();
             } else {
 
                 loginMatricula.setError(getString(R.string.error_user_not_found));

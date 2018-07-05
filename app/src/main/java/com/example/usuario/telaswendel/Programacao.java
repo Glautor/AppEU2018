@@ -139,26 +139,6 @@ public class Programacao extends AppCompatActivity
         protected List<Resumo> doInBackground(Void... params){
             BufferedReader reader = null;
             StringBuffer buffer = new StringBuffer();
-            try {
-                InputStream inputStream = getResources().openRawResource(R.raw.programacao);
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String linha = "";
-                while ((linha = reader.readLine()) != null) {
-                    buffer.append(linha);
-
-                }
-                reader.close();
-
-            }catch (Exception e){
-                e.printStackTrace();
-                if(reader != null){
-                    try {
-                        reader.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").build();
@@ -171,6 +151,14 @@ public class Programacao extends AppCompatActivity
                 return  resumos;
             }else{
                 try{
+                    InputStream inputStream = getResources().openRawResource(R.raw.programacao);
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String linha = "";
+                    while ((linha = reader.readLine()) != null) {
+                        buffer.append(linha);
+
+                    }
+                    reader.close();
                     JSONObject jsonObj = new JSONObject(buffer.toString());
                     JSONArray array = jsonObj.getJSONArray("resumos");
                     for(int i =0;i<array.length();i++) {
@@ -189,8 +177,18 @@ public class Programacao extends AppCompatActivity
                         db.resumoDao().insertAll(resumo);
 
                     }
+                    int ids[] = {1,2,3};
+                    List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
+                    return  resumos;
                 }catch (Exception e){
                     e.printStackTrace();
+                    if(reader != null){
+                        try {
+                            reader.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 }
             }
             List<Resumo> resumos = null;

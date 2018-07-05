@@ -9,6 +9,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -50,6 +51,7 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
+    public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     LocationManager locationManager = null;
     LocationProvider provider = null;
     LocationManager mLocationManager;
@@ -363,8 +365,12 @@ public class Home extends AppCompatActivity
 
 
         } else if (id == R.id.nav_send) {
+            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
+            prefsEditor.clear();
+            prefsEditor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
+            this.finish();
 
         }
 

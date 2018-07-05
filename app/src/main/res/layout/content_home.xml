@@ -11,9 +11,12 @@
 
     <Button
         android:id="@+id/checkin"
-        android:layout_width="339dp"
-        android:layout_height="78dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/botaocheck"
+        android:padding="20dp"
         android:radius="13dp"
         android:text="FAZER CHECK-IN"
         android:textColor="#ffffff"
@@ -38,8 +41,12 @@
 
     <ListView
         android:id="@+id/checkView"
-        android:layout_width="339dp"
-        android:layout_height="360dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/campot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
