@@ -440,16 +440,6 @@ public class Home extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(User ret) {
-            String usuario_nome;
-
-            Context contexto = getApplicationContext();
-            int duracao = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
-            toast.show();
-            textView1.setText(ret.getNome());
-            usuario_nome = ret.getNome();
-        }
         protected void onPostExecute(Boolean param) {
             if(param == true) {
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
