@@ -37,6 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -52,6 +53,7 @@ public class Home extends AppCompatActivity
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
+    public static final String CONTROLE_CHECK = "ArquivoCheck";
     LocationManager locationManager = null;
     LocationProvider provider = null;
     LocationManager mLocationManager;
@@ -74,6 +76,13 @@ public class Home extends AppCompatActivity
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
+        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+        if(doCheckout == true){
+            checkin.setText("FAZER CHECK-OUT");
+        }else{
+            checkin.setText("FAZER CHECK-IN");
+        }
 
         final Activity activity = this;
 
@@ -225,6 +234,7 @@ public class Home extends AppCompatActivity
         // This verification should be done during onStart() because the system calls
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
+
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -379,7 +389,17 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    public class RealizaCheck extends AsyncTask<Void, Void, Boolean>{
+    public void saveInfoLogin(boolean checkout, int idCheck){
+        SharedPreferences infoLogin = getSharedPreferences(CONTROLE_CHECK,0);
+        SharedPreferences.Editor editor = infoLogin.edit();
+        editor.putBoolean("DoCheckout?",checkout);
+        editor.putInt("LastCheckin",idCheck);
+
+        editor.commit();
+
+    }
+
+    public class RealizaCheck extends AsyncTask<Void, Void, String>{
         private final String qrCode;
 
         public RealizaCheck(String qC){
@@ -387,28 +407,52 @@ public class Home extends AppCompatActivity
         }
 
         @Override
-        protected Boolean doInBackground(Void... params){
-            if(qrCode != null){
-                if(qrCode.equals("icaEU")){
-                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                            AppDatabase.class, "database-name").build();
-                    User user = db.userDao().findById(1);
-                    Date date = new Date();
-                    System.out.println("Data:"+ date);
-                    Check check = new Check(user.getId(),date,false);
-                    db.checkDao().insertAll(check);
-                    return true;
+        protected String doInBackground(Void... params){
+
+            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+            if(doCheckout == true){
+                if(qrCode != null){
+                    if(qrCode.equals("icaEU")){
+                        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "database-name").build();
+                        User user = db.userDao().findById(1);
+                        Date date = new Date();
+                        System.out.println("Data:"+ date);
+                        int cid = infoCheck.getInt("LastCheckin", -1);
+                        db.checkDao().updateCheckOut(date,cid);
+                        saveInfoLogin(false,-1);
+                        return "checkout";
+                    }
+                }
+            }else{
+                if(qrCode != null){
+                    if(qrCode.equals("icaEU")){
+                        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "database-name").build();
+                        User user = db.userDao().findById(1);
+                        Date date = new Date();
+                        System.out.println("Data:"+ date);
+                        Check check = new Check(user.getId(),date,false);
+                        db.checkDao().insertAll(check);
+                        saveInfoLogin(true,db.checkDao().loadIdByHourIn(date));
+                        return "checkin";
+                    }
                 }
             }
-            return false;
+            return "falha";
         }
 
         @Override
-        protected void onPostExecute(Boolean param) {
-            if(param) {
+        protected void onPostExecute(String param) {
+            if(param.equals("checkin")) {
                 Toast.makeText(getApplicationContext(), "Checkin realizado com sucesso", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(), "Checkin não realizado", Toast.LENGTH_LONG).show();
+            }
+            if(param.equals("checkout")){
+                Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
+            }
+            if(param.equals("falha")){
+                Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -432,7 +476,16 @@ public class Home extends AppCompatActivity
             dados = new String[checkins.size()];
             if(checkins != null && checkins.size()>=1) {
                 for (int i = 0; i < checkins.size(); i++) {
-                    dados[i] = checkins.get(i).getDHourIn().toString();
+                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    //dados[i] = checkins.get(i).getDHourIn().toString();
+                    String info = "Checkin: "+fmt.format(checkins.get(i).getDHourIn())+" | ";
+                    if(checkins.get(i).getDHourOut() != null){
+                        info += "Chekout: "+ fmt.format(checkins.get(i).getDHourOut());
+                    }else{
+                        info += "Chekout: Por fazer";
+                    }
+                    dados[i] = info;
+
                 }
                 return true;
             }
@@ -446,6 +499,7 @@ public class Home extends AppCompatActivity
 
 
                 checkView.setAdapter(adapter);
+
             }
 
         }

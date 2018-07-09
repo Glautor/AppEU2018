@@ -16,7 +16,7 @@ public class Check {
     private Date dHourIn;
 
     @ColumnInfo
-    private Date dhourOut;
+    private Date dHourOut;
 
     @ColumnInfo
     private boolean atServidor;
@@ -53,12 +53,12 @@ public class Check {
         this.dHourIn = dHourIn;
     }
 
-    public Date getDhourOut() {
-        return dhourOut;
+    public Date getDHourOut() {
+        return dHourOut;
     }
 
-    public void setDhourOut(Date dhourOut) {
-        this.dhourOut = dhourOut;
+    public void setDHourOut(Date dhourOut) {
+        this.dHourOut = dhourOut;
     }
 
     public boolean isAtServidor() {
