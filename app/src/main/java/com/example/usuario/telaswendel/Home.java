@@ -79,7 +79,7 @@ public class Home extends AppCompatActivity
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
         if(doCheckout == true){
-            checkin.setText("FAZER CHECK-OUT");
+            checkin.setText("FAZER CHECKOUT");
         }else{
             checkin.setText("FAZER CHECK-IN");
         }
@@ -235,6 +235,7 @@ public class Home extends AppCompatActivity
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
 
+
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -269,6 +270,7 @@ public class Home extends AppCompatActivity
             }
         }
     }
+
 
     private void enableLocationSettings() {
         Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -447,9 +449,12 @@ public class Home extends AppCompatActivity
         protected void onPostExecute(String param) {
             if(param.equals("checkin")) {
                 Toast.makeText(getApplicationContext(), "Checkin realizado com sucesso", Toast.LENGTH_LONG).show();
+                checkin.setText("FAZER CHECKOUT");
+
             }
             if(param.equals("checkout")){
                 Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
+                checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
                 Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
@@ -495,8 +500,7 @@ public class Home extends AppCompatActivity
         @Override
         protected void onPostExecute(Boolean param) {
             if(param == true) {
-                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
-
+                adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.item, dados);
 
                 checkView.setAdapter(adapter);
 

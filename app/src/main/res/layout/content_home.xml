@@ -48,10 +48,13 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/campot"
+        android:textColor="#0090ff"
+        android:textFilterEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkin" />
+        app:layout_constraintTop_toBottomOf="@+id/checkin"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
