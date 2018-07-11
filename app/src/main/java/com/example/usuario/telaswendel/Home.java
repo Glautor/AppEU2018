@@ -79,7 +79,7 @@ public class Home extends AppCompatActivity
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
         if(doCheckout == true){
-            checkin.setText("FAZER CHECK-OUT");
+            checkin.setText("FAZER CHECKOUT");
         }else{
             checkin.setText("FAZER CHECK-IN");
         }
@@ -447,9 +447,11 @@ public class Home extends AppCompatActivity
         protected void onPostExecute(String param) {
             if(param.equals("checkin")) {
                 Toast.makeText(getApplicationContext(), "Checkin realizado com sucesso", Toast.LENGTH_LONG).show();
+                checkin.setText("FAZER CHECKOUT");
             }
             if(param.equals("checkout")){
                 Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
+                checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
                 Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
@@ -464,43 +466,44 @@ public class Home extends AppCompatActivity
 
     }
 
-    public class BuscaCheck extends AsyncTask<Void, Void, Boolean>{
+    public class BuscaCheck extends AsyncTask<Void, Void, List<Check>>{
 
 
         @Override
-        protected Boolean doInBackground(Void... params){
+        protected List<Check> doInBackground(Void... params){
             List<Check> checkins;
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").build();
             checkins = db.checkDao().loadAllByAtServdor(false);
             dados = new String[checkins.size()];
-            if(checkins != null && checkins.size()>=1) {
-                for (int i = 0; i < checkins.size(); i++) {
-                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    //dados[i] = checkins.get(i).getDHourIn().toString();
-                    String info = "Checkin: "+fmt.format(checkins.get(i).getDHourIn())+" | ";
-                    if(checkins.get(i).getDHourOut() != null){
-                        info += "Chekout: "+ fmt.format(checkins.get(i).getDHourOut());
-                    }else{
-                        info += "Chekout: Por fazer";
-                    }
-                    dados[i] = info;
-
-                }
-                return true;
-            }
-            return false;
+//            if(checkins != null && checkins.size()>=1) {
+//                for (int i = 0; i < checkins.size(); i++) {
+//                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//                    //dados[i] = checkins.get(i).getDHourIn().toString();
+//                    String info = "Checkin: "+fmt.format(checkins.get(i).getDHourIn())+" | ";
+//                    if(checkins.get(i).getDHourOut() != null){
+//                        info += "Chekout: "+ fmt.format(checkins.get(i).getDHourOut());
+//                    }else{
+//                        info += "Chekout: Por fazer";
+//                    }
+//                    dados[i] = info;
+//
+//                }
+//                return true;
+//            }
+            return checkins;
         }
 
         @Override
-        protected void onPostExecute(Boolean param) {
-            if(param == true) {
-                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
-
-
-                checkView.setAdapter(adapter);
-
-            }
+        protected void onPostExecute(List<Check> param) {
+//            if(param == true) {
+//                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
+//
+//
+//                checkView.setAdapter(adapter);
+//
+//            }
+            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
 
         }
 
