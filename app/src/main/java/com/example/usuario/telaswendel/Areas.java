@@ -72,16 +72,7 @@ public class Areas extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            final Activity activity = this;
-            IntentIntegrator integrator = new IntentIntegrator(activity);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-            integrator.setPrompt("Camera Scan");
-            integrator.setCameraId(0);
-            integrator.initiateScan();
-
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_gallery) {
             Intent intent = new Intent(getApplicationContext(), Home.class);
             startActivity(intent);
 

@@ -11,7 +11,10 @@ public interface CheckDao {
     List<Check> getAll();
 
     @Query("SELECT * FROM `check` WHERE user_id IN (:userId)")
-    List<Check> loadAllByIds(int userId);
+    Check loadById(int userId);
+
+    @Query("SELECT * FROM `check` WHERE user_id IN (:userId)")
+    List<Check> loadAllByIds(int[] userId);
 
     @Query("SELECT `id_check` FROM `check` WHERE `dHourIn` = (:hIn)")
     int loadIdByHourIn(Date hIn);
