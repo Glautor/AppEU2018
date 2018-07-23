@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -63,7 +64,17 @@ public class Programacao extends AppCompatActivity
         textViews.add(t3);
 
 
-        new CarregaProgramacao().execute();
+//        new CarregaProgramacao().execute();
+//
+//        setContentView(R.layout.activity_programacao);
+//
+//        ListView listaDeProgramacao = (ListView) findViewById(R.id.lista_prog);
+//
+//        List<Programacao> programacao = todosAsProgramacoes();
+//
+//        ListView listaDeProgramacao = (ListView) findViewById(R.id.lista);
+//
+//        //métodos
 
     }
 
