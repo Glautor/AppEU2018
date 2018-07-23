@@ -8,20 +8,23 @@ public class User {
 
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
     @ColumnInfo
-    public int matricula;
+    private int matricula;
 
     @ColumnInfo
-    public String nome;
+    private String cpf;
+
+    @ColumnInfo
+    private String nome;
 
     public User(){}
 
-    public User(int mat, String nome){
-        this.id = id;
+    public User(int mat, String nome, String cpf){
         this.matricula = mat;
         this.nome = nome;
+        this.cpf = cpf;
     }
 
     public int getId() {
@@ -48,5 +51,7 @@ public class User {
         this.nome = nome;
     }
 
+    public String getCpf() { return cpf; }
 
+    public void setCpf(String cpf) { this.cpf = cpf; }
 }

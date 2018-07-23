@@ -3,7 +3,12 @@ package com.example.usuario.telaswendel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -31,6 +36,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +57,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -65,11 +80,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    TextView loginCpf;
+    TextView loginMatricula;
 
+    String resultado = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+        boolean autenticado = infoLogin.getBoolean("autenticado",false);
+        if(autenticado == true){
+            Intent intent = new Intent(getApplicationContext(), Home.class);
+            startActivity(intent);
+            this.finish();
+        }
+
+        loginCpf = (TextView) findViewById(R.id.textCpf);
+        loginMatricula = (TextView) findViewById(R.id.textMatricula);
 
         EditText cpf = (EditText) findViewById(R.id.textCpf);
         MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", cpf);
@@ -79,43 +108,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            //            @Override
-//            public void onClick(View view) {
-//                attemptLogin();
-//            }
-            @Override
-            public void onClick(View view) {
-                TextView loginCpf = (TextView) findViewById(R.id.textCpf);
-                TextView loginMatricula = (TextView) findViewById(R.id.textMatricula);
-                String Clogin = loginCpf.getText().toString();
-                String Mlogin = loginMatricula.getText().toString();
-                if(Clogin.equals("111.111.111-11") && Mlogin.equals("111111")){
-                    showProgress(true);
-                    mAuthTask = new UserLoginTask(Clogin, Mlogin);
-                    mAuthTask.execute((Void) null);
-                }
-            }
-        });
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
 
+    public void login(View view){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://marcoslunciel.github.io/teste/";
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        resultado = response.toString();
+                        mAuthTask = new UserLoginTask(loginCpf.getText().toString(), loginMatricula.getText().toString());
+                        mAuthTask.execute((Void) null);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Não conseguimos nos conectar ao servidor", Toast.LENGTH_LONG);
+                //textView1.setText("That didn't work!");
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -159,58 +186,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
@@ -320,56 +295,79 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+    public void saveInfoLogin(String cpf, String matricula){
+        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+        SharedPreferences.Editor editor = infoLogin.edit();
+        editor.putBoolean("autenticado",true);
+
+        editor.commit();
+
+    }
+
+    public void finalizaActivity(){
+        this.finish();
+    }
+
+    public class UserLoginTask extends AsyncTask<Void, Void, User> {
 
         private final String mCpf;
         private final String mMatricula;
+        private ProgressDialog load;
+
 
         UserLoginTask(String cpf, String matricula) {
             mCpf = cpf;
             mMatricula = matricula;
+
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected User doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mCpf)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mMatricula);
+            if(resultado.length()>5){
+                try{
+                    JSONObject jsonObj = new JSONObject(resultado);
+                    JSONObject usuario = jsonObj.getJSONObject("usuario");
+                    String nome = usuario.getString("nome");
+                    String cpf = usuario.getString("cpf");
+                    int matricula = usuario.getInt("matricula");
+                    User novo_usuario = new User(matricula, nome, cpf);
+                    db.userDao().insertAll(novo_usuario);
+                    return db.userDao().findByName(nome);
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+            User novo_usuario = new User(0, "","");
+
+            return novo_usuario;
+
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final User user) {
             mAuthTask = null;
             showProgress(false);
+            //load.dismiss();
 
-            if (success) {
+            if (mCpf.equals(user.getCpf()) &&  mMatricula.equals(String.valueOf(user.getMatricula()))) {
 
+                saveInfoLogin(mCpf,mMatricula);
                 Intent intent = new Intent(getApplicationContext(), Home.class);
                 startActivity(intent);
-
-
-
-
+                finalizaActivity();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
+                loginMatricula.setError(getString(R.string.error_user_not_found));
+                loginCpf.setError(getString(R.string.error_user_not_found));
             }
+
         }
 
         @Override
@@ -377,6 +375,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
+        @Override
+        protected void onPreExecute(){
+            //load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+        }
     }
+
 }
 
