@@ -79,7 +79,7 @@ public class Home extends AppCompatActivity
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
         if(doCheckout == true){
-            checkin.setText("FAZER CHECK-OUT");
+            checkin.setText("FAZER CHECKOUT");
         }else{
             checkin.setText("FAZER CHECK-IN");
         }
@@ -412,6 +412,7 @@ public class Home extends AppCompatActivity
             SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
             boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
             if(doCheckout == true){
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -426,6 +427,7 @@ public class Home extends AppCompatActivity
                     }
                 }
             }else{
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
