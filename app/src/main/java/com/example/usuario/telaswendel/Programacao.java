@@ -172,6 +172,7 @@ public class Programacao extends AppCompatActivity
                         }else{
                             minuto = "00";
                         }
+
                         String dia = objArray.getString("Res_Dia");
                         Resumo resumo = new Resumo(titulo,bolsista_nome,hora,minuto,dia);
                         db.resumoDao().insertAll(resumo);
