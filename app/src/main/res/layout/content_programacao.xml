@@ -53,7 +53,7 @@
             android:text="TextView" />
 
         <ListView
-            android:id="@+id/lista_prog"
+            android:id="@+id/listViewProg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ListView>

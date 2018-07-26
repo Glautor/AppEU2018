@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class Programacao extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     List<TextView> textViews;
+    ArrayList<String> dados = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +66,13 @@ public class Programacao extends AppCompatActivity
         textViews.add(t3);
 
 
-//        new CarregaProgramacao().execute();
-//
-//        setContentView(R.layout.activity_programacao);
-//
-//        ListView listaDeProgramacao = (ListView) findViewById(R.id.lista_prog);
-//
-//        List<Programacao> programacao = todosAsProgramacoes();
-//
-//        ListView listaDeProgramacao = (ListView) findViewById(R.id.lista);
-//
-//        //métodos
+        ListView listview = (ListView) findViewById(R.id.listViewProg);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dados);
+
+        listview.setAdapter(adapter);
+
+        new CarregaProgramacao().execute();
 
     }
 
@@ -157,7 +155,11 @@ public class Programacao extends AppCompatActivity
             Resumo inicialR =  db.resumoDao().findByName("“A GUERRA POR OUTROS MEIOS”: AS TRANSFORMAÇÕES SOCIAIS DO CRIME EM FORTALEZA.");
             Resumo finalR = db.resumoDao().findByName("AVALIAÇÃO DA QUALIDADE DA ÁGUA COM PRÁTICAS DIDÁTICAS UTILIZANDO KITS DE BAIXO CUSTO: ESTUDO DE CASO EM FORQUILHA, CEARÁ.");
             if(inicialR != null && finalR != null){
-                int ids[] = {1,2,3};
+                int ids[] = new int[20];
+                for (int i=0; i<finalR.getId(); i++){
+                    ids[i]=i;
+                }
+
                 List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
                 return  resumos;
             }else{
@@ -189,7 +191,10 @@ public class Programacao extends AppCompatActivity
                         db.resumoDao().insertAll(resumo);
 
                     }
-                    int ids[] = {1,2,3};
+                    int ids[] = new int[20];
+                    for (int i=0; i<finalR.getId(); i++){
+                        ids[i]=i;
+                    }
                     List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
                     return  resumos;
                 }catch (Exception e){
@@ -211,10 +216,13 @@ public class Programacao extends AppCompatActivity
         @Override
         protected void onPostExecute(List<Resumo> param) {
             if(param != null){
-                for(int i=0;i<param.size();i++){
+                for(int i=0;i<3;i++){
                     TextView t = textViews.get(i);
                     t.setText(param.get(i).getTitulo());
                 }
+            }
+            for(int i=0;i<20;i++){
+                dados.add(param.get(i).getTitulo());
             }
 
             load.dismiss();
