@@ -14,6 +14,7 @@
             android:title="Início" />
         <item
             android:id="@+id/nav_slideshow"
+            android:checked="true"
             android:icon="@drawable/ic_assignment_blue_24dp"
             android:title="Programação" />
 

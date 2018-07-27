@@ -5,11 +5,11 @@ import android.app.Activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -31,41 +31,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.net.HttpURLConnection;
 import java.util.List;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 0;
+    public static final String LOGIN_ARQUIVO = "ArquivoLogin";
+    public static final String CONTROLE_CHECK = "ArquivoCheck";
     LocationManager locationManager = null;
     LocationProvider provider = null;
     LocationManager mLocationManager;
     Location myLocation;
     TextView textView1;
-
+    ListView checkView;
     String resultado = "";
     Button checkin;
+    String[] dados;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +72,21 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
+        checkView = (ListView) findViewById(R.id.checkView);
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
 
+        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+        if(doCheckout == true){
+            checkin.setText("FAZER CHECK-OUT");
+        }else{
+            checkin.setText("FAZER CHECK-IN");
+        }
 
         final Activity activity = this;
+
+
 
         checkin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,24 +114,7 @@ public class Home extends AppCompatActivity
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://marcoslunciel.github.io/teste/";
 
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        resultado = response.toString();
-                        new AcessoBanco().execute();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView1.setText("That didn't work!");
-            }
-        });
 
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
 
         //textView1 = (TextView) findViewById(R.id.textView1);
         if (ContextCompat.checkSelfPermission(this,
@@ -207,11 +200,11 @@ public class Home extends AppCompatActivity
 
         myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(myLocation != null) {
-            //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
         }else{
             myLocation = getLastLocation();
             if(myLocation != null){
-                //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
             }
         }
         return providerName;
@@ -241,10 +234,13 @@ public class Home extends AppCompatActivity
         // This verification should be done during onStart() because the system calls
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
+
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -284,7 +280,7 @@ public class Home extends AppCompatActivity
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         textView1.setText(String.valueOf(location.getLongitude()));
-        //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -308,7 +304,8 @@ public class Home extends AppCompatActivity
         if(result != null){
             if(result.getContents() != null){
                 alert(result.getContents());
-
+                RealizaCheck rc = new RealizaCheck(result.getContents());
+                rc.execute();
             } else{
                 alert("Scan Cancelado");
 
@@ -378,8 +375,12 @@ public class Home extends AppCompatActivity
 
 
         } else if (id == R.id.nav_send) {
+            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
+            prefsEditor.clear();
+            prefsEditor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
+            this.finish();
 
         }
 
@@ -388,74 +389,128 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    public class AcessoBanco extends AsyncTask<Void, Void, User>{
-        private ProgressDialog load;
-        //private String resultado = "";
+    public void saveInfoLogin(boolean checkout, int idCheck){
+        SharedPreferences infoLogin = getSharedPreferences(CONTROLE_CHECK,0);
+        SharedPreferences.Editor editor = infoLogin.edit();
+        editor.putBoolean("DoCheckout?",checkout);
+        editor.putInt("LastCheckin",idCheck);
+
+        editor.commit();
+
+    }
+
+    public class RealizaCheck extends AsyncTask<Void, Void, String>{
+        private final String qrCode;
+
+        public RealizaCheck(String qC){
+            this.qrCode = qC;
+        }
+
         @Override
-        protected User doInBackground(Void... params) {
+        protected String doInBackground(Void... params){
 
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name").build();
-
-
-//            // Instantiate the RequestQueue.
-//            RequestQueue queue = Volley.newRequestQueue(Home.this);
-//            String url ="https://randomuser.me/api/0.7";
-//
-//            // Request a string response from the provided URL.
-//            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                    new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            // Display the first 500 characters of the response string.
-//                            resultado = response.substring(0,500);
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(Home.this,"Não foi possível se conectar ao servidor", Toast.LENGTH_LONG);
-//                }
-//            });
-//
-//// Add the request to the RequestQueue.
-//            queue.add(stringRequest);
-
-            if(resultado.length()>5){
-                try{
-                    JSONObject jsonObj = new JSONObject(resultado);
-                    JSONObject usuario = jsonObj.getJSONObject("usuario");
-                    String nome = usuario.getString("nome");
-                    String cpf = usuario.getString("cpf");
-                    int matricula = usuario.getInt("matricula");
-                    User novo_usuario = new User(matricula, nome);
-                    db.userDao().insertAll(novo_usuario);
-                    return db.userDao().findByName(nome);
-                }catch(Exception e){
-                    e.printStackTrace();
+            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+            if(doCheckout == true){
+                if(qrCode != null){
+                    if(qrCode.equals("icaEU")){
+                        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "database-name").build();
+                        User user = db.userDao().findById(1);
+                        Date date = new Date();
+                        System.out.println("Data:"+ date);
+                        int cid = infoCheck.getInt("LastCheckin", -1);
+                        db.checkDao().updateCheckOut(date,cid);
+                        saveInfoLogin(false,-1);
+                        return "checkout";
+                    }
+                }
+            }else{
+                if(qrCode != null){
+                    if(qrCode.equals("icaEU")){
+                        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "database-name").build();
+                        User user = db.userDao().findById(1);
+                        Date date = new Date();
+                        System.out.println("Data:"+ date);
+                        Check check = new Check(user.getId(),date,false);
+                        db.checkDao().insertAll(check);
+                        saveInfoLogin(true,db.checkDao().loadIdByHourIn(date));
+                        return "checkin";
+                    }
                 }
             }
-
-            User novo_usuario = new User(0, "");
-
-            return novo_usuario;
-
+            return "falha";
         }
 
         @Override
-        protected void onPostExecute(User ret) {
-
-
-                Context contexto = getApplicationContext();
-                int duracao = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(contexto, String.valueOf(ret.getMatricula()), duracao);
-                toast.show();
-                textView1.setText(ret.getNome());
-
-            load.dismiss();
+        protected void onPostExecute(String param) {
+            if(param.equals("checkin")) {
+                Toast.makeText(getApplicationContext(), "Checkin realizado com sucesso", Toast.LENGTH_LONG).show();
+            }
+            if(param.equals("checkout")){
+                Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
+            }
+            if(param.equals("falha")){
+                Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
+            }
         }
+
         @Override
         protected void onPreExecute(){
-            load = ProgressDialog.show(Home.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+
         }
+
+
     }
+
+    public class BuscaCheck extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected Boolean doInBackground(Void... params){
+            List<Check> checkins;
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+            checkins = db.checkDao().loadAllByAtServdor(false);
+            dados = new String[checkins.size()];
+            if(checkins != null && checkins.size()>=1) {
+                for (int i = 0; i < checkins.size(); i++) {
+                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    //dados[i] = checkins.get(i).getDHourIn().toString();
+                    String info = "Checkin: "+fmt.format(checkins.get(i).getDHourIn())+" | ";
+                    if(checkins.get(i).getDHourOut() != null){
+                        info += "Chekout: "+ fmt.format(checkins.get(i).getDHourOut());
+                    }else{
+                        info += "Chekout: Por fazer";
+                    }
+                    dados[i] = info;
+
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean param) {
+            if(param == true) {
+                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
+
+
+                checkView.setAdapter(adapter);
+
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
+    }
+
+
 }

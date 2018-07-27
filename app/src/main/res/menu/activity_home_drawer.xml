@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffe0"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
@@ -8,8 +9,10 @@
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_doditsolutions_qr_code"
             android:title="Faça seu Check-in" />
+
         <item
             android:id="@+id/nav_gallery"
+            android:checked="true"
             android:icon="@drawable/ic_home_blue_24dp"
             android:title="Início" />
         <item
