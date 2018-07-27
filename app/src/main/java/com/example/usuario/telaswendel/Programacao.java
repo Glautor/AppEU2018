@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -157,6 +158,14 @@ public class Programacao extends AppCompatActivity
             if(inicialR != null && finalR != null){
 
                 int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
+
+//                int ids[] = new int[4];
+//
+//                ids[0] = 0;
+//                ids[1] = 1;
+//                ids[2] = 2;
+//                ids[3] = 3;
+
 //                int ids[] = new int[finalR.getId()];
 //                for (int i=1; i<finalR.getId(); i++){
 //                    ids[i]=i;
@@ -193,11 +202,24 @@ public class Programacao extends AppCompatActivity
                         db.resumoDao().insertAll(resumo);
 
                     }
-                    int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
-//                    int ids[] = new int[finalR.getId()];
+
+//                    int ids[] = new int[4];
+//
+//                    ids[0] = 0;
+//                    ids[1] = 1;
+//                    ids[2] = 2;
+//                    ids[3] = 3;
+
+
+//                    int valores[] = new int[finalR.getId()];
 //                    for (int i=1; i<finalR.getId(); i++){
-//                        ids[i]=i;
+//                        valores[i]=i;
 //                    }
+
+//                    int[] ids = new int[finalR.getId()];
+
+                    int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
+
                     List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
                     return  resumos;
                 }catch (Exception e){
@@ -219,8 +241,8 @@ public class Programacao extends AppCompatActivity
         @Override
         protected void onPostExecute(List<Resumo> param) {
             if(param != null){
-                    TextView t = textViews.get(0);
-                    t.setText(param.get(0).getTitulo());
+                TextView t = textViews.get(0);
+                t.setText(param.get(0).getTitulo());
                 for(int i=0;i<10;i++){
                     dados.add(param.get(i).getTitulo());
                 }
