@@ -36,7 +36,7 @@ import java.util.List;
 public class Programacao extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<TextView> textViews;
+    List<TextView> textViews = new ArrayList<TextView>();;
     ArrayList<String> dados = new ArrayList();
 
     @Override
@@ -58,12 +58,12 @@ public class Programacao extends AppCompatActivity
 
 
         TextView t1 = (TextView) findViewById(R.id.textView2);
-        TextView t2 = (TextView) findViewById(R.id.textView3);
-        TextView t3 = (TextView) findViewById(R.id.textView4);
+//        TextView t2 = (TextView) findViewById(R.id.textView3);
+//        TextView t3 = (TextView) findViewById(R.id.textView4);
         textViews = new ArrayList<TextView>();
         textViews.add(t1);
-        textViews.add(t2);
-        textViews.add(t3);
+//        textViews.add(t2);
+//        textViews.add(t3);
 
 
         ListView listview = (ListView) findViewById(R.id.listViewProg);
@@ -219,13 +219,11 @@ public class Programacao extends AppCompatActivity
         @Override
         protected void onPostExecute(List<Resumo> param) {
             if(param != null){
-                for(int i=0;i<3;i++){
-                    TextView t = textViews.get(i);
-                    t.setText(param.get(i).getTitulo());
+                    TextView t = textViews.get(0);
+                    t.setText(param.get(0).getTitulo());
+                for(int i=0;i<10;i++){
+                    dados.add(param.get(i).getTitulo());
                 }
-            }
-            for(int i=0;i<10;i++){
-                dados.add(param.get(i).getTitulo());
             }
 
             load.dismiss();
