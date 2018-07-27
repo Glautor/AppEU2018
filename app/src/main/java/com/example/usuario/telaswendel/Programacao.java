@@ -155,10 +155,12 @@ public class Programacao extends AppCompatActivity
             Resumo inicialR =  db.resumoDao().findByName("“A GUERRA POR OUTROS MEIOS”: AS TRANSFORMAÇÕES SOCIAIS DO CRIME EM FORTALEZA.");
             Resumo finalR = db.resumoDao().findByName("AVALIAÇÃO DA QUALIDADE DA ÁGUA COM PRÁTICAS DIDÁTICAS UTILIZANDO KITS DE BAIXO CUSTO: ESTUDO DE CASO EM FORQUILHA, CEARÁ.");
             if(inicialR != null && finalR != null){
-                int ids[] = new int[20];
-                for (int i=0; i<finalR.getId(); i++){
-                    ids[i]=i;
-                }
+
+                int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
+//                int ids[] = new int[finalR.getId()];
+//                for (int i=1; i<finalR.getId(); i++){
+//                    ids[i]=i;
+//                }
 
                 List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
                 return  resumos;
@@ -191,10 +193,11 @@ public class Programacao extends AppCompatActivity
                         db.resumoDao().insertAll(resumo);
 
                     }
-                    int ids[] = new int[20];
-                    for (int i=0; i<finalR.getId(); i++){
-                        ids[i]=i;
-                    }
+                    int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
+//                    int ids[] = new int[finalR.getId()];
+//                    for (int i=1; i<finalR.getId(); i++){
+//                        ids[i]=i;
+//                    }
                     List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
                     return  resumos;
                 }catch (Exception e){
@@ -221,7 +224,7 @@ public class Programacao extends AppCompatActivity
                     t.setText(param.get(i).getTitulo());
                 }
             }
-            for(int i=0;i<20;i++){
+            for(int i=0;i<10;i++){
                 dados.add(param.get(i).getTitulo());
             }
 
