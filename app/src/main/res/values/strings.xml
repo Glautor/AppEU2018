@@ -30,6 +30,10 @@
 
     <!-- Strings related to Settings -->
 
+    <!--String relacionada a busca-->
+    <string name="hint_search">Pesquisar</string>
+
+
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
