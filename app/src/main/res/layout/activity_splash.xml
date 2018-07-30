@@ -15,6 +15,40 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/eu_marca_azul_v_menor" />
+=======
+        app:layout_constraintVertical_bias="0.063" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="450dp"
+            android:indeterminate="true" />
+
+        <ImageView
+            android:src="@drawable/ic_eu_marca_vertical_azul"
+            android:id="@+id/imageView8"
+            android:layout_width="322dp"
+            android:layout_height="382dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"  />
+        <!-- OBS.: android:src="@drawable/ic_eu_marca_vertical_azul" está sendo utilizado para que a imagem apareça na tela do emulador e do celular. -->
+
+
+    </RelativeLayout>
+
+>>>>>>> master
 </android.support.constraint.ConstraintLayout>

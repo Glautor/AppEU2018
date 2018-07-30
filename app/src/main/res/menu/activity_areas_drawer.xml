@@ -16,6 +16,7 @@
 
         <item
             android:id="@+id/nav_share"
+            android:checked="true"
             android:icon="@drawable/ic_business_blue_24dp"
             android:title="Areas de Atuação" />
 
