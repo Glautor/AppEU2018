@@ -37,7 +37,7 @@ import java.util.List;
 public class Programacao extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<TextView> textViews = new ArrayList<TextView>();;
+//    List<TextView> textViews = new ArrayList<TextView>();
     ArrayList<String> dados = new ArrayList();
 
     @Override
@@ -58,11 +58,11 @@ public class Programacao extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        TextView t1 = (TextView) findViewById(R.id.textView2);
+//        TextView t1 = (TextView) findViewById(R.id.textView2);
 //        TextView t2 = (TextView) findViewById(R.id.textView3);
 //        TextView t3 = (TextView) findViewById(R.id.textView4);
-        textViews = new ArrayList<TextView>();
-        textViews.add(t1);
+//        textViews = new ArrayList<TextView>();
+//        textViews.add(t1);
 //        textViews.add(t2);
 //        textViews.add(t3);
 
@@ -172,6 +172,11 @@ public class Programacao extends AppCompatActivity
 //                }
 
                 List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
+
+                for(int i=0;i<10;i++){
+                    dados.add(resumos.get(i).getTitulo());
+                }
+
                 return  resumos;
             }else{
                 try{
@@ -221,6 +226,11 @@ public class Programacao extends AppCompatActivity
                     int ids[] = new int[] {1,2,3,3,4,5,6,7,8,9,10};
 
                     List<Resumo> resumos = db.resumoDao().loadAllByIds(ids);
+
+                    for(int i=0;i<10;i++){
+                        dados.add(resumos.get(i).getTitulo());
+                    }
+
                     return  resumos;
                 }catch (Exception e){
                     e.printStackTrace();
@@ -241,11 +251,11 @@ public class Programacao extends AppCompatActivity
         @Override
         protected void onPostExecute(List<Resumo> param) {
             if(param != null){
-                TextView t = textViews.get(0);
-                t.setText(param.get(0).getTitulo());
-                for(int i=0;i<10;i++){
-                    dados.add(param.get(i).getTitulo());
-                }
+//                TextView t = textViews.get(0);
+//                t.setText(param.get(0).getTitulo());
+//                for(int i=0;i<10;i++){
+//                    dados.add(param.get(i).getTitulo());
+//                }
             }
 
             load.dismiss();
