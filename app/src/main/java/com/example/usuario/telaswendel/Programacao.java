@@ -89,7 +89,6 @@ public class Programacao extends AppCompatActivity
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                adapter.getFilter().filter(s.toString());
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
