@@ -1,5 +1,6 @@
 package com.example.usuario.telaswendel;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -294,6 +296,32 @@ public class Programacao extends AppCompatActivity
         @Override
         protected void onPreExecute(){
             load = ProgressDialog.show(Programacao.this, "Por favor Aguarde ...", "Recuperando a programação...");
+        }
+
+    }
+
+    class EndlessScrollListener implements AbsListView.OnScrollListener {
+        private static final String TAG = "CacheToDBActivity.EndlessScrollListener";
+        private boolean loading = true;
+
+        @SuppressLint("LongLogTag")
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+            if (!(loading) && (totalItemCount - visibleItemCount) <= (firstVisibleItem)) {
+                Log.d(TAG, "Load Next Page!");
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+        public boolean isLoading() {
+            return loading;
+        }
+
+        public void setLoading(boolean loading) {
+            this.loading = loading;
         }
 
     }
