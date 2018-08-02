@@ -20,7 +20,7 @@ public interface CheckDao {
     int loadIdByHourIn(Date hIn);
 
     @Query("SELECT * FROM `check` WHERE atServidor IN (:ser) ORDER BY `dHourIn`")
-    List<Check> loadAllByAtServdor(boolean ser);
+    List<Check> loadAllByAtServidor(boolean ser);
 
     @Query("UPDATE `check` SET `dHourOut` = (:hOut) WHERE `id_check` = (:cId)")
     int updateCheckOut(Date hOut,int cId);

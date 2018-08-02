@@ -37,8 +37,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -65,6 +63,7 @@ public class Home extends AppCompatActivity
     String[] dados;
     ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,23 +75,26 @@ public class Home extends AppCompatActivity
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
-        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
-        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
-        if(doCheckout == true){
-            checkin.setText("FAZER CHECKOUT");
-        }else{
-            checkin.setText("FAZER CHECK-IN");
-        }
+        GetUsuario gc = new GetUsuario();
+        gc.execute();
 
-
-        textView1 = (TextView) findViewById(R.id.textView1);
-        int minutos = infoCheck.getInt("Minutos",0);
-        int horas = infoCheck.getInt("Horas",0);
-        if(minutos >= 10) {
-            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-        }else{
-            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-        }
+//        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+//        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+//        if(doCheckout == true){
+//            checkin.setText("FAZER CHECKOUT");
+//        }else{
+//            checkin.setText("FAZER CHECK-IN");
+//        }
+//
+//
+//        textView1 = (TextView) findViewById(R.id.textView1);
+//        int minutos = infoCheck.getInt("Minutos",0);
+//        int horas = infoCheck.getInt("Horas",0);
+//        if(minutos >= 10) {
+//            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+//        }else{
+//            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+//        }
 
 
         final Activity activity = this;
@@ -118,7 +120,10 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        View header = navigationView.getHeaderView(0);
+        TextView textNome = (TextView) header.findViewById(R.id.textNomeNav);
+        SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
+        textNome.setText(infoUser.getString("nome","@aluno"));
 
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -373,6 +378,11 @@ public class Home extends AppCompatActivity
             SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
             prefsEditor.clear();
             prefsEditor.commit();
+
+           SharedPreferences.Editor prefsEditorCheck = getSharedPreferences(CONTROLE_CHECK, 0).edit();
+           prefsEditorCheck.clear();
+           prefsEditorCheck.commit();
+
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             this.finish();
@@ -391,6 +401,9 @@ public class Home extends AppCompatActivity
         editor.putInt("LastCheckin",idCheck);
 
         editor.commit();
+
+        AtualizaUsuario at = new AtualizaUsuario();
+        at.execute();
 
     }
 
@@ -417,6 +430,16 @@ public class Home extends AppCompatActivity
         editor.putInt("Minutos",minutos);
         editor.commit();
 
+
+        AtualizaUsuario at = new AtualizaUsuario();
+        at.execute();
+
+        if(minutos >= 10) {
+            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+        }else{
+            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+        }
+
     }
 
     public class RealizaCheck extends AsyncTask<Void, Void, String>{
@@ -436,7 +459,11 @@ public class Home extends AppCompatActivity
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                 AppDatabase.class, "database-name").build();
-                        User user = db.userDao().findById(1);
+
+                        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+                        int id = infoLogin.getInt("id",-1);
+
+                        User user = db.userDao().findById(id);
                         Date date = new Date();
                         System.out.println("Data:"+ date);
                         //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
@@ -458,7 +485,10 @@ public class Home extends AppCompatActivity
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                 AppDatabase.class, "database-name").build();
-                        User user = db.userDao().findById(1);
+
+                        SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+                        int id = infoLogin.getInt("id",-1);
+                        User user = db.userDao().findById(id);
                         Date date = new Date();
                         System.out.println("Data:"+ date);
                         Check check = new Check(user.getId(),date,false);
@@ -505,8 +535,15 @@ public class Home extends AppCompatActivity
             List<Check> checkins;
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").build();
-            checkins = db.checkDao().loadAllByAtServdor(false);
+
+            SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+            int id = infoLogin.getInt("id",-1);
+
+            int ids[] = {id};
+            checkins = db.checkDao().loadAllByIds(ids);
             dados = new String[checkins.size()];
+
+
 //            if(checkins != null && checkins.size()>=1) {
 //                for (int i = 0; i < checkins.size(); i++) {
 //                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -535,6 +572,91 @@ public class Home extends AppCompatActivity
 //
 //            }
             checkView.setAdapter(new Adaptador(getApplicationContext(),param));
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+    }
+
+
+    public class AtualizaUsuario extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... params){
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+
+            SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+            int id = infoLogin.getInt("id",-1);
+
+            SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
+            int horas = infoCheckin.getInt("Horas",0);
+            int minutos = infoCheckin.getInt("Minutos",0);
+            boolean infoCheckout = infoCheckin.getBoolean("DoCheckout?",false);
+            int lastCheckinId = infoCheckin.getInt("LastCheckin", -1);
+            db.userDao().updateInfoUser(horas,minutos,infoCheckout,lastCheckinId, id);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+
+
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
+    }
+
+    public class GetUsuario extends AsyncTask<Void, Void, User> {
+
+
+        @Override
+        protected User doInBackground(Void... params){
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+
+            SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+            int id = infoLogin.getInt("id",-1);
+
+            return db.userDao().findById(id);
+
+        }
+
+        @Override
+        protected void onPostExecute(User param) {
+
+//            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+//            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+            if(param.getInfoCheckout() == true){
+                checkin.setText("FAZER CHECKOUT");
+            }else{
+                checkin.setText("FAZER CHECK-IN");
+            }
+
+
+            textView1 = (TextView) findViewById(R.id.textView1);
+            int minutos = param.getMinutos();
+            int horas = param.getHoras();
+
+            if(minutos >= 10) {
+                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+            }else{
+                textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+            }
+
+            saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
 
         }
 

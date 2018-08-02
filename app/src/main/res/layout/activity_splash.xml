@@ -15,11 +15,10 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
+
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/eu_marca_azul_v_menor" />
-=======
-        app:layout_constraintVertical_bias="0.063" />
+
 
     <RelativeLayout
         android:id="@+id/loadingPanel"
@@ -50,5 +49,4 @@
 
     </RelativeLayout>
 
->>>>>>> master
 </android.support.constraint.ConstraintLayout>
