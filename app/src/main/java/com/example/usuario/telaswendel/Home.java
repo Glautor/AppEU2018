@@ -415,30 +415,32 @@ public class Home extends AppCompatActivity
         editor.putBoolean("DoCheckout?",checkout);
         editor.putInt("LastCheckin",idCheck);
 
-        int minutosAdd = (int) duracao.getStandardMinutes();
+        int minutosAdd = (int) duracao.getStandardMinutes() % 60;
         int horasAdd = (int) duracao.getStandardHours();
 
-        horas = horas + horasAdd;
-        minutos = minutos + (minutosAdd % 60);
+        int horas_final = horas + horasAdd;
+        int minutos_final = minutos + minutosAdd;
 
-        if(minutos > 60){
-            horas = horas + (minutos/60);
-            minutos = minutos%60;
+
+
+        if(minutos_final> 60){
+            horas_final = horas_final + (minutos_final/60);
+            minutos_final = minutos_final % 60;
         }
 
-        editor.putInt("Horas",horas);
-        editor.putInt("Minutos",minutos);
+        editor.putInt("Horas",horas_final);
+        editor.putInt("Minutos",minutos_final);
         editor.commit();
 
 
         AtualizaUsuario at = new AtualizaUsuario();
         at.execute();
 
-        if(minutos >= 10) {
-            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-        }else{
-            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-        }
+//        if(minutos >= 10) {
+//            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+//        }else{
+//            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+//        }
 
     }
 
@@ -511,6 +513,14 @@ public class Home extends AppCompatActivity
             }
             if(param.equals("checkout")){
                 Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
+                SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+                int horas = infoCheck.getInt("Horas",0);
+                int minutos = infoCheck.getInt("Minutos",0);
+                if(minutos >= 10) {
+                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+                }else{
+                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+                }
                 checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
@@ -657,7 +667,11 @@ public class Home extends AppCompatActivity
             }
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
-
+            SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
+            SharedPreferences.Editor editor = infoCheckin.edit();
+            editor.putInt("Horas", horas);
+            editor.putInt("Minutos",minutos);
+            editor.commit();
         }
 
         @Override
