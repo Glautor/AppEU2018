@@ -28,7 +28,13 @@
     <string name="title_activity_areas">Áreas de Atuação</string>
     <string name="title_activity_config">Configurações</string>
 
-    <!-- Strings related to Settings -->
+    <!-- String de busca -->
+
+    <string name="busca"> Pesquisar </string>
+
+    <!--String relacionada a busca-->
+    <string name="hint_search">Pesquisar</string>
+
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>

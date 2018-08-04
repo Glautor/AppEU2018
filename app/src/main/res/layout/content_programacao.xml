@@ -25,35 +25,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            tools:visibility="gone"
-            android:id="@+id/textView2"
+        <EditText
+            android:id="@+id/busca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/campot"
-            android:padding="30dp"
-            android:text="TextView" />
+            android:hint="@string/busca"
+            android:imeActionId="6"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="24sp"/>
 
-        <TextView
-            tools:visibility="gone"
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/campot"
-            android:padding="30dp"
-            android:text="TextView" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="3dp"-->
+            <!--android:background="@drawable/campot"-->
+            <!--android:padding="30dp"-->
+            <!--android:text="TextView" />-->
 
-        <TextView
-            tools:visibility="gone"
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/campot"
-            android:padding="30dp"
-            android:text="TextView" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="3dp"-->
+            <!--android:background="@drawable/campot"-->
+            <!--android:padding="30dp"-->
+            <!--android:text="TextView" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="3dp"-->
+            <!--android:background="@drawable/campot"-->
+            <!--android:padding="30dp"-->
+            <!--android:text="TextView" />-->
+
+
+        <!--<SearchView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <ListView
 
