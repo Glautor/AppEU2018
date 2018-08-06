@@ -6,11 +6,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_doditsolutions_qr_code"
-            android:title="Faça seu Check-in" />
-
-        <item
             android:id="@+id/nav_gallery"
             android:checked="true"
             android:icon="@drawable/ic_home_blue_24dp"
