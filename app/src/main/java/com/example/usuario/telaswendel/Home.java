@@ -62,7 +62,7 @@ public class Home extends AppCompatActivity
     Button checkin;
     String[] dados;
     ArrayAdapter<String> adapter;
-
+    Location ica;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,18 +97,18 @@ public class Home extends AppCompatActivity
 //        }
 
 
-        final Activity activity = this;
-
-        checkin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Camera Scan");
-                integrator.setCameraId(0);
-                integrator.initiateScan();
-            }
-        });
+//        final Activity activity = this;
+//
+//        checkin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                IntentIntegrator integrator = new IntentIntegrator(activity);
+//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+//                integrator.setPrompt("Camera Scan");
+//                integrator.setCameraId(0);
+//                integrator.initiateScan();
+//            }
+//        });
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,7 +156,45 @@ public class Home extends AppCompatActivity
 
     }
 
+    public void check(View view){
+        LocationManager locationManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        if (!gpsEnabled) {
+            // Build an alert dialog here that requests that the user enable
+            // the location services, then when the user clicks the "OK" button,
+            Dialog dialog = new AlertDialog.Builder(this)
+                    .setMessage("Precisamos que você ligue seu GPS")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            enableLocationSettings();
+
+                        }
+                    })
+                    .setNegativeButton("Não quero", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    }).create();
+
+            dialog.show();
+        }else{
+            int distancia = (int) myLocation.distanceTo(ica);
+            if(distancia < 1000) {
+                final Activity activity = this;
+                IntentIntegrator integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("Camera Scan");
+                integrator.setCameraId(0);
+                integrator.initiateScan();
+            }else{
+                Toast.makeText(getApplicationContext(),"Você não está na área dos Encontros Universitários",Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -194,6 +232,9 @@ public class Home extends AppCompatActivity
 
     @SuppressLint("MissingPermission")
     protected String setConfigGPS(){
+        ica = new Location(LocationManager.GPS_PROVIDER);
+        ica.setLatitude(-3.7460349);
+        ica.setLongitude(-38.5720989);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
         Criteria criteria = new Criteria();
@@ -288,7 +329,7 @@ public class Home extends AppCompatActivity
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         //textView1.setText(String.valueOf(location.getLongitude()));
-        Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -315,8 +356,6 @@ public class Home extends AppCompatActivity
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
-                RealizaCheck rc = new RealizaCheck("icaEU");
-                rc.execute();
                 alert("Scan Cancelado");
 
             }

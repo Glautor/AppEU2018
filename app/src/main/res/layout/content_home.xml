@@ -16,6 +16,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/botaocheck"
+        android:onClick="check"
         android:padding="20dp"
         android:radius="13dp"
         android:text="FAZER CHECK-IN"
