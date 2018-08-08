@@ -19,8 +19,8 @@ public interface CheckDao {
     @Query("SELECT `id_check` FROM `check` WHERE `dHourIn` = (:hIn)")
     int loadIdByHourIn(Date hIn);
 
-    @Query("SELECT * FROM `check` WHERE atServidor IN (:ser) ORDER BY `dHourIn`")
-    List<Check> loadAllByAtServidor(boolean ser);
+    @Query("SELECT * FROM `check` WHERE user_id == (:id) AND atServidor IN (:ser) ORDER BY `dHourIn`")
+    List<Check> loadAllByAtServidor(int id,boolean ser);
 
     @Query("UPDATE `check` SET `dHourOut` = (:hOut) WHERE `id_check` = (:cId)")
     int updateCheckOut(Date hOut,int cId);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="#ffffe0"
-    tools:context=".Areas"
+    tools:context=".Resumos"
     tools:showIn="@layout/app_bar_areas">
 
 </android.support.constraint.ConstraintLayout>

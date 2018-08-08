@@ -10,15 +10,16 @@
             android:title="Início" />
         <item
             android:id="@+id/nav_slideshow"
-            android:checked="true"
-            android:icon="@drawable/ic_assignment_blue_24dp"
-            android:title="Programação" />
+            android:icon="@drawable/ic_business_black_24dp"
+            android:title="Resumos"
+            />
 
 
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_business_black_24dp"
-            android:title="Areas de Atuação" />
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Programação"
+            />
 
 
     </group>

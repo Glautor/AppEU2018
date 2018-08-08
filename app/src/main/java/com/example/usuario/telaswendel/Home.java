@@ -37,10 +37,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -291,6 +305,9 @@ public class Home extends AppCompatActivity
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
+//        EnviaCheck ec = new EnviaCheck();
+//        ec.execute();
+
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
             // the location services, then when the user clicks the "OK" button,
@@ -356,6 +373,8 @@ public class Home extends AppCompatActivity
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
+                RealizaCheck rc = new RealizaCheck("icaEU");
+                rc.execute();
                 alert("Scan Cancelado");
 
             }
@@ -398,13 +417,13 @@ public class Home extends AppCompatActivity
        if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(getApplicationContext(), Programacao.class);
+            Intent intent = new Intent(getApplicationContext(), Resumos.class);
             startActivity(intent);
 
 
 
         } else if(id == R.id.nav_share){
-            Intent intent = new Intent(getApplicationContext(), Areas.class);
+            Intent intent = new Intent(getApplicationContext(), Programacao.class);
             startActivity(intent);
 
 
@@ -483,6 +502,7 @@ public class Home extends AppCompatActivity
 
     }
 
+    //Verifica se a próximo check corresponde a um checkin ou a um checkout e o salva no BD
     public class RealizaCheck extends AsyncTask<Void, Void, String>{
         private final String qrCode;
 
@@ -575,7 +595,7 @@ public class Home extends AppCompatActivity
 
 
     }
-
+    //Procura os checkins e checkouts feitos até o momento para exibir na tela
     public class BuscaCheck extends AsyncTask<Void, Void, List<Check>>{
 
 
@@ -592,36 +612,12 @@ public class Home extends AppCompatActivity
             checkins = db.checkDao().loadAllByIds(ids);
             dados = new String[checkins.size()];
 
-
-//            if(checkins != null && checkins.size()>=1) {
-//                for (int i = 0; i < checkins.size(); i++) {
-//                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//                    //dados[i] = checkins.get(i).getDHourIn().toString();
-//                    String info = "Checkin: "+fmt.format(checkins.get(i).getDHourIn())+" | ";
-//                    if(checkins.get(i).getDHourOut() != null){
-//                        info += "Chekout: "+ fmt.format(checkins.get(i).getDHourOut());
-//                    }else{
-//                        info += "Chekout: Por fazer";
-//                    }
-//                    dados[i] = info;
-//
-//                }
-//                return true;
-//            }
             return checkins;
         }
 
         @Override
         protected void onPostExecute(List<Check> param) {
-//            if(param == true) {
-//                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, dados);
-//
-//
-//                checkView.setAdapter(adapter);
-//
-//            }
             checkView.setAdapter(new Adaptador(getApplicationContext(),param));
-
         }
 
         @Override
@@ -629,6 +625,91 @@ public class Home extends AppCompatActivity
 
         }
 
+    }
+
+    public class EnviaCheck extends AsyncTask<Void,Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params){
+            List<Check> checkins;
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").build();
+
+            SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+            int id = infoLogin.getInt("id",-1);
+
+            checkins = db.checkDao().loadAllByAtServidor(id,false);
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = "https://reqres.in/api/register";
+
+            for(int i=0;i<checkins.size();i++){
+                if(checkins.get(i).getDHourOut() != null){
+                    try {
+                        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        JSONObject jsonBody = new JSONObject();
+                        jsonBody.put("email", fmt.format(checkins.get(i).getDHourIn()));
+                        jsonBody.put("password", fmt.format(checkins.get(i).getDHourOut()));
+                        //jsonBody.put("cpf",String.valueOf(i+20));
+                        final String requestBody = jsonBody.toString();
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i("VOLLEY", response);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("VOLLEY", error.toString());
+                            }
+                        }) {
+                            @Override
+                            public String getBodyContentType() {
+                                return "application/json; charset=utf-8";
+                            }
+
+                            @Override
+                            public byte[] getBody() throws AuthFailureError {
+                                try {
+                                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                                } catch (UnsupportedEncodingException uee) {
+                                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                                    return null;
+                                }
+                            }
+
+                            @Override
+                            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                                String responseString = "";
+                                if (response != null) {
+                                    responseString = String.valueOf(response.statusCode);
+                                    // can get more details such as response.headers
+                                }
+                                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                            }
+                        };
+
+                        requestQueue.add(stringRequest);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
     }
 
 
