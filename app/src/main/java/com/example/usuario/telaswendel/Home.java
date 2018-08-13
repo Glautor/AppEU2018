@@ -77,6 +77,7 @@ public class Home extends AppCompatActivity
     String[] dados;
     ArrayAdapter<String> adapter;
     Location ica;
+    String respostaSer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +210,8 @@ public class Home extends AppCompatActivity
         }
 
     }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -302,11 +305,11 @@ public class Home extends AppCompatActivity
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        BuscaCheck bc = new BuscaCheck();
-        bc.execute();
+//        BuscaCheck bc = new BuscaCheck();
+//        bc.execute();
 
-//        EnviaCheck ec = new EnviaCheck();
-//        ec.execute();
+        EnviaCheck ec = new EnviaCheck();
+        ec.execute();
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -334,6 +337,20 @@ public class Home extends AppCompatActivity
                 String providerName = setConfigGPS();
             }
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
     }
 
     private void enableLocationSettings() {
@@ -373,8 +390,8 @@ public class Home extends AppCompatActivity
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
-                RealizaCheck rc = new RealizaCheck("icaEU");
-                rc.execute();
+//                RealizaCheck rc = new RealizaCheck("icaEU");
+//                rc.execute();
                 alert("Scan Cancelado");
 
             }
@@ -627,35 +644,43 @@ public class Home extends AppCompatActivity
 
     }
 
-    public class EnviaCheck extends AsyncTask<Void,Void, Void>{
+    public class EnviaCheck extends AsyncTask<Void,Void, List<Check>>{
         @Override
-        protected Void doInBackground(Void... params){
-            List<Check> checkins;
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+        protected List<Check> doInBackground(Void... params){
+            final List<Check> checkins;
+            final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").build();
 
             SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
             int id = infoLogin.getInt("id",-1);
-
+            String cpf = infoLogin.getString("cpf","");
             checkins = db.checkDao().loadAllByAtServidor(id,false);
 
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            String URL = "https://reqres.in/api/register";
 
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/frequencia";
+
+            Check check = new Check();
             for(int i=0;i<checkins.size();i++){
                 if(checkins.get(i).getDHourOut() != null){
+                    check = checkins.get(i);
                     try {
                         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                        JSONObject jsonBody = new JSONObject();
-                        jsonBody.put("email", fmt.format(checkins.get(i).getDHourIn()));
-                        jsonBody.put("password", fmt.format(checkins.get(i).getDHourOut()));
-                        //jsonBody.put("cpf",String.valueOf(i+20));
+                        final JSONObject jsonBody = new JSONObject();
+
+                        jsonBody.put("checkin", fmt.format(checkins.get(i).getDHourIn()));
+                        jsonBody.put("checkout", fmt.format(checkins.get(i).getDHourOut()));
+                        jsonBody.put("cpf", cpf);
                         final String requestBody = jsonBody.toString();
 
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("VOLLEY", response);
+                                if(response.equals("")){
+                                   respostaSer = new String(response);
+                                }
+
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -682,7 +707,13 @@ public class Home extends AppCompatActivity
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                                 String responseString = "";
                                 if (response != null) {
-                                    responseString = String.valueOf(response.statusCode);
+                                    //responseString = String.valueOf(response.statusCode);
+                                    try {
+                                        responseString = new String(response.data, "UTF-8");
+                                    } catch (UnsupportedEncodingException e) {
+                                        e.printStackTrace();
+                                    }
+
                                     // can get more details such as response.headers
                                 }
                                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
@@ -695,15 +726,21 @@ public class Home extends AppCompatActivity
                     }
                 }
 
+                if(respostaSer != null && respostaSer.equals("")){
+                    db.checkDao().updateAtServidor(check.getId_check(), true);
+                    respostaSer = null;
+                }
             }
+            int ids[] = {id};
+            List<Check> checksAtt = db.checkDao().loadAllByIds(ids);
+            dados = new String[checksAtt.size()];
 
-
-            return null;
+            return checksAtt;
         }
 
         @Override
-        protected void onPostExecute(Void param) {
-
+        protected void onPostExecute(List<Check> param) {
+            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
         }
 
         @Override

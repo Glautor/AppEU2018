@@ -25,6 +25,9 @@ public interface CheckDao {
     @Query("UPDATE `check` SET `dHourOut` = (:hOut) WHERE `id_check` = (:cId)")
     int updateCheckOut(Date hOut,int cId);
 
+    @Query("UPDATE `check` SET `atServidor` = (:ser) WHERE `id_check` = (:cId)")
+    int updateAtServidor(int cId, boolean ser);
+
     @Insert
     void insertAll(Check... checks);
 
