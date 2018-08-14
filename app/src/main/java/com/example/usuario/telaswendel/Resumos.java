@@ -42,11 +42,10 @@ import javax.net.ssl.HttpsURLConnection;
 public class Resumos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    List<TextView> textViews = new ArrayList<TextView>();
+    //    List<TextView> textViews = new ArrayList<TextView>();
     ArrayList<String> dados = new ArrayList();
     ArrayAdapter<String> adapter;
     ArrayList<String> value = new ArrayList<>();
-    int i = 0;
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
 
     @Override
@@ -81,13 +80,13 @@ public class Resumos extends AppCompatActivity
         textNome.setText(infoUser.getString("nome","@aluno"));
 
 
-        new CarregaResumos().execute();
-
         ListView listview = (ListView) findViewById(R.id.listViewProg);
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, value);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dados);
 
         listview.setAdapter(adapter);
+
+        new CarregaResumos().execute();
 
         final EditText busca = (EditText) findViewById(R.id.busca);
         busca.addTextChangedListener(new TextWatcher() {
@@ -304,7 +303,7 @@ public class Resumos extends AppCompatActivity
             // Create URL
             URL githubEndpoint = null;
             try {
-                githubEndpoint = new URL("http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/06905756377");
+                githubEndpoint = new URL("http://participe-db.herokuapp.com/servers.json");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -325,28 +324,39 @@ public class Resumos extends AppCompatActivity
                     "hathibelagal@example.com");
 
             try {
-                // Success
-                // Further processing here
-                InputStream responseBody = myConnection.getInputStream();
-                InputStreamReader responseBodyReader =
-                        new InputStreamReader(responseBody, "UTF-8");
+                if (myConnection.getResponseCode() == 200) {
+                    // Success
+                    // Further processing here
+                    InputStream responseBody = myConnection.getInputStream();
+                    InputStreamReader responseBodyReader =
+                            new InputStreamReader(responseBody, "UTF-8");
 
-                JsonReader jsonReader = new JsonReader(responseBodyReader);
-                jsonReader.beginObject(); // Start processing the JSON object
-                while (jsonReader.hasNext()) { // Loop through all keys
-                    String key = jsonReader.nextName(); // Fetch the next key
-                    if (key.equals("nome")) { // Check if desired key
-                        // Fetch the value as a String
-                        value.add(jsonReader.nextString());
+                    JsonReader jsonReader = new JsonReader(responseBodyReader);
+                    jsonReader.beginObject(); // Start processing the JSON object
+                    while (jsonReader.hasNext()) { // Loop through all keys
+                        String key = jsonReader.nextName(); // Fetch the next key
+                        if (key.equals("servidor")) { // Check if desired key
+                            // Fetch the value as a String
+                            value.add(jsonReader.nextString());
 
-                        // Do something with the value
-                        // ...
+                            // Do something with the value
+                            // ...
 
+                            jsonReader.close();
+                            myConnection.disconnect();
+
+                            return value;
 //                            break; // Break out of the loop
-                    } else {
-                        jsonReader.skipValue(); // Skip values of other keys
+                        } else {
+                            jsonReader.skipValue(); // Skip values of other keys
+                        }
                     }
-            }
+
+                } else {
+                    // Error handling code goes here
+//                    myConnection.disconnect();
+
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -365,11 +375,11 @@ public class Resumos extends AppCompatActivity
                 }
             }
 
-            load.dismiss();
+//            load.dismiss();
         }
         @Override
         protected void onPreExecute(){
-            load = ProgressDialog.show(Resumos.this, "Por favor Aguarde ...", "Recuperando resumos...");
+//            load = ProgressDialog.show(Resumos.this, "Por favor Aguarde ...", "Recuperando resumos...");
         }
 
     }
