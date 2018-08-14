@@ -1,16 +1,13 @@
 package com.example.usuario.telaswendel;
 
-<<<<<<< HEAD
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
-=======
->>>>>>> marcos
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,36 +15,37 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-<<<<<<< HEAD
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
-=======
->>>>>>> marcos
 import android.widget.TextView;
 
-public class Programacao extends AppCompatActivity
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Resumos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+//    List<TextView> textViews = new ArrayList<TextView>();
+    ArrayList<String> dados = new ArrayList();
+    ArrayAdapter<String> adapter;
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_programacao);
+        setContentView(R.layout.activity_resumos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,11 +56,44 @@ public class Programacao extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+//        TextView t1 = (TextView) findViewById(R.id.textView2);
+//        TextView t2 = (TextView) findViewById(R.id.textView3);
+//        TextView t3 = (TextView) findViewById(R.id.textView4);
+//        textViews = new ArrayList<TextView>();
+//        textViews.add(t1);
+//        textViews.add(t2);
+//        textViews.add(t3);
+
         View header = navigationView.getHeaderView(0);
         TextView textNome = (TextView) header.findViewById(R.id.textNomeNav);
         SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
         textNome.setText(infoUser.getString("nome","@aluno"));
+
+
+        ListView listview = (ListView) findViewById(R.id.listViewProg);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dados);
+
+        listview.setAdapter(adapter);
+
+        new CarregaProgramacao().execute();
+
+        final EditText busca = (EditText) findViewById(R.id.busca);
+        busca.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s.toString());
+            }
+        });
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -74,17 +105,7 @@ public class Programacao extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.areas, menu);
-        return true;
-    }
 
-
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -95,15 +116,19 @@ public class Programacao extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(getApplicationContext(), Resumos.class);
-            startActivity(intent);
+
+
 
         } else if(id == R.id.nav_share){
+
+            Intent intent = new Intent(getApplicationContext(), Programacao.class);
+            startActivity(intent);
 
 
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(getApplicationContext(), Config.class);
             startActivity(intent);
+
 
 
         } else if (id == R.id.nav_send) {
@@ -116,7 +141,6 @@ public class Programacao extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-<<<<<<< HEAD
 
 
 
@@ -256,38 +280,10 @@ public class Programacao extends AppCompatActivity
         }
         @Override
         protected void onPreExecute(){
-            load = ProgressDialog.show(Programacao.this, "Por favor Aguarde ...", "Recuperando a programação...");
-        }
-
-    }
-
-    class EndlessScrollListener implements AbsListView.OnScrollListener {
-        private static final String TAG = "CacheToDBActivity.EndlessScrollListener";
-        private boolean loading = true;
-
-        @SuppressLint("LongLogTag")
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
-            if (!(loading) && (totalItemCount - visibleItemCount) <= (firstVisibleItem)) {
-                Log.d(TAG, "Load Next Page!");
-                loading = true;
-            }
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {}
-
-        public boolean isLoading() {
-            return loading;
-        }
-
-        public void setLoading(boolean loading) {
-            this.loading = loading;
+            load = ProgressDialog.show(Resumos.this, "Por favor Aguarde ...", "Recuperando a programação...");
         }
 
     }
 
 
-=======
->>>>>>> marcos
 }

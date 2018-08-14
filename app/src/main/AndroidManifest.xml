@@ -39,11 +39,11 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Programacao"
+            android:name=".Resumos"
             android:label="@string/title_activity_programacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Areas"
+            android:name=".Programacao"
             android:label="@string/title_activity_areas"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -18,10 +18,15 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE id LIKE :id LIMIT 1 ")
     User findById(int id);
 
+    @Query("UPDATE `user` SET `horas` = (:horas), `minutos` = (:minutos), `infoCheckout` = (:infoCheckout), `lastCheckId` = (:lastCheckId) WHERE id = (:id)")
+    void updateInfoUser(int horas, int minutos, boolean infoCheckout, int lastCheckId, int id);
+
     @Insert
     void insertAll(User... users);
 
     @Delete
     void delete(User user);
+
+
 
 }

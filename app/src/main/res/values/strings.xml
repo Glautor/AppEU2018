@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Telas(Wendel)</string>
+    <string name="app_name">Encontros Universitários</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_login">Sign in</string>
 
@@ -24,8 +24,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configurações</string>
-    <string name="title_activity_programacao">Programação</string>
-    <string name="title_activity_areas">Áreas de Atuação</string>
+    <string name="title_activity_programacao">Resumos</string>
+    <string name="title_activity_areas">Programação</string>
     <string name="title_activity_config">Configurações</string>
 
     <!-- String de busca -->
@@ -106,4 +106,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="error_user_not_found">\"Matrícula e/ou CPF incorreto(s)\"</string>
+    <string name="cpf_incomplete">CPF incompleto</string>
 </resources>
