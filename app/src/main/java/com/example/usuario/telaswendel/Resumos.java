@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,8 +30,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Resumos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,7 +83,7 @@ public class Resumos extends AppCompatActivity
 
         listview.setAdapter(adapter);
 
-        new CarregaProgramacao().execute();
+        new CarregaResumos().execute();
 
         final EditText busca = (EditText) findViewById(R.id.busca);
         busca.addTextChangedListener(new TextWatcher() {
@@ -285,5 +291,73 @@ public class Resumos extends AppCompatActivity
 
     }
 
+    public class CarregaResumos extends AsyncTask<Void,Void, List<Resumo>>{
+
+        @Override
+        protected List<Resumo> doInBackground(Void... voids) {
+
+            // Create URL
+            URL githubEndpoint = null;
+            try {
+                githubEndpoint = new URL("https://api.github.com/");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            // Create connection
+            HttpsURLConnection myConnection =
+                    null;
+            try {
+                myConnection = (HttpsURLConnection) githubEndpoint.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+            myConnection.setRequestProperty("Accept",
+                    "application/vnd.github.v3+json");
+            myConnection.setRequestProperty("Contact-Me",
+                    "hathibelagal@example.com");
+
+            try {
+                if (myConnection.getResponseCode() == 200) {
+                    // Success
+                    // Further processing here
+                    InputStream responseBody = myConnection.getInputStream();
+                    InputStreamReader responseBodyReader =
+                            new InputStreamReader(responseBody, "UTF-8");
+
+                    JsonReader jsonReader = new JsonReader(responseBodyReader);
+                    jsonReader.beginObject(); // Start processing the JSON object
+                    while (jsonReader.hasNext()) { // Loop through all keys
+                        String key = jsonReader.nextName(); // Fetch the next key
+                        if (key.equals("organization_url")) { // Check if desired key
+                            // Fetch the value as a String
+                            String value = jsonReader.nextString();
+                            Log.i("Organization_URL",value);
+
+                            // Do something with the value
+                            // ...
+
+                            break; // Break out of the loop
+                        } else {
+                            jsonReader.skipValue(); // Skip values of other keys
+                        }
+                    }
+                    jsonReader.close();
+                    myConnection.disconnect();
+
+                } else {
+                    // Error handling code goes here
+//                    myConnection.disconnect();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 
 }
