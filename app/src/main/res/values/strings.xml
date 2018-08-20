@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Encontros Universitários</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash">Encontros Universitários UFC</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -60,9 +60,9 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="pref_header_data_sync">Data e Sincronização</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
