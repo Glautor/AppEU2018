@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="94dp"
-        android:layout_height="63dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
-        android:text="UFC"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
-
     <RelativeLayout
         android:id="@+id/loadingPanel"
         android:layout_width="match_parent"
@@ -33,20 +16,28 @@
         tools:layout_editor_absoluteY="0dp">
 
         <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="450dp"
+            android:layout_marginTop="490dp"
             android:indeterminate="true" />
 
         <ImageView
-            android:src="@drawable/ic_eu_marca_vertical_azul"
             android:id="@+id/imageView8"
-            android:layout_width="322dp"
-            android:layout_height="382dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="305dp"
+            android:layout_below="@+id/imageView2"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"  />
+            android:src="@drawable/ic_eu_marca_vertical_azul" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="182dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/ic_universidade_federal_do_ceara1" />
         <!-- OBS.: android:src="@drawable/ic_eu_marca_vertical_azul" está sendo utilizado para que a imagem apareça na tela do emulador e do celular. -->
 
 
