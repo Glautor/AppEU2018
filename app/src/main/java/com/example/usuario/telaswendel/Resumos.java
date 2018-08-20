@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.JsonReader;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,15 +30,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Resumos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    List<TextView> textViews = new ArrayList<TextView>();
+    //    List<TextView> textViews = new ArrayList<TextView>();
     ArrayList<String> dados = new ArrayList();
     ArrayAdapter<String> adapter;
+    ArrayList<String> value = new ArrayList<>();
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
 
     @Override
@@ -77,7 +86,7 @@ public class Resumos extends AppCompatActivity
 
         listview.setAdapter(adapter);
 
-        new CarregaProgramacao().execute();
+        new CarregaResumos().execute();
 
         final EditText busca = (EditText) findViewById(R.id.busca);
         busca.addTextChangedListener(new TextWatcher() {
@@ -285,5 +294,93 @@ public class Resumos extends AppCompatActivity
 
     }
 
+    public class CarregaResumos extends AsyncTask<Void, Void, ArrayList<String>> {
+        private ProgressDialog load;
 
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+
+            // Create URL
+            URL githubEndpoint = null;
+            try {
+                githubEndpoint = new URL("http://participe-db.herokuapp.com/servers.json");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            // Create connection
+            HttpURLConnection myConnection =
+                    null;
+            try {
+                myConnection = (HttpURLConnection) githubEndpoint.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+            myConnection.setRequestProperty("Accept",
+                    "application/vnd.github.v3+json");
+            myConnection.setRequestProperty("Contact-Me",
+                    "hathibelagal@example.com");
+
+            try {
+                if (myConnection.getResponseCode() == 200) {
+                    // Success
+                    // Further processing here
+                    InputStream responseBody = myConnection.getInputStream();
+                    InputStreamReader responseBodyReader =
+                            new InputStreamReader(responseBody, "UTF-8");
+
+                    JsonReader jsonReader = new JsonReader(responseBodyReader);
+                    jsonReader.beginObject(); // Start processing the JSON object
+                    while (jsonReader.hasNext()) { // Loop through all keys
+                        String key = jsonReader.nextName(); // Fetch the next key
+                        if (key.equals("servidor")) { // Check if desired key
+                            // Fetch the value as a String
+                            value.add(jsonReader.nextString());
+
+                            // Do something with the value
+                            // ...
+
+                            jsonReader.close();
+                            myConnection.disconnect();
+
+                            return value;
+//                            break; // Break out of the loop
+                        } else {
+                            jsonReader.skipValue(); // Skip values of other keys
+                        }
+                    }
+
+                } else {
+                    // Error handling code goes here
+//                    myConnection.disconnect();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return value;
+        }
+
+
+        @Override
+        protected void onPostExecute(ArrayList<String> param) {
+            if(param == null){
+                Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_SHORT).show();
+            }else{
+                for (int i = 0; i < param.size(); i++) {
+                    Toast.makeText(getApplicationContext(), param.get(i), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+//            load.dismiss();
+        }
+        @Override
+        protected void onPreExecute(){
+//            load = ProgressDialog.show(Resumos.this, "Por favor Aguarde ...", "Recuperando resumos...");
+        }
+
+    }
 }
