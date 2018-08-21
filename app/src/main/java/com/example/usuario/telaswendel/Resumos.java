@@ -86,7 +86,7 @@ public class Resumos extends AppCompatActivity
 
         listview.setAdapter(adapter);
 
-        //new CarregaResumos().execute();
+        new CarregaResumos().execute();
 
         final EditText busca = (EditText) findViewById(R.id.busca);
         busca.addTextChangedListener(new TextWatcher() {
