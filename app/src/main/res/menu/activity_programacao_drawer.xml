@@ -11,6 +11,7 @@
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_business_black_24dp"
+            android:checked="true"
             android:title="Resumos"
             />
 

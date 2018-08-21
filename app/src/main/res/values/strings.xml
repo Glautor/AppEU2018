@@ -107,4 +107,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="error_user_not_found">\"Matrícula e/ou CPF incorreto(s)\"</string>
     <string name="cpf_incomplete">CPF incompleto</string>
+    <string name="contadorTempo">Contabilizando tempo...</string>
 </resources>

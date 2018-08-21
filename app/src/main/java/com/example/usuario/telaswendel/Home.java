@@ -55,6 +55,9 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -75,6 +78,7 @@ public class Home extends AppCompatActivity
     String resultado = "";
     Button checkin;
     String[] dados;
+    FusedLocationProviderClient mFusedLocationClient;
     ArrayAdapter<String> adapter;
     Location ica;
     String respostaSer;
@@ -87,6 +91,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
         checkView = (ListView) findViewById(R.id.checkView);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
@@ -195,16 +200,23 @@ public class Home extends AppCompatActivity
 
             dialog.show();
         }else{
-            int distancia = (int) myLocation.distanceTo(ica);
-            if(distancia < 1000) {
-                final Activity activity = this;
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Camera Scan");
-                integrator.setCameraId(0);
-                integrator.initiateScan();
-            }else{
-                Toast.makeText(getApplicationContext(),"Você não está na área dos Encontros Universitários",Toast.LENGTH_LONG).show();
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                String providerName = setConfigGPS();
+
+                int distancia = (int) myLocation.distanceTo(ica);
+                if (distancia < 10000) {
+                    final Activity activity = this;
+                    IntentIntegrator integrator = new IntentIntegrator(activity);
+                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                    integrator.setPrompt("Camera Scan");
+                    integrator.setCameraId(0);
+                    integrator.initiateScan();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Você não está na área dos Encontros Universitários", Toast.LENGTH_LONG).show();
+                }
             }
 
         }
@@ -261,16 +273,29 @@ public class Home extends AppCompatActivity
         String providerName = locationManager.getBestProvider(criteria, true);
 
 
-        locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
-        //locationManager.requestLocationUpdates(providerName,1000,0,this);
+        //locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
+        locationManager.requestLocationUpdates(providerName,0,0,this);
 
         myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        if(myLocation == null){
+//            mFusedLocationClient.getLastLocation()
+//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            // Got last known location. In some rare situations this can be null.
+//                            if (location != null) {
+//                                // Logic to handle location object
+//                                myLocation = location;
+//                            }
+//                        }
+//                    });
+//        }
         if(myLocation != null) {
-            Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
         }else{
             myLocation = getLastLocation();
             if(myLocation != null){
-                Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
+             //   Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
             }
         }
         return providerName;
@@ -342,6 +367,7 @@ public class Home extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
+        this.onStart();
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
     }
@@ -349,6 +375,7 @@ public class Home extends AppCompatActivity
     @Override
     protected void onRestart(){
         super.onRestart();
+        this.onStart();
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
     }
@@ -362,6 +389,7 @@ public class Home extends AppCompatActivity
     public void onLocationChanged(Location location) {
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
+        myLocation = location;
         //textView1.setText(String.valueOf(location.getLongitude()));
         //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }

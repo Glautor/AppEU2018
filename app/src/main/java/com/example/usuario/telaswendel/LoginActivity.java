@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         loginCpf = (TextView) findViewById(R.id.textCpf);
-        loginMatricula = (TextView) findViewById(R.id.textMatricula);
+       // loginMatricula = (TextView) findViewById(R.id.textMatricula);
 
         EditText cpf = (EditText) findViewById(R.id.textCpf);
         MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", cpf);
