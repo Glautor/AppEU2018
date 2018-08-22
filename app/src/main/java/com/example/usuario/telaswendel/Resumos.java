@@ -88,6 +88,7 @@ public class Resumos extends AppCompatActivity
 
         new CarregaResumos().execute();
 
+
         final EditText busca = (EditText) findViewById(R.id.busca);
         busca.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -303,7 +304,7 @@ public class Resumos extends AppCompatActivity
             // Create URL
             URL githubEndpoint = null;
             try {
-                githubEndpoint = new URL("http://participe-db.herokuapp.com/servers.json");
+                githubEndpoint = new URL("http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/06905756377");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -335,7 +336,7 @@ public class Resumos extends AppCompatActivity
                     jsonReader.beginObject(); // Start processing the JSON object
                     while (jsonReader.hasNext()) { // Loop through all keys
                         String key = jsonReader.nextName(); // Fetch the next key
-                        if (key.equals("servidor")) { // Check if desired key
+                        if (key.equals("nome")) { // Check if desired key
                             // Fetch the value as a String
                             value.add(jsonReader.nextString());
 
@@ -349,6 +350,7 @@ public class Resumos extends AppCompatActivity
 //                            break; // Break out of the loop
                         } else {
                             jsonReader.skipValue(); // Skip values of other keys
+                            return null;
                         }
                     }
 
@@ -371,7 +373,8 @@ public class Resumos extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_SHORT).show();
             }else{
                 for (int i = 0; i < param.size(); i++) {
-                    Toast.makeText(getApplicationContext(), param.get(i), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), param.get(i), Toast.LENGTH_SHORT).show();
+                    dados.add(param.get(i));
                 }
             }
 
