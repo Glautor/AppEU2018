@@ -2,6 +2,7 @@ package com.example.usuario.telaswendel;
 
 import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.JsonReader;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +24,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +43,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import util.ResumoDes;
 
 public class Resumos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,7 +98,9 @@ public class Resumos extends AppCompatActivity
 
         listview.setAdapter(adapter);
 
-        new CarregaResumos().execute();
+//        new CarregaResumos().execute();
+        CarregaTodosResumos res = new CarregaTodosResumos(this);
+        res.execute();
 
 
         final EditText busca = (EditText) findViewById(R.id.busca);
@@ -386,4 +400,64 @@ public class Resumos extends AppCompatActivity
         }
 
     }
+
+    public class CarregaTodosResumos extends AsyncTask<Void, Void, Void> {
+
+         private Context context;
+
+        public CarregaTodosResumos (Context context){
+            this.context = context;
+        }
+
+        public String TAG = "RETROFIT";
+
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String baseurl = "http://participe-db.herokuapp.com/servers.json";
+
+
+            Gson gsonConverter = new GsonBuilder().registerTypeAdapter(Resumo.class, new ResumoDes())
+                    .create();
+
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(baseurl)
+                    .addConverterFactory(GsonConverterFactory.create(gsonConverter))
+                    .build();
+            IResumos iresumos = retrofit.create(IResumos.class);
+            Call<List<Resumo>> listaResumos = iresumos.buscarTodos();
+
+            listaResumos.enqueue(new Callback<List<Resumo>>() {
+                @Override
+                public void onResponse(Call<List<Resumo>> call, Response<List<Resumo>> response) {
+                    List<Resumo> resumos = response.body();
+
+                    for (Resumo r:resumos){
+                        Log.i(TAG, r.getTitulo());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Resumo>> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void avoid) {
+
+        }
+
+
+    }
+
 }

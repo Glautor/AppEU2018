@@ -12,7 +12,7 @@ public class Resumo {
     private String titulo;
 
     @ColumnInfo
-    private String bolsista;
+    private String nome;
 
     @ColumnInfo
     private String horas;
@@ -27,7 +27,7 @@ public class Resumo {
 
     public Resumo(String tit, String bol, String h, String m, String d){
         this.titulo = tit;
-        this.bolsista = bol;
+        this.nome = bol;
         this.horas = h;
         this.minutos = m;
         this.dia = d;
@@ -49,12 +49,12 @@ public class Resumo {
         this.titulo = titulo;
     }
 
-    public String getBolsista() {
-        return bolsista;
+    public String getNome() {
+        return nome;
     }
 
-    public void setBolsista(String bolsista) {
-        this.bolsista = bolsista;
+    public void setNome(String bolsista) {
+        this.nome = bolsista;
     }
 
     public String getHoras() {
