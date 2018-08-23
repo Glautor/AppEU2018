@@ -2,9 +2,9 @@ package com.example.usuario.telaswendel;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.WindowManager;
 
 public class SplashActivity extends Activity {
@@ -23,6 +23,7 @@ public class SplashActivity extends Activity {
                 mostrarMainActivity();
             }
         }, 4000);
+
     }
 
     private void mostrarMainActivity() {

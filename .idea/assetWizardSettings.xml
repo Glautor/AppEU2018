@@ -88,11 +88,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="744" />
-                            <entry key="outputName" value="ic_universidade_federal_do_ceara1" />
+                            <entry key="height" value="1976" />
+                            <entry key="outputName" value="ic_brasao2_vertical_monocromatico_300dpi" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\usuario\Downloads\universidade-federal-do-ceara1.svg" />
-                            <entry key="width" value="990" />
+                            <entry key="sourceFile" value="C:\Users\usuario\Downloads\brasao2_vertical_monocromatico_300dpi.svg" />
+                            <entry key="width" value="2985" />
                           </map>
                         </option>
                       </PersistentState>
