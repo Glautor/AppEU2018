@@ -26,6 +26,7 @@
     </option>
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
 =======
 <<<<<<< HEAD
@@ -38,6 +39,9 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
 >>>>>>> glauton
 >>>>>>> 0345166998ced5e501441694b170363d49ada9dc
+=======
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+>>>>>>> cc4718061edd9ab3c7827fc366950ae8b31247c6
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
