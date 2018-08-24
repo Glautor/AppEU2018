@@ -7,18 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.JsonReader;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,16 +35,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -99,8 +95,8 @@ public class Resumos extends AppCompatActivity
         listview.setAdapter(adapter);
 
 //        new CarregaResumos().execute();
-        CarregaTodosResumos res = new CarregaTodosResumos(this);
-        res.execute();
+//        CarregaTodosResumos res = new CarregaTodosResumos(this);
+//        res.execute();
 
 
         final EditText busca = (EditText) findViewById(R.id.busca);
@@ -431,23 +427,23 @@ public class Resumos extends AppCompatActivity
                     .addConverterFactory(GsonConverterFactory.create(gsonConverter))
                     .build();
             IResumos iresumos = retrofit.create(IResumos.class);
-            Call<List<Resumo>> listaResumos = iresumos.buscarTodos();
+            retrofit2.Call<List<Resumo>> listaResumos = iresumos.buscarTodos();
 
             listaResumos.enqueue(new Callback<List<Resumo>>() {
                 @Override
-                public void onResponse(Call<List<Resumo>> call, Response<List<Resumo>> response) {
+                public void onResponse(retrofit2.Call<List<Resumo>> call, Response<List<Resumo>> response) {
                     List<Resumo> resumos = response.body();
 
                     for (Resumo r:resumos){
                         Log.i(TAG, r.getTitulo());
                     }
-
                 }
 
                 @Override
-                public void onFailure(Call<List<Resumo>> call, Throwable t) {
+                public void onFailure(retrofit2.Call<List<Resumo>> call, Throwable t) {
                     t.printStackTrace();
                 }
+
             });
             return null;
         }

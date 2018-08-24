@@ -2,8 +2,10 @@ package com.example.usuario.telaswendel;
 
 import android.arch.persistence.room.*;
 
+import java.io.Serializable;
+
 @Entity
-public class Resumo {
+public class Resumo implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
