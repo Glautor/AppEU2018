@@ -14,7 +14,7 @@ public class ResumoDes implements JsonDeserializer<Resumo> {
     public Resumo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonElement resumo = json.getAsJsonObject();
 
-        if(json.getAsJsonObject().get("resumo") != null){
+        if(json.getAsJsonObject().get("server") != null){
             resumo = json.getAsJsonObject();
         }
 

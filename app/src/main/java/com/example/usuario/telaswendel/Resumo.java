@@ -14,7 +14,7 @@ public class Resumo implements Serializable {
     private String titulo;
 
     @ColumnInfo
-    private String nome;
+    private String servidor;
 
     @ColumnInfo
     private String horas;
@@ -29,7 +29,7 @@ public class Resumo implements Serializable {
 
     public Resumo(String tit, String bol, String h, String m, String d){
         this.titulo = tit;
-        this.nome = bol;
+        this.servidor = bol;
         this.horas = h;
         this.minutos = m;
         this.dia = d;
@@ -51,12 +51,12 @@ public class Resumo implements Serializable {
         this.titulo = titulo;
     }
 
-    public String getNome() {
-        return nome;
+    public String getServidor() {
+        return servidor;
     }
 
-    public void setNome(String bolsista) {
-        this.nome = bolsista;
+    public void setServidor(String bolsista) {
+        this.servidor = bolsista;
     }
 
     public String getHoras() {
@@ -82,4 +82,20 @@ public class Resumo implements Serializable {
     public void setDia(String dia) {
         this.dia = dia;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Resumo resumo = (Resumo) o;
+
+        return servidor == resumo.servidor;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(servidor);
+    }
+
 }

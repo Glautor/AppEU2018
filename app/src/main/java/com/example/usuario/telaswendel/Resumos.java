@@ -41,6 +41,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -95,8 +96,8 @@ public class Resumos extends AppCompatActivity
         listview.setAdapter(adapter);
 
 //        new CarregaResumos().execute();
-//        CarregaTodosResumos res = new CarregaTodosResumos(this);
-//        res.execute();
+        CarregaTodosResumos res = new CarregaTodosResumos(this);
+        res.execute();
 
 
         final EditText busca = (EditText) findViewById(R.id.busca);
@@ -415,6 +416,8 @@ public class Resumos extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
+            // TODO consumir webservice
+
             String baseurl = "http://participe-db.herokuapp.com/servers.json";
 
 
@@ -427,20 +430,20 @@ public class Resumos extends AppCompatActivity
                     .addConverterFactory(GsonConverterFactory.create(gsonConverter))
                     .build();
             IResumos iresumos = retrofit.create(IResumos.class);
-            retrofit2.Call<List<Resumo>> listaResumos = iresumos.buscarTodos();
+            Call<List<Resumo>> listaResumos = iresumos.buscarTodos();
 
             listaResumos.enqueue(new Callback<List<Resumo>>() {
                 @Override
-                public void onResponse(retrofit2.Call<List<Resumo>> call, Response<List<Resumo>> response) {
+                public void onResponse(Call<List<Resumo>> call, Response<List<Resumo>> response) {
                     List<Resumo> resumos = response.body();
 
                     for (Resumo r:resumos){
-                        Log.i(TAG, r.getTitulo());
+                        Log.i(TAG, r.getServidor());
                     }
                 }
 
                 @Override
-                public void onFailure(retrofit2.Call<List<Resumo>> call, Throwable t) {
+                public void onFailure(Call<List<Resumo>> call, Throwable t) {
                     t.printStackTrace();
                 }
 
