@@ -167,7 +167,7 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (myLocation.distanceTo(ica) > 200.0) {
+                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -464,6 +464,10 @@ public class Home extends AppCompatActivity
             prefsEditorCheck.commit();
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//            intent.putExtra("finish", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
             startActivity(intent);
             this.finish();
 
