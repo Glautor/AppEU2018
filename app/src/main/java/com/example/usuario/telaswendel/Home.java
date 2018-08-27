@@ -77,6 +77,10 @@ public class Home extends AppCompatActivity
     String[] dados;
     ArrayAdapter<String> adapter;
     Location ica;
+    Location bl950;
+    Location bl951;
+    Location bl953;
+    Location ctConv;
     String respostaSer;
 
     @Override
@@ -93,37 +97,6 @@ public class Home extends AppCompatActivity
         GetUsuario gc = new GetUsuario();
         gc.execute();
 
-//        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
-//        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
-//        if(doCheckout == true){
-//            checkin.setText("FAZER CHECKOUT");
-//        }else{
-//            checkin.setText("FAZER CHECK-IN");
-//        }
-//
-//
-//        textView1 = (TextView) findViewById(R.id.textView1);
-//        int minutos = infoCheck.getInt("Minutos",0);
-//        int horas = infoCheck.getInt("Horas",0);
-//        if(minutos >= 10) {
-//            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-//        }else{
-//            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-//        }
-
-
-//        final Activity activity = this;
-//
-//        checkin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                IntentIntegrator integrator = new IntentIntegrator(activity);
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                integrator.setPrompt("Camera Scan");
-//                integrator.setCameraId(0);
-//                integrator.initiateScan();
-//            }
-//        });
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -194,7 +167,7 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (distancia < 1000) {
+                if (myLocation.distanceTo(ica) > 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -254,6 +227,18 @@ public class Home extends AppCompatActivity
         ica = new Location(LocationManager.GPS_PROVIDER);
         ica.setLatitude(-3.7460349);
         ica.setLongitude(-38.5720989);
+        bl950 = new Location(LocationManager.GPS_PROVIDER);
+        bl950.setLatitude(-3.7459491);
+        bl950.setLongitude(-38.5761109);
+        bl951 = new Location(LocationManager.GPS_PROVIDER);
+        bl951.setLatitude(-3.7463107);
+        bl951.setLongitude(-38.576243);
+        bl953 = new Location(LocationManager.GPS_PROVIDER);
+        bl953.setLatitude(-3.7470905);
+        bl953.setLongitude(-38.5754332);
+        ctConv = new Location(LocationManager.GPS_PROVIDER);
+        ctConv.setLatitude(-3.7447339);
+        ctConv.setLongitude(-38.5733587);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
         Criteria criteria = new Criteria();
@@ -287,6 +272,7 @@ public class Home extends AppCompatActivity
             if (l == null) {
                 continue;
             }
+
             if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
                 // Found best last known location: %s", l);
                 bestLocation = l;
@@ -299,6 +285,8 @@ public class Home extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
+        AjustaCheckout aj = new AjustaCheckout();
+        aj.execute();
         // This verification should be done during onStart() because the system calls
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
@@ -560,6 +548,19 @@ public class Home extends AppCompatActivity
 
                         User user = db.userDao().findById(id);
                         Date date = new Date();
+                        SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                        SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                        int horaAtual =  Integer.valueOf(horaFm.format(date));
+                        int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                        if(horaAtual < 8 || diaAtual < 24){
+                            return "falha";
+                        }
+                        if(horaAtual > 20 || diaAtual > 26){
+                            return "falha";
+                        }
+
                         System.out.println("Data:"+ date);
                         //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
                         int cid = infoCheck.getInt("LastCheckin", -1);
@@ -585,6 +586,19 @@ public class Home extends AppCompatActivity
                         int id = infoLogin.getInt("id",-1);
                         User user = db.userDao().findById(id);
                         Date date = new Date();
+                        SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                        SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                        int horaAtual =  Integer.valueOf(horaFm.format(date));
+                        int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                        if(horaAtual < 8 || diaAtual < 24){
+                            return "falha";
+                        }
+                        if(horaAtual > 20 || diaAtual > 26){
+                            return "falha";
+                        }
+
                         System.out.println("Data:"+ date);
                         Check check = new Check(user.getId(),date,false);
                         //Salva i checkin no BD e move o registro de id do Check nas preferências para o valor do id do checkin atual
@@ -609,6 +623,181 @@ public class Home extends AppCompatActivity
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
+                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
+//                if(minutos >= 10) {
+//                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
+//                }else{
+//                    textView1.setText(horas + " horas e 0" + minutos + " minutos nos Encontos Acadêmicos");
+//                }
+                checkin.setText("FAZER CHECK-IN");
+            }
+            if(param.equals("falha")){
+                Toast.makeText(getApplicationContext(), "Horário para acesso não permitido. Check não realizado", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
+
+    }
+
+    public class AjustaCheckout extends AsyncTask<Void, Void, String>{
+
+        @Override
+        protected String doInBackground(Void... params){
+
+            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+            if(doCheckout == true){
+
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").build();
+
+                SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+                int id = infoLogin.getInt("id",-1);
+
+                User user = db.userDao().findById(id);
+                Date date = new Date();
+                SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                int horaAtual =  Integer.valueOf(horaFm.format(date));
+                int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                //Setando Pontos de Checkout dos dias de evento
+                Date diaUm14 = new Date();
+                diaUm14.setTime(1540400400000L);
+                int dataUm = Integer.valueOf(dataFm.format(diaUm14));
+                int hora14 = Integer.valueOf(horaFm.format(diaUm14));
+                Date diaUm20 = new Date();
+                diaUm20.setTime(1540422000000L);
+                int hora20 = Integer.valueOf(horaFm.format(diaUm20));
+
+                Date diaDois14 = new Date();
+                diaDois14.setTime(1540486800000L);
+                int dataDois = Integer.valueOf(dataFm.format(diaDois14));
+                Date diaDois20 = new Date();
+                diaDois20.setTime(1540508400000L);
+
+
+                Date diaTres14 = new Date();
+                diaTres14.setTime(1540573200000L);
+                int dataTres = Integer.valueOf(dataFm.format(diaTres14));
+                Date diaTres20 = new Date();
+                diaTres20.setTime(1540594800000L);
+
+
+                System.out.println("Data:"+ date);
+                //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
+                int cid = infoCheck.getInt("LastCheckin", -1);
+                Check checkin = db.checkDao().loadById(cid);
+                int dateCheckin = Integer.valueOf(dataFm.format(checkin.getDHourIn()));
+                int horaCheckin = Integer.valueOf(horaFm.format(checkin.getDHourIn()));
+
+
+
+                if(dateCheckin == dataUm){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataUm){
+                        db.checkDao().updateCheckOut(diaUm14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm){
+                            db.checkDao().updateCheckOut(diaUm20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+
+                            return "checkout";
+                        }
+                    }
+                }
+
+                if(dateCheckin == dataDois){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataDois){
+                        db.checkDao().updateCheckOut(diaDois14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois){
+                            db.checkDao().updateCheckOut(diaDois20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+
+                            return "checkout";
+                        }
+                    }
+                }
+
+                if(dateCheckin == dataTres){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataTres){
+                        db.checkDao().updateCheckOut(diaTres14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres){
+                            db.checkDao().updateCheckOut(diaTres20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+
+                            return "checkout";
+                        }
+                    }
+                }
+
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String param) {
+            if(param.equals("checkout")){
+                Toast.makeText(getApplicationContext(), "Checkout automático realizado com sucesso", Toast.LENGTH_LONG).show();
+                SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+                int horas = infoCheck.getInt("Horas",0);
+                int minutos = infoCheck.getInt("Minutos",0);
                 if(minutos >= 10) {
                     textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
                 }else{
@@ -616,9 +805,7 @@ public class Home extends AppCompatActivity
                 }
                 checkin.setText("FAZER CHECK-IN");
             }
-            if(param.equals("falha")){
-                Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
-            }
+
         }
 
         @Override
@@ -833,12 +1020,13 @@ public class Home extends AppCompatActivity
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
+            textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
 
-            if(minutos >= 10) {
-                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-            }else{
-                textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-            }
+//            if(minutos >= 10) {
+//                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+//            }else{
+//                textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+//            }
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
