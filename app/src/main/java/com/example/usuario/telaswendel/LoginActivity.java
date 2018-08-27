@@ -89,6 +89,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+//        boolean finish = getIntent().getBooleanExtra("finish", false);
+//        if (finish) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//            finish();
+//            return;
+//        }
+
+
         SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
         boolean autenticado = infoLogin.getBoolean("autenticado",false);
         if(autenticado == true){
@@ -366,7 +374,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final User user) {
             mAuthTask = null;
             //showProgress(false);
-            //load.dismiss();
+            load.dismiss();
 
             if (mCpf.equals(user.getCpf()) &&  mMatricula.equals(String.valueOf(user.getMatricula()))) {
 
@@ -376,7 +384,7 @@ public class LoginActivity extends AppCompatActivity {
                 finalizaActivity();
             } else {
 
-                loginMatricula.setError(getString(R.string.error_user_not_found));
+                //loginMatricula.setError(getString(R.string.error_user_not_found));
                 loginCpf.setError(getString(R.string.error_user_not_found));
             }
 
@@ -390,7 +398,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute(){
-            //load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
+            load = ProgressDialog.show(LoginActivity.this, "Por favor Aguarde ...", "Recuperando Informações do Servidor...");
         }
     }
 
