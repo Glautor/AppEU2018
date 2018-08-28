@@ -134,8 +134,19 @@ public class Resumos extends AppCompatActivity
 
 
         } else if (id == R.id.nav_send) {
+            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
+            prefsEditor.clear();
+            prefsEditor.commit();
+
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
+
+//            intent.putExtra("finish", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
+            startActivity(intent);
+            this.finish();
 
         }
 
