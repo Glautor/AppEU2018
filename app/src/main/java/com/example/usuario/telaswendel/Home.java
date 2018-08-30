@@ -627,7 +627,7 @@ public class Home extends AppCompatActivity
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
+                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
 //                if(minutos >= 10) {
 //                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
 //                }else{
@@ -803,9 +803,9 @@ public class Home extends AppCompatActivity
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
                 if(minutos >= 10) {
-                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
+                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontros Universitários");
                 }else{
-                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontros Universitários");
                 }
                 checkin.setText("FAZER CHECK-IN");
             }
@@ -1024,7 +1024,7 @@ public class Home extends AppCompatActivity
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
-            textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
+            textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
 
 //            if(minutos >= 10) {
 //                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
