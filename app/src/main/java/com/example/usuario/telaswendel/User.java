@@ -19,6 +19,18 @@ public class User {
     @ColumnInfo
     private String nome;
 
+    @ColumnInfo
+    private int horas;
+
+    @ColumnInfo
+    private int minutos;
+
+    @ColumnInfo
+    private boolean infoCheckout;
+
+    @ColumnInfo
+    private int lastCheckId;
+
     public User(){}
 
     public User(int mat, String nome, String cpf){
@@ -54,4 +66,37 @@ public class User {
     public String getCpf() { return cpf; }
 
     public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public int getHoras() {
+        return horas;
+    }
+
+    public void setHoras(int horas) {
+        this.horas = horas;
+    }
+
+    public int getMinutos() {
+        return minutos;
+    }
+
+    public void setMinutos(int minutos) {
+        this.minutos = minutos;
+    }
+
+    public boolean getInfoCheckout() {
+        return infoCheckout;
+    }
+
+    public void setInfoCheckout(boolean infoCheckout) {
+        this.infoCheckout = infoCheckout;
+    }
+
+    public int getLastCheckId() {
+        return lastCheckId;
+    }
+
+    public void setLastCheckId(int lastCheckId) {
+        this.lastCheckId = lastCheckId;
+    }
+
 }

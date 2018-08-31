@@ -50,19 +50,6 @@
                 android:textSize="24sp" />
 
 
-            <EditText
-                android:id="@+id/textMatricula"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_matricula"
-                android:imeActionId="6"
-                android:imeOptions="actionUnspecified"
-                android:inputType="numberDecimal"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="24sp" />
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -5,23 +5,22 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_doditsolutions_qr_code"
-            android:title="Faça seu Check-in" />
-        <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Início" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_assignment_blue_24dp"
-            android:title="Programação" />
+            android:icon="@drawable/ic_business_black_24dp"
+            android:checked="true"
+            android:title="Resumos"
+            />
 
 
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_business_black_24dp"
-            android:title="Areas de Atuação" />
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Programação"
+            />
 
 
     </group>
@@ -37,7 +36,7 @@
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_keyboard_return_black_24dp"
-                android:title="Sair" />
+                android:title="Logout" />
         </menu>
     </item>
 
