@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-<<<<<<< HEAD
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="0dp"
@@ -41,21 +39,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" /><![CDATA[
 =======
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/marca_eu_logo" />
-    </FrameLayout>
->>>>>>> af335a425b30e2103880955d7efd8e949b200729
+    >>>>>>> af335a425b30e2103880955d7efd8e949b200729
+]]>
 </android.support.constraint.ConstraintLayout>
