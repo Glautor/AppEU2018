@@ -94,10 +94,8 @@ public class Home extends AppCompatActivity
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
-<<<<<<< HEAD
         GetUsuario gc = new GetUsuario();
         gc.execute();
-=======
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
         if(doCheckout == true){
@@ -107,7 +105,6 @@ public class Home extends AppCompatActivity
         }
 
         final Activity activity = this;
->>>>>>> af335a425b30e2103880955d7efd8e949b200729
 
 
 
@@ -180,7 +177,7 @@ public class Home extends AppCompatActivity
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
 //                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
-                    if (myLocation.distanceTo(ica) < 200.0) {
+                    if (myLocation.distanceTo(ica) > 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -573,9 +570,11 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
 
                         if(horaAtual < 8 || diaAtual < 24){
+                            //db.close();
                             return "falha";
                         }
                         if(horaAtual > 20 || diaAtual > 26){
+                            //db.close();
                             return "falha";
                         }
 
@@ -590,7 +589,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-
+                        //db.close();
                         return "checkout";
                     }
                 }
@@ -612,9 +611,11 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
 
                         if(horaAtual < 8 || diaAtual < 24){
+                            //db.close();
                             return "falha";
                         }
                         if(horaAtual > 20 || diaAtual > 26){
+                            //db.close();
                             return "falha";
                         }
 
@@ -624,6 +625,7 @@ public class Home extends AppCompatActivity
                         // (desse modo, na hora do checkout teremos como atualizar facilmente pois temos a info de id salva)
                         db.checkDao().insertAll(check);
                         saveInfoCheckin(true,db.checkDao().loadIdByHourIn(date));
+                        //db.close();
                         return "checkin";
                     }
                 }
@@ -689,25 +691,25 @@ public class Home extends AppCompatActivity
 
                 //Setando Pontos de Checkout dos dias de evento
                 Date diaUm14 = new Date();
-                diaUm14.setTime(1540483200000L);
+                diaUm14.setTime(1540396800000L);
                 int dataUm = Integer.valueOf(dataFm.format(diaUm14));
                 int hora14 = Integer.valueOf(horaFm.format(diaUm14));
                 Date diaUm20 = new Date();
-                diaUm20.setTime(1540504800000L);
+                diaUm20.setTime(1540418400000L);
                 int hora20 = Integer.valueOf(horaFm.format(diaUm20));
 
                 Date diaDois14 = new Date();
-                diaDois14.setTime(1540569600000L);
+                diaDois14.setTime(1540483200000L);
                 int dataDois = Integer.valueOf(dataFm.format(diaDois14));
                 Date diaDois20 = new Date();
-                diaDois20.setTime(1540591200000L);
+                diaDois20.setTime(1540504800000L);
 
 
                 Date diaTres14 = new Date();
-                diaTres14.setTime(1540656000000L);
+                diaTres14.setTime(1540569600000L);
                 int dataTres = Integer.valueOf(dataFm.format(diaTres14));
                 Date diaTres20 = new Date();
-                diaTres20.setTime(1540677600000L);
+                diaTres20.setTime(1540591200000L);
 
 
                 System.out.println("Data:"+ date);
@@ -730,7 +732,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-
+                       // db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm){
@@ -742,7 +744,7 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-
+                           // db.close();
                             return "checkout";
                         }
                     }
@@ -759,7 +761,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-
+                      //  db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois){
@@ -771,7 +773,7 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-
+                          //  db.close();
                             return "checkout";
                         }
                     }
@@ -788,7 +790,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-
+                        //db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres){
@@ -800,13 +802,14 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-
+                            //db.close();
                             return "checkout";
                         }
                     }
                 }
-
+                //db.close();
             }
+
             return "";
         }
 
@@ -851,7 +854,7 @@ public class Home extends AppCompatActivity
             int ids[] = {id};
             checkins = db.checkDao().loadAllByIds(ids);
             dados = new String[checkins.size()];
-
+            //db.close();
             return checkins;
         }
 
@@ -957,7 +960,7 @@ public class Home extends AppCompatActivity
             int ids[] = {id};
             List<Check> checksAtt = db.checkDao().loadAllByIds(ids);
             dados = new String[checksAtt.size()];
-
+            //db.close();
             return checksAtt;
         }
 
@@ -990,7 +993,7 @@ public class Home extends AppCompatActivity
             boolean infoCheckout = infoCheckin.getBoolean("DoCheckout?",false);
             int lastCheckinId = infoCheckin.getInt("LastCheckin", -1);
             db.userDao().updateInfoUser(horas,minutos,infoCheckout,lastCheckinId, id);
-
+            //db.close();
             return null;
         }
 
