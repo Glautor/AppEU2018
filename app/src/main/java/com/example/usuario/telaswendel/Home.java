@@ -167,7 +167,8 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+//                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+                    if (myLocation.distanceTo(ica) < 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -674,25 +675,25 @@ public class Home extends AppCompatActivity
 
                 //Setando Pontos de Checkout dos dias de evento
                 Date diaUm14 = new Date();
-                diaUm14.setTime(1540400400000L);
+                diaUm14.setTime(1540483200000L);
                 int dataUm = Integer.valueOf(dataFm.format(diaUm14));
                 int hora14 = Integer.valueOf(horaFm.format(diaUm14));
                 Date diaUm20 = new Date();
-                diaUm20.setTime(1540422000000L);
+                diaUm20.setTime(1540504800000L);
                 int hora20 = Integer.valueOf(horaFm.format(diaUm20));
 
                 Date diaDois14 = new Date();
-                diaDois14.setTime(1540486800000L);
+                diaDois14.setTime(1540569600000L);
                 int dataDois = Integer.valueOf(dataFm.format(diaDois14));
                 Date diaDois20 = new Date();
-                diaDois20.setTime(1540508400000L);
+                diaDois20.setTime(1540591200000L);
 
 
                 Date diaTres14 = new Date();
-                diaTres14.setTime(1540573200000L);
+                diaTres14.setTime(1540656000000L);
                 int dataTres = Integer.valueOf(dataFm.format(diaTres14));
                 Date diaTres20 = new Date();
-                diaTres20.setTime(1540594800000L);
+                diaTres20.setTime(1540677600000L);
 
 
                 System.out.println("Data:"+ date);
