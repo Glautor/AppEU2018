@@ -94,8 +94,20 @@ public class Home extends AppCompatActivity
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
+<<<<<<< HEAD
         GetUsuario gc = new GetUsuario();
         gc.execute();
+=======
+        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+        if(doCheckout == true){
+            checkin.setText("FAZER CHECKOUT");
+        }else{
+            checkin.setText("FAZER CHECK-IN");
+        }
+
+        final Activity activity = this;
+>>>>>>> af335a425b30e2103880955d7efd8e949b200729
 
 
 
@@ -543,6 +555,7 @@ public class Home extends AppCompatActivity
             SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
             boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
             if(doCheckout == true){
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -582,6 +595,7 @@ public class Home extends AppCompatActivity
                     }
                 }
             }else{
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
