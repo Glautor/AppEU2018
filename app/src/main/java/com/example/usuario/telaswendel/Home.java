@@ -16,6 +16,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -91,11 +92,20 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
         checkView = (ListView) findViewById(R.id.checkView);
-        BuscaCheck bc = new BuscaCheck();
-        bc.execute();
 
         GetUsuario gc = new GetUsuario();
         gc.execute();
+
+        respostaSer = null;
+        if(verificaConexao() == true) {
+            EnviaCheck ec = new EnviaCheck();
+            ec.execute();
+        }else{
+            alert("Não conseguimos nos conectar ao servidor. Verifique sua conexão com a internet");
+        }
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
+
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
         if(doCheckout == true){
@@ -197,6 +207,7 @@ public class Home extends AppCompatActivity
     }
 
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -230,6 +241,19 @@ public class Home extends AppCompatActivity
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    public  boolean verificaConexao() {
+        boolean conectado;
+        ConnectivityManager conectivtyManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
+            conectado = true;
+        } else {
+            conectado = false;
+        }
+        return conectado;
     }
 
     @SuppressLint("MissingPermission")
@@ -308,8 +332,8 @@ public class Home extends AppCompatActivity
 //        BuscaCheck bc = new BuscaCheck();
 //        bc.execute();
 
-        EnviaCheck ec = new EnviaCheck();
-        ec.execute();
+//        EnviaCheck ec = new EnviaCheck();
+//        ec.execute();
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -356,6 +380,8 @@ public class Home extends AppCompatActivity
             locationManager.removeUpdates(this);
             locationManager = null;
         }
+
+
     }
 
     @Override
@@ -886,10 +912,10 @@ public class Home extends AppCompatActivity
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             String URL = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/frequencia";
 
-            Check check = new Check();
+//            Check check = new Check();
             for(int i=0;i<checkins.size();i++){
                 if(checkins.get(i).getDHourOut() != null){
-                    check = checkins.get(i);
+//                    check = checkins.get(i);
                     try {
                         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         final JSONObject jsonBody = new JSONObject();
@@ -899,19 +925,23 @@ public class Home extends AppCompatActivity
                         jsonBody.put("cpf", cpf);
                         final String requestBody = jsonBody.toString();
 
+
+                        final int finalI = i;
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("VOLLEY", response);
-                                if(response.equals("")){
-                                    respostaSer = new String(response);
-                                }
+//                                if(response.equals("")){
+//                                    respostaSer = new String(response);
+//                                    checkins.get(finalI).setAtServidor(true);
+//                                }
 
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e("VOLLEY", error.toString());
+                                respostaSer = error.toString();
                             }
                         }) {
                             @Override
@@ -936,6 +966,11 @@ public class Home extends AppCompatActivity
                                     //responseString = String.valueOf(response.statusCode);
                                     try {
                                         responseString = new String(response.data, "UTF-8");
+                                        respostaSer = responseString;
+                                        if(respostaSer != null && respostaSer.equals("")){
+                                            db.checkDao().updateAtServidor(checkins.get(finalI).getId_check(), true);
+
+                                        }
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();
                                     }
@@ -952,21 +987,21 @@ public class Home extends AppCompatActivity
                     }
                 }
 
-                if(respostaSer != null && respostaSer.equals("")){
-                    db.checkDao().updateAtServidor(check.getId_check(), true);
-                    respostaSer = null;
-                }
+
             }
             int ids[] = {id};
             List<Check> checksAtt = db.checkDao().loadAllByIds(ids);
             dados = new String[checksAtt.size()];
             //db.close();
+            respostaSer = null;
             return checksAtt;
         }
 
         @Override
         protected void onPostExecute(List<Check> param) {
-            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
+//            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
+            BuscaCheck bc = new BuscaCheck();
+            bc.execute();
         }
 
         @Override
