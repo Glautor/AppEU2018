@@ -59,9 +59,9 @@ public class Adaptador extends BaseAdapter {
         }
 
         if(checkins.get(position).isAtServidor() == false){
-            servidor.setImageResource(R.drawable.servidor_non);
+            servidor.setImageResource(R.drawable.ok_serv);
         }else{
-            servidor.setImageResource(R.drawable.serv_ok);
+            servidor.setImageResource(R.drawable.nao_ok_serv);
         }
         return view;
     }
