@@ -970,6 +970,8 @@ public class Home extends AppCompatActivity
                                         if(respostaSer != null && respostaSer.equals("")){
                                             db.checkDao().updateAtServidor(checkins.get(finalI).getId_check(), true);
 
+                                        }else{
+                                            Log.i("Erro", responseString);
                                         }
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();

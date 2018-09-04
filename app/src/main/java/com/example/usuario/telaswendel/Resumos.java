@@ -71,14 +71,15 @@ public class Resumos extends AppCompatActivity
         SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
         textNome.setText(infoUser.getString("nome","@aluno"));
 
+        String[] resumos = getResources().getStringArray(R.array.resumos);
 
         ListView listview = (ListView) findViewById(R.id.listViewProg);
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dados);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resumos);
 
         listview.setAdapter(adapter);
 
-        new CarregaProgramacao().execute();
+//        new CarregaProgramacao().execute();
 
 
         final EditText busca = (EditText) findViewById(R.id.busca);
