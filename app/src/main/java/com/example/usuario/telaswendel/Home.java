@@ -189,8 +189,8 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-//                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
-                    if (myLocation.distanceTo(ica) > 200.0) {
+                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+//                    if (myLocation.distanceTo(ica) > 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
