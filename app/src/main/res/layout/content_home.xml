@@ -38,6 +38,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/contadorTempo"
+        android:textAlignment="center"
         android:textColor="#00F"
         app:layout_constraintBottom_toTopOf="@+id/checkin"
         app:layout_constraintEnd_toEndOf="parent"
