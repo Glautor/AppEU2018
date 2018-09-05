@@ -96,13 +96,13 @@ public class Home extends AppCompatActivity
         GetUsuario gc = new GetUsuario();
         gc.execute();
 
-        respostaSer = null;
-        if(verificaConexao() == true) {
-            EnviaCheck ec = new EnviaCheck();
-            ec.execute();
-        }else{
-            alert("Não conseguimos nos conectar ao servidor. Verifique sua conexão com a internet");
-        }
+//        respostaSer = null;
+//        if(verificaConexao() == true) {
+//            EnviaCheck ec = new EnviaCheck();
+//            ec.execute();
+//        }else{
+//            alert("Não conseguimos nos conectar ao servidor. Verifique sua conexão com a internet");
+//        }
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
@@ -117,6 +117,9 @@ public class Home extends AppCompatActivity
         final Activity activity = this;
 
 
+        if(verificaConexao() != true) {
+            alert("Não conseguimos nos conectar. Verifique sua conexão");
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -335,6 +338,12 @@ public class Home extends AppCompatActivity
 //        EnviaCheck ec = new EnviaCheck();
 //        ec.execute();
 
+        respostaSer = null;
+        if(verificaConexao() == true) {
+            EnviaCheck ec = new EnviaCheck();
+            ec.execute();
+        }
+
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
             // the location services, then when the user clicks the "OK" button,
@@ -427,7 +436,6 @@ public class Home extends AppCompatActivity
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null){
             if(result.getContents() != null){
-                alert(result.getContents());
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
