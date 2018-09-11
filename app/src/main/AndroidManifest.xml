@@ -36,6 +36,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Home"
@@ -43,6 +44,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Resumos"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_programacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
