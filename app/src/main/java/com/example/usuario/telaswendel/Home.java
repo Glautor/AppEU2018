@@ -91,6 +91,7 @@ public class Home extends AppCompatActivity
     Location bl953;
     Location ctConv;
     String respostaSer;
+    ImageView imagem;
 
 
     @Override
@@ -102,8 +103,13 @@ public class Home extends AppCompatActivity
         checkin = (Button) findViewById(R.id.checkin);
         checkView = (ListView) findViewById(R.id.checkView);
 
+
+
+
         GetUsuario gc = new GetUsuario();
         gc.execute();
+
+
 
 //        respostaSer = null;
 //        if(verificaConexao() == true) {
@@ -114,6 +120,7 @@ public class Home extends AppCompatActivity
 //        }
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
+
 
         SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
         boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
@@ -439,7 +446,76 @@ public class Home extends AppCompatActivity
     }
 
     @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        imagem = (ImageView) findViewById(R.id.perfil);
+        imagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(getApplicationContext(), Resumos.class);
+            startActivity(intent);
+
+
+
+        } else if(id == R.id.nav_share){
+            Intent intent = new Intent(getApplicationContext(), Programacao.class);
+            startActivity(intent);
+
+
+        } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(getApplicationContext(), Config.class);
+            startActivity(intent);
+
+
+        } else if (id == R.id.nav_send) {
+            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
+            prefsEditor.clear();
+            prefsEditor.commit();
+
+            SharedPreferences.Editor prefsEditorCheck = getSharedPreferences(CONTROLE_CHECK, 0).edit();
+            prefsEditorCheck.clear();
+            prefsEditorCheck.commit();
+
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//            intent.putExtra("finish", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
+            startActivity(intent);
+            this.finish();
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == RESULT_OK && requestCode == 1){
+            Uri imagemSelecionada = data.getData();
+            String[] localDoArquivo = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(imagemSelecionada,localDoArquivo,null,null,null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(localDoArquivo[0]);
+            String localDaImaqem = c.getString(columnIndex);
+            c.close();
+            Bitmap imagemGaleria = (BitmapFactory.decodeFile(localDaImaqem));
+            imagem.setImageBitmap(imagemGaleria);
+        }
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null){
@@ -483,52 +559,7 @@ public class Home extends AppCompatActivity
 
 
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(getApplicationContext(), Resumos.class);
-            startActivity(intent);
-
-
-
-        } else if(id == R.id.nav_share){
-            Intent intent = new Intent(getApplicationContext(), Programacao.class);
-            startActivity(intent);
-
-
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(getApplicationContext(), Config.class);
-            startActivity(intent);
-
-
-        } else if (id == R.id.nav_send) {
-            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
-            prefsEditor.clear();
-            prefsEditor.commit();
-
-            SharedPreferences.Editor prefsEditorCheck = getSharedPreferences(CONTROLE_CHECK, 0).edit();
-            prefsEditorCheck.clear();
-            prefsEditorCheck.commit();
-
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//            intent.putExtra("finish", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
-            startActivity(intent);
-            this.finish();
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     public void saveInfoCheckin(boolean checkout, int idCheck){
         SharedPreferences infoLogin = getSharedPreferences(CONTROLE_CHECK,0);
@@ -1090,7 +1121,6 @@ public class Home extends AppCompatActivity
             }else{
                 checkin.setText("FAZER CHECK-IN");
             }
-
 
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
