@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -325,6 +327,7 @@ public class Home extends AppCompatActivity
         return bestLocation;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onStart() {
         super.onStart();
@@ -334,6 +337,7 @@ public class Home extends AppCompatActivity
         // This verification should be done during onStart() because the system calls
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
+
 
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -379,8 +383,20 @@ public class Home extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
+
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_gallery:item.setChecked(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

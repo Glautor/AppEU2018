@@ -27,6 +27,7 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,19 +42,23 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Resumos"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_programacao"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Programacao"
             android:label="@string/title_activity_areas"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Config"
-            android:label="@string/title_activity_config" />
+            android:label="@string/title_activity_config"
+            android:launchMode="singleTop" />
         // Abaixo segue o código para que o QR-Code fique no modo perfil (na vertical) na hora dos checks
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
