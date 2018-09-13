@@ -26,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.print.PrintAttributes;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -41,10 +42,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -200,8 +204,8 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
-//                    if (myLocation.distanceTo(ica) > 200.0) {
+//                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+                    if (myLocation.distanceTo(ica) > 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -702,12 +706,16 @@ public class Home extends AppCompatActivity
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
-//                if(minutos >= 10) {
-//                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontos Acadêmicos");
-//                }else{
-//                    textView1.setText(horas + " horas e 0" + minutos + " minutos nos Encontos Acadêmicos");
-//                }
+                if(minutos >= 1 && horas > 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+                }
+                if(minutos >= 1 && horas == 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(minutos + " minutos nos Encontros Universitários");
+                } else{
+                    textView1.setVisibility(View.GONE);
+                }
                 checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
@@ -1111,13 +1119,23 @@ public class Home extends AppCompatActivity
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
-            textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+            if(minutos >= 1 && horas > 0) {
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+            }
+            if(minutos >= 1 && horas == 0) {
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setText(minutos + " minutos nos Encontros Universitários");
+            } else{
+                Toolbar.LayoutParams params = new Toolbar.LayoutParams(
+                        Toolbar.LayoutParams.WRAP_CONTENT,
+                        Toolbar.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(20, 8, 20, 0);
+                checkin.setLayoutParams(params);
+                textView1.setVisibility(View.GONE);
+            }
 
-//            if(minutos >= 10) {
-//                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-//            }else{
-//                textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-//            }
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
