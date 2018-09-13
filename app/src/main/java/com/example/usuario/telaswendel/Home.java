@@ -1127,12 +1127,12 @@ public class Home extends AppCompatActivity
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(minutos + " minutos nos Encontros Universitários");
             } else{
-                Toolbar.LayoutParams params = new Toolbar.LayoutParams(
-                        Toolbar.LayoutParams.WRAP_CONTENT,
-                        Toolbar.LayoutParams.WRAP_CONTENT
-                );
-                params.setMargins(20, 8, 20, 0);
-                checkin.setLayoutParams(params);
+//                Toolbar.LayoutParams params = new Toolbar.LayoutParams(
+//                        Toolbar.LayoutParams.WRAP_CONTENT,
+//                        Toolbar.LayoutParams.WRAP_CONTENT
+//                );
+//                params.setMargins(20, 8, 20, 0);
+//                checkin.setLayoutParams(params);
                 textView1.setVisibility(View.GONE);
             }
 
