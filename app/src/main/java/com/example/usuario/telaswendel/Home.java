@@ -1,64 +1,42 @@
 package com.example.usuario.telaswendel;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.media.Image;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.print.PrintAttributes;
-import android.provider.MediaStore;
-import android.provider.Settings;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -73,6 +51,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Home extends AppCompatActivity
@@ -388,6 +374,9 @@ public class Home extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
+//        MenuItem view = findViewById(R.id.nav_gallery);
+//        view.setChecked(true);
+
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
     }
@@ -591,12 +580,6 @@ public class Home extends AppCompatActivity
 
         AtualizaUsuario at = new AtualizaUsuario();
         at.execute();
-
-//        if(minutos >= 10) {
-//            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-//        }else{
-//            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-//        }
 
     }
 
@@ -1115,27 +1098,33 @@ public class Home extends AppCompatActivity
                 checkin.setText("FAZER CHECK-IN");
             }
 
+            View view = findViewById(R.id.checkin);
 
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+
+            if(lp instanceof ViewGroup.MarginLayoutParams) {
+
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+            }
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
             if(minutos >= 1 && horas > 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+                ((ViewGroup.MarginLayoutParams) lp).topMargin = 2;
             }
             if(minutos >= 1 && horas == 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(minutos + " minutos nos Encontros Universitários");
+                ((ViewGroup.MarginLayoutParams) lp).topMargin = 2;
             } else{
-//                Toolbar.LayoutParams params = new Toolbar.LayoutParams(
-//                        Toolbar.LayoutParams.WRAP_CONTENT,
-//                        Toolbar.LayoutParams.WRAP_CONTENT
-//                );
-//                params.setMargins(20, 8, 20, 0);
-//                checkin.setLayoutParams(params);
+                        ((ViewGroup.MarginLayoutParams) lp).topMargin = 10;
+
+                        // Nao esqueca de requisitar o reajuste no layout
                 textView1.setVisibility(View.GONE);
             }
-
+            view.requestLayout();
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
