@@ -1112,14 +1112,14 @@ public class Home extends AppCompatActivity
             if(minutos >= 1 && horas > 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
-                ((ViewGroup.MarginLayoutParams) lp).topMargin = 2;
+                ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
             }
             if(minutos >= 1 && horas == 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(minutos + " minutos nos Encontros Universitários");
-                ((ViewGroup.MarginLayoutParams) lp).topMargin = 2;
+                ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
             } else{
-                        ((ViewGroup.MarginLayoutParams) lp).topMargin = 10;
+                        ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
 
                         // Nao esqueca de requisitar o reajuste no layout
                 textView1.setVisibility(View.GONE);

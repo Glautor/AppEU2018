@@ -80,7 +80,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:srcCompat="@drawable/ok_serv" />
 
-    <View
+    <TextView
         android:id="@+id/divider"
         android:layout_width="1dp"
         android:layout_height="90dp"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintVertical_bias="1.0" />
 
-    <View
+    <TextView
         android:id="@+id/divider2"
         android:layout_width="1dp"
         android:layout_height="90dp"
