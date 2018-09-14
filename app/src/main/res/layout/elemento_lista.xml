@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/divider2"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/serv_ok" />
+        app:srcCompat="@drawable/ok_serv" />
 
     <View
         android:id="@+id/divider"

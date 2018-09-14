@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +27,7 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,21 +37,28 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Home"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Resumos"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_programacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Programacao"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_areas"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Config"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_config" />
         // Abaixo segue o código para que o QR-Code fique no modo perfil (na vertical) na hora dos checks
         <activity

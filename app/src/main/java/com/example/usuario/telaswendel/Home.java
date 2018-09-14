@@ -6,22 +6,33 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,9 +42,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +92,12 @@ public class Home extends AppCompatActivity
     String[] dados;
     ArrayAdapter<String> adapter;
     Location ica;
+    Location bl950;
+    Location bl951;
+    Location bl953;
+    Location ctConv;
     String respostaSer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,44 +107,34 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkin = (Button) findViewById(R.id.checkin);
         checkView = (ListView) findViewById(R.id.checkView);
-        BuscaCheck bc = new BuscaCheck();
-        bc.execute();
 
         GetUsuario gc = new GetUsuario();
         gc.execute();
 
-//        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
-//        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
-//        if(doCheckout == true){
-//            checkin.setText("FAZER CHECKOUT");
+//        respostaSer = null;
+//        if(verificaConexao() == true) {
+//            EnviaCheck ec = new EnviaCheck();
+//            ec.execute();
 //        }else{
-//            checkin.setText("FAZER CHECK-IN");
+//            alert("Não conseguimos nos conectar ao servidor. Verifique sua conexão com a internet");
 //        }
-//
-//
-//        textView1 = (TextView) findViewById(R.id.textView1);
-//        int minutos = infoCheck.getInt("Minutos",0);
-//        int horas = infoCheck.getInt("Horas",0);
-//        if(minutos >= 10) {
-//            textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-//        }else{
-//            textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
-//        }
+        BuscaCheck bc = new BuscaCheck();
+        bc.execute();
+
+        SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+        boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+        if(doCheckout == true){
+            checkin.setText("FAZER CHECKOUT");
+        }else{
+            checkin.setText("FAZER CHECK-IN");
+        }
+
+        final Activity activity = this;
 
 
-//        final Activity activity = this;
-//
-//        checkin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                IntentIntegrator integrator = new IntentIntegrator(activity);
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-//                integrator.setPrompt("Camera Scan");
-//                integrator.setCameraId(0);
-//                integrator.initiateScan();
-//            }
-//        });
-
+        if(verificaConexao() != true) {
+            alert("Não conseguimos nos conectar. Verifique sua conexão");
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -194,7 +204,8 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (distancia < 1000) {
+//                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+                    if (myLocation.distanceTo(ica) > 200.0) {
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -212,7 +223,6 @@ public class Home extends AppCompatActivity
         }
 
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -249,11 +259,36 @@ public class Home extends AppCompatActivity
         }
     }
 
+    public  boolean verificaConexao() {
+        boolean conectado;
+        ConnectivityManager conectivtyManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
+            conectado = true;
+        } else {
+            conectado = false;
+        }
+        return conectado;
+    }
+
     @SuppressLint("MissingPermission")
     protected String setConfigGPS(){
         ica = new Location(LocationManager.GPS_PROVIDER);
         ica.setLatitude(-3.7460349);
         ica.setLongitude(-38.5720989);
+        bl950 = new Location(LocationManager.GPS_PROVIDER);
+        bl950.setLatitude(-3.7459491);
+        bl950.setLongitude(-38.5761109);
+        bl951 = new Location(LocationManager.GPS_PROVIDER);
+        bl951.setLatitude(-3.7463107);
+        bl951.setLongitude(-38.576243);
+        bl953 = new Location(LocationManager.GPS_PROVIDER);
+        bl953.setLatitude(-3.7470905);
+        bl953.setLongitude(-38.5754332);
+        ctConv = new Location(LocationManager.GPS_PROVIDER);
+        ctConv.setLatitude(-3.7447339);
+        ctConv.setLongitude(-38.5733587);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
         Criteria criteria = new Criteria();
@@ -287,6 +322,7 @@ public class Home extends AppCompatActivity
             if (l == null) {
                 continue;
             }
+
             if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
                 // Found best last known location: %s", l);
                 bestLocation = l;
@@ -295,13 +331,17 @@ public class Home extends AppCompatActivity
         return bestLocation;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onStart() {
         super.onStart();
 
+        AjustaCheckout aj = new AjustaCheckout();
+        aj.execute();
         // This verification should be done during onStart() because the system calls
         // this method when the user returns to the activity, which ensures the desired
         // location provider is enabled each time the activity resumes from the stopped state.
+
 
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -310,8 +350,14 @@ public class Home extends AppCompatActivity
 //        BuscaCheck bc = new BuscaCheck();
 //        bc.execute();
 
-        EnviaCheck ec = new EnviaCheck();
-        ec.execute();
+//        EnviaCheck ec = new EnviaCheck();
+//        ec.execute();
+
+        respostaSer = null;
+        if(verificaConexao() == true) {
+            EnviaCheck ec = new EnviaCheck();
+            ec.execute();
+        }
 
         if (!gpsEnabled) {
             // Build an alert dialog here that requests that the user enable
@@ -341,8 +387,20 @@ public class Home extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
+
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_gallery:item.setChecked(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -358,6 +416,8 @@ public class Home extends AppCompatActivity
             locationManager.removeUpdates(this);
             locationManager = null;
         }
+
+
     }
 
     @Override
@@ -400,10 +460,10 @@ public class Home extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null){
             if(result.getContents() != null){
-                alert(result.getContents());
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
@@ -476,6 +536,10 @@ public class Home extends AppCompatActivity
             prefsEditorCheck.commit();
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//            intent.putExtra("finish", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
             startActivity(intent);
             this.finish();
 
@@ -550,6 +614,7 @@ public class Home extends AppCompatActivity
             SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
             boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
             if(doCheckout == true){
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -560,6 +625,21 @@ public class Home extends AppCompatActivity
 
                         User user = db.userDao().findById(id);
                         Date date = new Date();
+                        SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                        SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                        int horaAtual =  Integer.valueOf(horaFm.format(date));
+                        int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                        if(horaAtual < 8 || diaAtual < 24){
+                            //db.close();
+                            return "falha";
+                        }
+                        if(horaAtual > 20 || diaAtual > 26){
+                            //db.close();
+                            return "falha";
+                        }
+
                         System.out.println("Data:"+ date);
                         //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
                         int cid = infoCheck.getInt("LastCheckin", -1);
@@ -571,11 +651,12 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-
+                        //db.close();
                         return "checkout";
                     }
                 }
             }else{
+
                 if(qrCode != null){
                     if(qrCode.equals("icaEU")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -585,12 +666,28 @@ public class Home extends AppCompatActivity
                         int id = infoLogin.getInt("id",-1);
                         User user = db.userDao().findById(id);
                         Date date = new Date();
+                        SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                        SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                        int horaAtual =  Integer.valueOf(horaFm.format(date));
+                        int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                        if(horaAtual < 8 || diaAtual < 24){
+                            //db.close();
+                            return "falha";
+                        }
+                        if(horaAtual > 20 || diaAtual > 26){
+                            //db.close();
+                            return "falha";
+                        }
+
                         System.out.println("Data:"+ date);
                         Check check = new Check(user.getId(),date,false);
                         //Salva i checkin no BD e move o registro de id do Check nas preferências para o valor do id do checkin atual
                         // (desse modo, na hora do checkout teremos como atualizar facilmente pois temos a info de id salva)
                         db.checkDao().insertAll(check);
                         saveInfoCheckin(true,db.checkDao().loadIdByHourIn(date));
+                        //db.close();
                         return "checkin";
                     }
                 }
@@ -609,16 +706,194 @@ public class Home extends AppCompatActivity
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                if(minutos >= 10) {
-                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-                }else{
-                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+                if(minutos >= 1 && horas > 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+                }
+                if(minutos >= 1 && horas == 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(minutos + " minutos nos Encontros Universitários");
+                } else{
+                    textView1.setVisibility(View.GONE);
                 }
                 checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
-                Toast.makeText(getApplicationContext(), "Check não realizado", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Horário para acesso não permitido. Check não realizado", Toast.LENGTH_LONG).show();
             }
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+
+
+
+    }
+
+    public class AjustaCheckout extends AsyncTask<Void, Void, String>{
+
+        @Override
+        protected String doInBackground(Void... params){
+
+            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
+            if(doCheckout == true){
+
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "database-name").build();
+
+                SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
+                int id = infoLogin.getInt("id",-1);
+
+                User user = db.userDao().findById(id);
+                Date date = new Date();
+                SimpleDateFormat dataFm = new SimpleDateFormat("dd");
+                SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+
+                int horaAtual =  Integer.valueOf(horaFm.format(date));
+                int diaAtual = Integer.valueOf(dataFm.format(date));
+
+                //Setando Pontos de Checkout dos dias de evento
+                Date diaUm14 = new Date();
+                diaUm14.setTime(1540396800000L);
+                int dataUm = Integer.valueOf(dataFm.format(diaUm14));
+                int hora14 = Integer.valueOf(horaFm.format(diaUm14));
+                Date diaUm20 = new Date();
+                diaUm20.setTime(1540418400000L);
+                int hora20 = Integer.valueOf(horaFm.format(diaUm20));
+
+                Date diaDois14 = new Date();
+                diaDois14.setTime(1540483200000L);
+                int dataDois = Integer.valueOf(dataFm.format(diaDois14));
+                Date diaDois20 = new Date();
+                diaDois20.setTime(1540504800000L);
+
+
+                Date diaTres14 = new Date();
+                diaTres14.setTime(1540569600000L);
+                int dataTres = Integer.valueOf(dataFm.format(diaTres14));
+                Date diaTres20 = new Date();
+                diaTres20.setTime(1540591200000L);
+
+
+                System.out.println("Data:"+ date);
+                //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
+                int cid = infoCheck.getInt("LastCheckin", -1);
+                Check checkin = db.checkDao().loadById(cid);
+                int dateCheckin = Integer.valueOf(dataFm.format(checkin.getDHourIn()));
+                int horaCheckin = Integer.valueOf(horaFm.format(checkin.getDHourIn()));
+
+
+
+                if(dateCheckin == dataUm){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataUm){
+                        db.checkDao().updateCheckOut(diaUm14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+                       // db.close();
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm){
+                            db.checkDao().updateCheckOut(diaUm20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+                           // db.close();
+                            return "checkout";
+                        }
+                    }
+                }
+
+                if(dateCheckin == dataDois){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataDois){
+                        db.checkDao().updateCheckOut(diaDois14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+                      //  db.close();
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois){
+                            db.checkDao().updateCheckOut(diaDois20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+                          //  db.close();
+                            return "checkout";
+                        }
+                    }
+                }
+
+                if(dateCheckin == dataTres){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataTres){
+                        db.checkDao().updateCheckOut(diaTres14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+                        //db.close();
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres){
+                            db.checkDao().updateCheckOut(diaTres20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+                            //db.close();
+                            return "checkout";
+                        }
+                    }
+                }
+                //db.close();
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String param) {
+            if(param.equals("checkout")){
+                Toast.makeText(getApplicationContext(), "Checkout automático realizado com sucesso", Toast.LENGTH_LONG).show();
+                SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+                int horas = infoCheck.getInt("Horas",0);
+                int minutos = infoCheck.getInt("Minutos",0);
+                if(minutos >= 10) {
+                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontros Universitários");
+                }else{
+                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontros Universitários");
+                }
+                checkin.setText("FAZER CHECK-IN");
+            }
+
         }
 
         @Override
@@ -645,7 +920,7 @@ public class Home extends AppCompatActivity
             int ids[] = {id};
             checkins = db.checkDao().loadAllByIds(ids);
             dados = new String[checkins.size()];
-
+            //db.close();
             return checkins;
         }
 
@@ -677,10 +952,10 @@ public class Home extends AppCompatActivity
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             String URL = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/frequencia";
 
-            Check check = new Check();
+//            Check check = new Check();
             for(int i=0;i<checkins.size();i++){
                 if(checkins.get(i).getDHourOut() != null){
-                    check = checkins.get(i);
+//                    check = checkins.get(i);
                     try {
                         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         final JSONObject jsonBody = new JSONObject();
@@ -690,19 +965,23 @@ public class Home extends AppCompatActivity
                         jsonBody.put("cpf", cpf);
                         final String requestBody = jsonBody.toString();
 
+
+                        final int finalI = i;
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 Log.i("VOLLEY", response);
-                                if(response.equals("")){
-                                    respostaSer = new String(response);
-                                }
+//                                if(response.equals("")){
+//                                    respostaSer = new String(response);
+//                                    checkins.get(finalI).setAtServidor(true);
+//                                }
 
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e("VOLLEY", error.toString());
+                                respostaSer = error.toString();
                             }
                         }) {
                             @Override
@@ -727,6 +1006,13 @@ public class Home extends AppCompatActivity
                                     //responseString = String.valueOf(response.statusCode);
                                     try {
                                         responseString = new String(response.data, "UTF-8");
+                                        respostaSer = responseString;
+                                        if(respostaSer != null && respostaSer.equals("")){
+                                            db.checkDao().updateAtServidor(checkins.get(finalI).getId_check(), true);
+
+                                        }else{
+                                            Log.i("Erro", responseString);
+                                        }
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();
                                     }
@@ -743,21 +1029,21 @@ public class Home extends AppCompatActivity
                     }
                 }
 
-                if(respostaSer != null && respostaSer.equals("")){
-                    db.checkDao().updateAtServidor(check.getId_check(), true);
-                    respostaSer = null;
-                }
+
             }
             int ids[] = {id};
             List<Check> checksAtt = db.checkDao().loadAllByIds(ids);
             dados = new String[checksAtt.size()];
-
+            //db.close();
+            respostaSer = null;
             return checksAtt;
         }
 
         @Override
         protected void onPostExecute(List<Check> param) {
-            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
+//            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
+            BuscaCheck bc = new BuscaCheck();
+            bc.execute();
         }
 
         @Override
@@ -784,7 +1070,7 @@ public class Home extends AppCompatActivity
             boolean infoCheckout = infoCheckin.getBoolean("DoCheckout?",false);
             int lastCheckinId = infoCheckin.getInt("LastCheckin", -1);
             db.userDao().updateInfoUser(horas,minutos,infoCheckout,lastCheckinId, id);
-
+            //db.close();
             return null;
         }
 
@@ -833,12 +1119,23 @@ public class Home extends AppCompatActivity
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
-
-            if(minutos >= 10) {
-                textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontos Acadêmicos");
-            }else{
-                textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontos Acadêmicos");
+            if(minutos >= 1 && horas > 0) {
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
             }
+            if(minutos >= 1 && horas == 0) {
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setText(minutos + " minutos nos Encontros Universitários");
+            } else{
+//                Toolbar.LayoutParams params = new Toolbar.LayoutParams(
+//                        Toolbar.LayoutParams.WRAP_CONTENT,
+//                        Toolbar.LayoutParams.WRAP_CONTENT
+//                );
+//                params.setMargins(20, 8, 20, 0);
+//                checkin.setLayoutParams(params);
+                textView1.setVisibility(View.GONE);
+            }
+
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
