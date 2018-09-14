@@ -374,6 +374,9 @@ public class Home extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
+//        MenuItem view = findViewById(R.id.nav_gallery);
+//        view.setChecked(true);
+
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
     }
