@@ -687,18 +687,36 @@ public class Home extends AppCompatActivity
             if(param.equals("checkout")){
                 Toast.makeText(getApplicationContext(), "Checkout realizado com sucesso", Toast.LENGTH_LONG).show();
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
+
+                View view = findViewById(R.id.checkin);
+
+                ViewGroup.LayoutParams lp = view.getLayoutParams();
+
+                if(lp instanceof ViewGroup.MarginLayoutParams) {
+
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+                }
+                textView1 = (TextView) findViewById(R.id.textView1);
+
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                if(minutos >= 1 && horas > 0) {
+
+                if(minutos >= 0 && horas > 0) {
                     textView1.setVisibility(View.VISIBLE);
                     textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
-                }
-                if(minutos >= 1 && horas == 0) {
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
+                }else if(minutos >= 1 && horas == 0) {
                     textView1.setVisibility(View.VISIBLE);
                     textView1.setText(minutos + " minutos nos Encontros Universitários");
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
                 } else{
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
+
+                    // Nao esqueca de requisitar o reajuste no layout
                     textView1.setVisibility(View.GONE);
                 }
+                view.requestLayout();
+
                 checkin.setText("FAZER CHECK-IN");
             }
             if(param.equals("falha")){
@@ -1109,12 +1127,11 @@ public class Home extends AppCompatActivity
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
-            if(minutos >= 1 && horas > 0) {
+            if(minutos >= 0 && horas > 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
                 ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
-            }
-            if(minutos >= 1 && horas == 0) {
+            }else if(minutos >= 1 && horas == 0) {
                 textView1.setVisibility(View.VISIBLE);
                 textView1.setText(minutos + " minutos nos Encontros Universitários");
                 ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
