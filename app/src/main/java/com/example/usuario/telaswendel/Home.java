@@ -883,15 +883,33 @@ public class Home extends AppCompatActivity
         @Override
         protected void onPostExecute(String param) {
             if(param.equals("checkout")){
+                View view = findViewById(R.id.checkin);
+
+                ViewGroup.LayoutParams lp = view.getLayoutParams();
+
+                if(lp instanceof ViewGroup.MarginLayoutParams) {
+
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+                }
                 Toast.makeText(getApplicationContext(), "Checkout automático realizado com sucesso", Toast.LENGTH_LONG).show();
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                if(minutos >= 10) {
-                    textView1.setText("Você passou " + horas + ":" + minutos + " nos Encontros Universitários");
-                }else{
-                    textView1.setText("Você passou " + horas + ":0" + minutos + " nos Encontros Universitários");
+                if(minutos >= 0 && horas > 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
+                }else if(minutos >= 1 && horas == 0) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setText(minutos + " minutos nos Encontros Universitários");
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
+                } else{
+                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
+
+                    // Nao esqueca de requisitar o reajuste no layout
+                    textView1.setVisibility(View.GONE);
                 }
+                view.requestLayout();
                 checkin.setText("FAZER CHECK-IN");
             }
 
