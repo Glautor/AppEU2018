@@ -11,7 +11,6 @@
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_business_black_24dp"
-            android:checked="true"
             android:title="Resumos"
             />
 
@@ -19,9 +18,9 @@
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_assignment_black_24dp"
+            android:checked="true"
             android:title="Programação"
             />
-
 
     </group>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.usuario.telaswendel">
+    package="br.ufc.prograd.cgpa.euufc">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
   <!--  <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".MainActivity" />
+        <!--<activity android:name=".MainActivity" />-->
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
@@ -42,7 +42,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Home"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

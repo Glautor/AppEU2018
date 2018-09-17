@@ -14,12 +14,12 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_view_programacao"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_areas"
-        app:menu="@menu/activity_areas_drawer" />
+        app:headerLayout="@layout/nav_header_programacao"
+        app:menu="@menu/activity_programacao_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
