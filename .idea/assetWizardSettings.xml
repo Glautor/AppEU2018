@@ -54,6 +54,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="406ab3" />
                                       <entry key="foregroundImage" value="C:\Users\usuario\Desktop\logocorreta.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="previewDensity" value="XXXHIGH" />
@@ -101,11 +103,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>

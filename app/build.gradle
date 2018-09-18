@@ -19,6 +19,12 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
 dependencies {
     implementation 'com.android.support:support-compat:27.1.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,4 +63,6 @@ dependencies {
 
     //GooglePlayServices Location
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 }
