@@ -108,9 +108,8 @@
     <string name="error_user_not_found">\"Matrícula e/ou CPF incorreto(s)\"</string>
     <string name="cpf_incomplete">CPF incompleto</string>
     <string name="contadorTempo">Contabilizando tempo...</string>
-    
-    
-    
+
+
     <string-array name="resumos">
         <item>	“A GUERRA POR OUTROS MEIOS”: AS TRANSFORMAÇÕES SOCIAIS DO CRIME EM FORTALEZA.	</item>
         <item>	CADERNO DE PRÁTICA NAS DISCIPLINAS DE INVERTEBRADOS II E ZOOLOGIA GERAL: ATUALIZAÇÃO	</item>
@@ -5331,7 +5330,6 @@
         <item>	AVALIAÇÃO DA QUALIDADE DA ÁGUA COM PRÁTICAS DIDÁTICAS UTILIZANDO KITS DE BAIXO CUSTO: ESTUDO DE CASO EM FORQUILHA, CEARÁ.	</item>
 
     </string-array>
-    
-    
-    
+
+
 </resources>

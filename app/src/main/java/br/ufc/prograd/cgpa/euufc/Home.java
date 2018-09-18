@@ -95,6 +95,7 @@ public class Home extends AppCompatActivity
         checkin = (Button) findViewById(R.id.checkin);
         checkView = (ListView) findViewById(R.id.checkView);
 
+
         GetUsuario gc = new GetUsuario();
         gc.execute();
 
