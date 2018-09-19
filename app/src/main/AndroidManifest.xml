@@ -26,7 +26,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
 
-        <!-- <activity android:name=".MainActivity" /> -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
@@ -75,12 +74,8 @@
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             tools:replace="android:screenOrientation" />
-        <activity android:name=".OnBoardActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".OnBoardActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

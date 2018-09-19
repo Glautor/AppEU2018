@@ -73,10 +73,8 @@ public class Home extends AppCompatActivity
     Location myLocation;
     TextView textView1;
     ListView checkView;
-    String resultado = "";
     Button checkin;
     String[] dados;
-    ArrayAdapter<String> adapter;
     Location ica;
     Location bl950;
     Location bl951;
@@ -99,13 +97,6 @@ public class Home extends AppCompatActivity
         GetUsuario gc = new GetUsuario();
         gc.execute();
 
-//        respostaSer = null;
-//        if(verificaConexao() == true) {
-//            EnviaCheck ec = new EnviaCheck();
-//            ec.execute();
-//        }else{
-//            alert("Não conseguimos nos conectar ao servidor. Verifique sua conexão com a internet");
-//        }
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
 
@@ -288,18 +279,13 @@ public class Home extends AppCompatActivity
         String providerName = locationManager.getBestProvider(criteria, true);
 
 
-        //locationManager.requestSingleUpdate(providerName, this, null);//Updates(providerName,1000,0,this);
         locationManager.requestLocationUpdates(providerName,0,0,this);
 
         myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(myLocation != null) {
-            //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
-        }else{
+        if(myLocation == null) {
             myLocation = getLastLocation();
-            if(myLocation != null){
-                //Toast.makeText(getApplicationContext(), String.valueOf(myLocation.getLongitude()), Toast.LENGTH_LONG).show();
-            }
         }
+
         return providerName;
     }
 
@@ -326,7 +312,6 @@ public class Home extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-            //navigationView.setNavigationItemSelectedListener(this);
 
         Menu drawer_menu = navigationView.getMenu();
         MenuItem menuItem;
@@ -347,12 +332,6 @@ public class Home extends AppCompatActivity
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-//        BuscaCheck bc = new BuscaCheck();
-//        bc.execute();
-
-//        EnviaCheck ec = new EnviaCheck();
-//        ec.execute();
-
         respostaSer = null;
         if(verificaConexao() == true) {
             EnviaCheck ec = new EnviaCheck();
@@ -366,7 +345,6 @@ public class Home extends AppCompatActivity
                     .setMessage("Precisamos que você ligue seu GPS")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-//                            enableLocationSettings();
                             String providerName = setConfigGPS();
 
                         }
@@ -388,23 +366,11 @@ public class Home extends AppCompatActivity
     protected void onResume(){
         super.onResume();
 
-//        MenuItem view = findViewById(R.id.nav_gallery);
-//        view.setChecked(true);
 
         BuscaCheck bc = new BuscaCheck();
         bc.execute();
     }
 
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.nav_gallery:item.setChecked(true);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
     @Override
     protected void onRestart(){
@@ -432,18 +398,10 @@ public class Home extends AppCompatActivity
         }
     }
 
-//    private void enableLocationSettings() {
-//        Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//        startActivity(settingsIntent);
-//    }
-
     @Override
     public void onLocationChanged(Location location) {
         @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //Log.d("CHANGED", "LOCATION UPDATED" + String.valueOf(mylocation.getLongitude()));
         myLocation = location;
-        //textView1.setText(String.valueOf(location.getLongitude()));
-        //Toast.makeText(getApplicationContext(),String.valueOf(mylocation.getLongitude()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -470,8 +428,6 @@ public class Home extends AppCompatActivity
                 RealizaCheck rc = new RealizaCheck(result.getContents());
                 rc.execute();
             } else{
-//                RealizaCheck rc = new RealizaCheck("icaEU");
-//                rc.execute();
                 alert("Scan Cancelado");
 
             }
@@ -539,7 +495,7 @@ public class Home extends AppCompatActivity
             prefsEditorCheck.commit();
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//            intent.putExtra("finish", true);
+
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                     Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
@@ -901,10 +857,6 @@ public class Home extends AppCompatActivity
 
                 ViewGroup.LayoutParams lp = view.getLayoutParams();
 
-                if(lp instanceof ViewGroup.MarginLayoutParams) {
-
-                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
-                }
                 Toast.makeText(getApplicationContext(), "Checkout automático realizado com sucesso", Toast.LENGTH_LONG).show();
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
@@ -985,10 +937,10 @@ public class Home extends AppCompatActivity
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             String URL = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/frequencia";
 
-//            Check check = new Check();
+
             for(int i=0;i<checkins.size();i++){
                 if(checkins.get(i).getDHourOut() != null){
-//                    check = checkins.get(i);
+
                     try {
                         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         final JSONObject jsonBody = new JSONObject();
@@ -1004,10 +956,6 @@ public class Home extends AppCompatActivity
                             @Override
                             public void onResponse(String response) {
                                 Log.i("VOLLEY", response);
-//                                if(response.equals("")){
-//                                    respostaSer = new String(response);
-//                                    checkins.get(finalI).setAtServidor(true);
-//                                }
 
                             }
                         }, new Response.ErrorListener() {
@@ -1036,7 +984,7 @@ public class Home extends AppCompatActivity
                             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                                 String responseString = "";
                                 if (response != null) {
-                                    //responseString = String.valueOf(response.statusCode);
+
                                     try {
                                         responseString = new String(response.data, "UTF-8");
                                         respostaSer = responseString;
@@ -1074,7 +1022,6 @@ public class Home extends AppCompatActivity
 
         @Override
         protected void onPostExecute(List<Check> param) {
-//            checkView.setAdapter(new Adaptador(getApplicationContext(),param));
             BuscaCheck bc = new BuscaCheck();
             bc.execute();
         }
@@ -1140,8 +1087,6 @@ public class Home extends AppCompatActivity
         @Override
         protected void onPostExecute(User param) {
 
-//            SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
-//            boolean doCheckout = infoCheck.getBoolean("DoCheckout?",false);
             if(param.getInfoCheckout() == true){
                 checkin.setText("FAZER CHECKOUT");
             }else{
@@ -1152,10 +1097,7 @@ public class Home extends AppCompatActivity
 
             ViewGroup.LayoutParams lp = view.getLayoutParams();
 
-            if(lp instanceof ViewGroup.MarginLayoutParams) {
 
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
-            }
             textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();

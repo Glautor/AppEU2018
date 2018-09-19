@@ -26,14 +26,6 @@ public class Programacao extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -73,7 +65,6 @@ public class Programacao extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        //navigationView.setNavigationItemSelectedListener(this);
         Menu drawer_menu = navigationView.getMenu();
         MenuItem menuItem;
         menuItem = drawer_menu.findItem(R.id.nav_share);
@@ -111,7 +102,6 @@ public class Programacao extends AppCompatActivity
             prefsEditor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
-//            intent.putExtra("finish", true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                     Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities

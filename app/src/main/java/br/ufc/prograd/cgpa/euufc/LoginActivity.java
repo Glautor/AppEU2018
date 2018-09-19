@@ -76,10 +76,6 @@ public class LoginActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-//    private AutoCompleteTextView mEmailView;
-//    private EditText mPasswordView;
-//    private View mProgressView;
-//    private View mLoginFormView;
     TextView loginCpf;
     TextView loginMatricula;
     boolean click = true;
@@ -90,12 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        boolean finish = getIntent().getBooleanExtra("finish", false);
-//        if (finish) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//            return;
-//        }
 
 
         SharedPreferences infoLogin = getSharedPreferences(LOGIN_ARQUIVO,0);
@@ -142,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(getApplicationContext(), "Não conseguimos nos conectar ao servidor", Toast.LENGTH_LONG).show();
                     click = true;
-                    //textView1.setText("That didn't work!");
                 }
             });
 
@@ -252,11 +241,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-//        @Override
-//        protected void onCancelled() {
-//            mAuthTask = null;
-//            //showProgress(false);
-//        }
 
         @Override
         protected void onPreExecute(){
