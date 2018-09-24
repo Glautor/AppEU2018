@@ -121,12 +121,6 @@ public class Resumos extends AppCompatActivity
             startActivity(intent);
 
 
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(getApplicationContext(), Config.class);
-            startActivity(intent);
-
-
-
         } else if (id == R.id.nav_send) {
             SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
             prefsEditor.clear();

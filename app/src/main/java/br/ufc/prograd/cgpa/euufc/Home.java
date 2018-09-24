@@ -480,11 +480,6 @@ public class Home extends AppCompatActivity
             startActivity(intent);
 
 
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(getApplicationContext(), Config.class);
-            startActivity(intent);
-
-
         } else if (id == R.id.nav_send) {
             SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
             prefsEditor.clear();
@@ -580,15 +575,17 @@ public class Home extends AppCompatActivity
                         Date date = new Date();
                         SimpleDateFormat dataFm = new SimpleDateFormat("dd");
                         SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+                        SimpleDateFormat mesFm  = new SimpleDateFormat("MM");
 
                         int horaAtual =  Integer.valueOf(horaFm.format(date));
                         int diaAtual = Integer.valueOf(dataFm.format(date));
+                        int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24){
+                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
                             //db.close();
                             return "falha";
                         }
-                        if(horaAtual > 20 || diaAtual > 26){
+                        if(horaAtual > 20 || diaAtual > 26 || mesAtual != 10){
                             //db.close();
                             return "falha";
                         }
@@ -621,15 +618,17 @@ public class Home extends AppCompatActivity
                         Date date = new Date();
                         SimpleDateFormat dataFm = new SimpleDateFormat("dd");
                         SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+                        SimpleDateFormat mesFm  = new SimpleDateFormat("MM");
 
                         int horaAtual =  Integer.valueOf(horaFm.format(date));
                         int diaAtual = Integer.valueOf(dataFm.format(date));
+                        int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24){
+                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
                             //db.close();
                             return "falha";
                         }
-                        if(horaAtual > 20 || diaAtual > 26){
+                        if(horaAtual > 20 || diaAtual > 26 || mesAtual != 10){
                             //db.close();
                             return "falha";
                         }
@@ -722,9 +721,11 @@ public class Home extends AppCompatActivity
                 Date date = new Date();
                 SimpleDateFormat dataFm = new SimpleDateFormat("dd");
                 SimpleDateFormat horaFm = new SimpleDateFormat("HH");
+                SimpleDateFormat mesFm  = new SimpleDateFormat("MM");
 
                 int horaAtual =  Integer.valueOf(horaFm.format(date));
                 int diaAtual = Integer.valueOf(dataFm.format(date));
+                int mesAtual = Integer.valueOf(mesFm.format(date));
 
                 //Setando Pontos de Checkout dos dias de evento
                 Date diaUm14 = new Date();
@@ -756,11 +757,9 @@ public class Home extends AppCompatActivity
                 int dateCheckin = Integer.valueOf(dataFm.format(checkin.getDHourIn()));
                 int horaCheckin = Integer.valueOf(horaFm.format(checkin.getDHourIn()));
 
-
-
                 if(dateCheckin == dataUm){
 
-                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataUm){
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataUm || horaCheckin < hora14 && mesAtual != 10){
                         db.checkDao().updateCheckOut(diaUm14, cid);
                         Check check = db.checkDao().loadById(cid);
 
@@ -772,7 +771,7 @@ public class Home extends AppCompatActivity
                        // db.close();
                         return "checkout";
                     }else{
-                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm){
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm || horaCheckin < hora20 && mesAtual != 10){
                             db.checkDao().updateCheckOut(diaUm20, cid);
                             Check check = db.checkDao().loadById(cid);
 
@@ -789,7 +788,7 @@ public class Home extends AppCompatActivity
 
                 if(dateCheckin == dataDois){
 
-                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataDois){
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataDois || horaCheckin < hora14 && mesAtual != 10){
                         db.checkDao().updateCheckOut(diaDois14, cid);
                         Check check = db.checkDao().loadById(cid);
 
@@ -801,7 +800,7 @@ public class Home extends AppCompatActivity
                       //  db.close();
                         return "checkout";
                     }else{
-                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois){
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois || horaCheckin < hora20 && mesAtual != 10){
                             db.checkDao().updateCheckOut(diaDois20, cid);
                             Check check = db.checkDao().loadById(cid);
 
@@ -818,7 +817,7 @@ public class Home extends AppCompatActivity
 
                 if(dateCheckin == dataTres){
 
-                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataTres){
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataTres || horaCheckin < hora14 && mesAtual != 10){
                         db.checkDao().updateCheckOut(diaTres14, cid);
                         Check check = db.checkDao().loadById(cid);
 
@@ -830,7 +829,7 @@ public class Home extends AppCompatActivity
                         //db.close();
                         return "checkout";
                     }else{
-                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres){
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres || horaCheckin < hora20 && mesAtual != 10){
                             db.checkDao().updateCheckOut(diaTres20, cid);
                             Check check = db.checkDao().loadById(cid);
 
@@ -855,27 +854,13 @@ public class Home extends AppCompatActivity
             if(param.equals("checkout")){
                 View view = findViewById(R.id.checkin);
 
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-
                 Toast.makeText(getApplicationContext(), "Checkout automático realizado com sucesso", Toast.LENGTH_LONG).show();
                 SharedPreferences infoCheck = getSharedPreferences(CONTROLE_CHECK,0);
                 int horas = infoCheck.getInt("Horas",0);
                 int minutos = infoCheck.getInt("Minutos",0);
-                if(minutos >= 0 && horas > 0) {
-                    textView1.setVisibility(View.VISIBLE);
-                    textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
-                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
-                }else if(minutos >= 1 && horas == 0) {
-                    textView1.setVisibility(View.VISIBLE);
-                    textView1.setText(minutos + " minutos nos Encontros Universitários");
-                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
-                } else{
-                    ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
 
-                    // Nao esqueca de requisitar o reajuste no layout
-                    textView1.setVisibility(View.GONE);
-                }
-                view.requestLayout();
+                mudaHora(view, minutos, horas);
+
                 checkin.setText("FAZER CHECK-IN");
             }
 
@@ -885,8 +870,6 @@ public class Home extends AppCompatActivity
         protected void onPreExecute(){
 
         }
-
-
 
     }
     //Procura os checkins e checkouts feitos até o momento para exibir na tela
@@ -1069,6 +1052,28 @@ public class Home extends AppCompatActivity
 
     }
 
+    public void mudaHora(View view, int minutos, int horas){
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+
+        textView1 = (TextView) findViewById(R.id.textView1);
+
+        if(minutos >= 0 && horas > 0) {
+            textView1.setVisibility(View.VISIBLE);
+            textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
+            ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
+        }else if(minutos >= 1 && horas == 0) {
+            textView1.setVisibility(View.VISIBLE);
+            textView1.setText(minutos + " minutos nos Encontros Universitários");
+            ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
+        } else{
+            ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
+
+            // Nao esqueca de requisitar o reajuste no layout
+            textView1.setVisibility(View.GONE);
+        }
+        view.requestLayout();
+    }
+
     public class GetUsuario extends AsyncTask<Void, Void, User> {
 
 
@@ -1095,27 +1100,10 @@ public class Home extends AppCompatActivity
 
             View view = findViewById(R.id.checkin);
 
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-
-
-            textView1 = (TextView) findViewById(R.id.textView1);
             int minutos = param.getMinutos();
             int horas = param.getHoras();
-            if(minutos >= 0 && horas > 0) {
-                textView1.setVisibility(View.VISIBLE);
-                textView1.setText(horas + " horas e " + minutos + " minutos nos Encontros Universitários");
-                ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
-            }else if(minutos >= 1 && horas == 0) {
-                textView1.setVisibility(View.VISIBLE);
-                textView1.setText(minutos + " minutos nos Encontros Universitários");
-                ((ViewGroup.MarginLayoutParams) lp).topMargin = 0;
-            } else{
-                        ((ViewGroup.MarginLayoutParams) lp).topMargin = 20;
 
-                        // Nao esqueca de requisitar o reajuste no layout
-                textView1.setVisibility(View.GONE);
-            }
-            view.requestLayout();
+            mudaHora(view, minutos, horas);
 
             saveInfoCheckin(param.getInfoCheckout(),param.getLastCheckId());
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);

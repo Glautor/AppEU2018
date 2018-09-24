@@ -63,10 +63,6 @@
             android:label="@string/title_activity_areas"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Config"
-            android:label="@string/title_activity_config"
-            android:launchMode="singleTask" />
         // Abaixo segue o código para que o QR-Code fique no modo perfil (na vertical) na hora dos
         checks
         <activity

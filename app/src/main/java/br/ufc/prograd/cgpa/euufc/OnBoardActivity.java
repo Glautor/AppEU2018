@@ -17,10 +17,10 @@ public class OnBoardActivity extends TutorialActivity {
 
 
         // Slide 1
-        addFragment(new Step.Builder().setTitle("This is header")
-                .setContent("This is content")
-                .setBackgroundColor(Color.parseColor("#14478F")) // int background color
-                .setDrawable(R.drawable.botaocheck) // int top drawable
+        addFragment(new Step.Builder().setTitle("Cabeçalho teste")
+                .setContent("Conteudo teste")
+                .setBackgroundColor(Color.parseColor("#6495ED")) // int background color
+                .setDrawable(R.drawable.visualizacaotutorial) // int top drawable
                 .setSummary("This is summary")
                 .build());
 

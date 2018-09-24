@@ -1,11 +1,12 @@
-package com.example.usuario.telaswendel;
+package br.ufc.prograd.cgpa.euufc;
 
+import android.app.Instrumentation;
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import java.lang.Object;
 
 import static org.junit.Assert.*;
 
@@ -14,13 +15,14 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+@RunWith(JUnitPlatform.class)
+public class ExampleInstrumentedTest extends Object{
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Instrumentation getInstrumentation = new Instrumentation();
+        Context appContext = getInstrumentation.getTargetContext();
 
-        assertEquals("com.example.usuario.telaswendel", appContext.getPackageName());
+        assertEquals("br.ufc.prograd.cgpa.euufc", appContext.getPackageName());
     }
 }
