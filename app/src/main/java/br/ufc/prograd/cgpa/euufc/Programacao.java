@@ -1,14 +1,6 @@
 package br.ufc.prograd.cgpa.euufc;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-
-import org.joda.time.DateTime;
-
-import java.util.Date;
+import android.arch.persistence.room.*;
 
 @Entity
 public class Programacao {
