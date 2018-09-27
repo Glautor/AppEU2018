@@ -1,112 +1,84 @@
 package br.ufc.prograd.cgpa.euufc;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
+import org.joda.time.DateTime;
 
-public class Programacao extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String LOGIN_ARQUIVO = "ArquivoLogin";
-    NavigationView navigationView;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_programacao);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+import java.util.Date;
 
+@Entity
+public class Programacao {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view_programacao);
-        navigationView.setNavigationItemSelectedListener(this);
+    @ColumnInfo
+    private String tema;
 
-        View header = navigationView.getHeaderView(0);
-        TextView textNome = (TextView) header.findViewById(R.id.textNomeNav);
-        SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
-        textNome.setText(infoUser.getString("nome","@aluno"));
+    @ColumnInfo
+    private String atividades;
+
+    @ColumnInfo
+    private String horario;
+
+    @ColumnInfo
+    private String dataEvento;
+
+    @ColumnInfo
+    private String palestrante;
+
+    @ColumnInfo
+    private String mediador;
+
+    @ColumnInfo
+    private String local;
+
+    public Programacao(){}
+
+    public Programacao(String tema, String atividades, String horario, String dataEvento, String palestrante, String mediador, String local){
+        this.tema = tema;
+        this.atividades = atividades;
+        this.horario = horario;
+        this.dataEvento = dataEvento;
+        this.palestrante = palestrante;
+        this.mediador = mediador;
+        this.local = local;
     }
 
+    public int getId(){ return id; }
 
+    public void setId(int id){ this.id = id; }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+    public String getTema(){ return tema; }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.programacao, menu);
-        return true;
-    }
+    public void setTema(String tema){ this.tema = tema; }
 
+    public String getAtividades(){ return atividades; }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Menu drawer_menu = navigationView.getMenu();
-        MenuItem menuItem;
-        menuItem = drawer_menu.findItem(R.id.nav_share);
-        if(!menuItem.isChecked())
-        {
-            menuItem.setChecked(true);
-        }
-    }
+    public void setAtividades(String atividades){ this.atividades = atividades; }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public String getHorario(){ return horario; }
 
-        if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(getApplicationContext(), Home.class);
-            startActivity(intent);
+    public void setHorario(String horario){ this.horario = horario; }
 
-        } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(getApplicationContext(), Resumos.class);
-            startActivity(intent);
+    public String getDataEvento(){ return dataEvento; }
 
-        } else if(id == R.id.nav_share){
+    public void setDataEvento(String dataEvento){ this.dataEvento = dataEvento; }
 
+    public String getPalestrante(){ return palestrante; }
 
-        } else if (id == R.id.nav_send) {
-            SharedPreferences.Editor prefsEditor = getSharedPreferences(LOGIN_ARQUIVO, 0).edit();
-            prefsEditor.clear();
-            prefsEditor.commit();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                    Intent.FLAG_ACTIVITY_NEW_TASK); // To clean up all activities
-            startActivity(intent);
-            this.finish();
+    public void setPalestrante(String palestrante){ this.palestrante = palestrante; }
 
-        }
+    public String getMediador(){ return mediador; }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+    public void setMediador(String mediador){ this.mediador = mediador; }
+
+    public String getLocal(){ return local; }
+
+    public void setLocal(String local){ this.local = local; }
+
 }
