@@ -48,9 +48,9 @@ public class OnBoardActivity extends TutorialActivity {
 
             // Slide 4
             addFragment(new Step.Builder().setTitle("Disposições Gerais")
-                    .setContent("- É necessário realizar um novo Check-In depois das 14 horas; \n - Sua presença só será validada se ela for corretamente enviada ao servidor. Portanto, certifique-se de que todos os ícones de validação estão verdes")
-                    .setBackgroundColor(Color.parseColor("#81A8EF")) // int background color
-                    .setDrawable(R.drawable.tutorial_verificacao) // int top drawable
+                    .setContent("- Caso já tenha feito Check-In pela manhã, é necessário realizar um novo Check-In depois das 14 horas; \n - Sua presença só será validada se ela for corretamente enviada ao servidor. Portanto, certifique-se de que todos os ícones de validação estão verdes")
+                    .setBackgroundColor(Color.parseColor("#92b4f1")) // int background color
+                    .setDrawable(R.drawable.bonner) // int top drawable
                     .setSummary("")
                     .build());
         }else{
@@ -77,8 +77,8 @@ public class OnBoardActivity extends TutorialActivity {
 
             // Slide 4
             addFragment(new Step.Builder().setTitle("Disposições Gerais")
-                    .setContent("1 - É necessário realizar um novo Check-In depois das 14 horas; \n 2 - não esqueça de fazer o Check-Out; \n 3 - Sua presença só será validada se ela for corretamente enviada ao servidor. Portanto, certifique-se de que todos os ícones validação estão verdes")
-                    .setBackgroundColor(Color.parseColor("#81A8EF")) // int background color
+                    .setContent("1 - Caso já tenha feito Check-In pela manhã, é necessário realizar um novo Check-In depois das 14 horas; \n 2 - não esqueça de fazer o Check-Out; \n 3 - Sua presença só será validada se ela for corretamente enviada ao servidor. Portanto, certifique-se de que todos os ícones validação estão verdes")
+                    .setBackgroundColor(Color.parseColor("#92b4f1")) // int background color
                     .setSummary("")
                     .build());
         }
