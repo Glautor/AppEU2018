@@ -14,20 +14,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class Programacoes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     NavigationView navigationView;
+    ListView listViewP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programacao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        listViewP = (ListView) findViewById(R.id.listViewP);
 
+        CarregaProgramacao carregaProgramacao = new CarregaProgramacao();
+
+        carregaProgramacao.execute();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -120,17 +128,17 @@ public class Programacoes extends AppCompatActivity
     }
 
 
-    class CarregaProgramacao extends AsyncTask<Void, Void, String>{
+    class CarregaProgramacao extends AsyncTask<Void, Void, List<Programacao>>{
         @Override
-        protected String doInBackground(Void... voids) {
-//            Programacao programacao = new Programacao("Estilo", "Comunicação", "3 horas", "Dia 21", "Encontros", "Fulano", "ICA");
-//
-//            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-programacao").build();
-//
-//            db.programacaoDAO().findById(0);
-//            db.programacaoDAO().findById(1);
+        protected List<Programacao> doInBackground(Void... voids) {
+            Programacao programacao = new Programacao("Estilo", "Comunicação", "4:00", "24", "Encontros", "Fulano", "ICA");
 
-            return null;
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-programacao").build();
+            db.programacaoDAO().insertAll(programacao);
+            List<Programacao> lista_programacao = db.programacaoDAO().getAll();
+
+
+            return lista_programacao;
         }
 
         @Override
@@ -138,6 +146,10 @@ public class Programacoes extends AppCompatActivity
             //Codigo
         }
 
+        @Override
+        protected void onPostExecute(List<Programacao> param){
+            listViewP.setAdapter(new AdaptadorP(getApplicationContext(), param));
+        }
     }
 
 }
