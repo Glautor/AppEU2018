@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,18 +28,54 @@ public class Programacoes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     NavigationView navigationView;
-    ListView listViewP;
+    //ListView listViewP;
+    public Spinner sp = null;
+    public String[] datas = {"24/10", "25/10", "26/10","27/10","Atividades Permantes"};
+    TextView txProg = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programacao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        listViewP = (ListView) findViewById(R.id.listViewP);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, datas);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-        CarregaProgramacao carregaProgramacao = new CarregaProgramacao();
 
-        carregaProgramacao.execute();
+        txProg = (TextView) findViewById(R.id.textoProgramacao);
+        sp = (Spinner) findViewById(R.id.spinner);
+        sp.setAdapter(adapter);
+
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position).equals("24/10")){
+                    txProg.setText(R.string.prog_dia_24);
+                }
+                if(parent.getItemAtPosition(position).equals("25/10")){
+                    txProg.setText(R.string.prog_dia_25);
+                }
+                if(parent.getItemAtPosition(position).equals("26/10")){
+                    txProg.setText(R.string.prog_dia_26);
+                }
+                if(parent.getItemAtPosition(position).equals("27/10")){
+                    txProg.setText(R.string.prog_dia_27);
+                }
+                if(parent.getItemAtPosition(position).equals("Atividades Permantes")){
+                    txProg.setText(R.string.ativ_perm);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //listViewP = (ListView) findViewById(R.id.listViewP);
+
+        //CarregaProgramacao carregaProgramacao = new CarregaProgramacao();
+
+        //carregaProgramacao.execute();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,28 +168,28 @@ public class Programacoes extends AppCompatActivity
     }
 
 
-    class CarregaProgramacao extends AsyncTask<Void, Void, List<Programacao>>{
-        @Override
-        protected List<Programacao> doInBackground(Void... voids) {
-            Programacao programacao = new Programacao("Estilo", "Comunicação", "4:00", "24", "Encontros", "Fulano", "ICA");
-
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-programacao").build();
-            db.programacaoDAO().insertAll(programacao);
-            List<Programacao> lista_programacao = db.programacaoDAO().getAll();
-
-
-            return lista_programacao;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            //Codigo
-        }
-
-        @Override
-        protected void onPostExecute(List<Programacao> param){
-            listViewP.setAdapter(new AdaptadorP(getApplicationContext(), param));
-        }
-    }
+//    class CarregaProgramacao extends AsyncTask<Void, Void, List<Programacao>>{
+//        @Override
+//        protected List<Programacao> doInBackground(Void... voids) {
+//            Programacao programacao = new Programacao("Estilo", "Comunicação", "4:00", "24", "Encontros", "Fulano", "ICA");
+//
+//            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-programacao").build();
+//            db.programacaoDAO().insertAll(programacao);
+//            List<Programacao> lista_programacao = db.programacaoDAO().getAll();
+//
+//
+//            return lista_programacao;
+//        }
+//
+//        @Override
+//        protected void onPreExecute(){
+//            //Codigo
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Programacao> param){
+//            listViewP.setAdapter(new AdaptadorP(getApplicationContext(), param));
+//        }
+//    }
 
 }

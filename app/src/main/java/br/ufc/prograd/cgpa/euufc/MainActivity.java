@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     public void pularActivity(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        finish();
+
+        this.finish();
         }
 
 }
