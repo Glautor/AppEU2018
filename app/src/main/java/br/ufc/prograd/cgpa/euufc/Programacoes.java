@@ -40,10 +40,9 @@ public class Programacoes extends AppCompatActivity
         setSupportActionBar(toolbar);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, datas);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        txProg.setMovementMethod(new ScrollingMovementMethod());
 
         txProg = (TextView) findViewById(R.id.textoProgramacao);
-        txProg.canScrollHorizontally(0);
+        txProg.setMovementMethod(new ScrollingMovementMethod());
         sp = (Spinner) findViewById(R.id.spinner);
         sp.setAdapter(adapter);
 
