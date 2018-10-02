@@ -29,9 +29,9 @@ public class Programacoes extends AppCompatActivity
     public static final String LOGIN_ARQUIVO = "ArquivoLogin";
     NavigationView navigationView;
     //ListView listViewP;
-    public Spinner sp = null;
+    public Spinner sp;
     public String[] datas = {"24/10", "25/10", "26/10","27/10","Atividades Permantes"};
-    TextView txProg = null;
+    TextView txProg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +40,10 @@ public class Programacoes extends AppCompatActivity
         setSupportActionBar(toolbar);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, datas);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
+        txProg.setMovementMethod(new ScrollingMovementMethod());
 
         txProg = (TextView) findViewById(R.id.textoProgramacao);
+        txProg.canScrollHorizontally(0);
         sp = (Spinner) findViewById(R.id.spinner);
         sp.setAdapter(adapter);
 

@@ -35,7 +35,7 @@
         android:background="@drawable/listabp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:scrollbars="vertical"
+        android:scrollbars = "vertical"
         android:text="Carregando programação..."
         android:textAlignment="viewStart"
         android:textSize="18sp"

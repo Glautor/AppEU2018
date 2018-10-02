@@ -5415,7 +5415,7 @@
 
     </string>
 
-    <string name="prog_dia_26"><b> \t Atividades do Dia</b>\n
+    <string name="prog_dia_26"><b>Atividades do Dia</b>\n
         \n
           <p>08:30 às 10:00 - Oficina de Relaxamento (turma 2)\n
               Psicólogo Daví Marques\n
@@ -5432,7 +5432,14 @@
              Centro de Ciências - Bloco 953</p>\n
     </string>
 
-    <string name="ativ_perm"><b> \t MOSTRAS, EXPOSIÇÕES, FEIRAS E OUTRAS ATIVIDADES PERMANENTES</b>\n
+    <string name="prog_dia_27"><b>CORRIDA UFC</b>\n
+    \n
+    Concentração às 5h\n
+    Largada às 6h\n
+    Largada/Chegada: Biblioteca Central do Campus do Pici\n
+    </string>
+
+    <string name="ativ_perm"><b> MOSTRAS, EXPOSIÇÕES, FEIRAS E OUTRAS ATIVIDADES PERMANENTES</b>\n
         \n
        <p> V Mostra Cultural ICA\n
         Local: Palco em frente ao Restaurante Universitário e Instituto de Cultura e Arte (ICA) e Arte\n
@@ -5478,12 +5485,5 @@
 
         </p>
     </string>
-    <string name="prog_dia_27"><b>CORRIDA UFC</b>\n
-    \n
-    Concentração às 5h\n
-    Largada às 6h\n
-    Largada/Chegada: Biblioteca Central do Campus do Pici\n
-    </string>
-
 
 </resources>
