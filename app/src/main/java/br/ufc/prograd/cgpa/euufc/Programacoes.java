@@ -71,11 +71,6 @@ public class Programacoes extends AppCompatActivity
 
             }
         });
-        //listViewP = (ListView) findViewById(R.id.listViewP);
-
-        //CarregaProgramacao carregaProgramacao = new CarregaProgramacao();
-
-        //carregaProgramacao.execute();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -91,14 +86,6 @@ public class Programacoes extends AppCompatActivity
         SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
         textNome.setText(infoUser.getString("nome","@aluno"));
 
-
-//        ListView listView = findViewById(R.id.lvProg);
-//        listView.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -166,30 +153,5 @@ public class Programacoes extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-//    class CarregaProgramacao extends AsyncTask<Void, Void, List<Programacao>>{
-//        @Override
-//        protected List<Programacao> doInBackground(Void... voids) {
-//            Programacao programacao = new Programacao("Estilo", "Comunicação", "4:00", "24", "Encontros", "Fulano", "ICA");
-//
-//            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-programacao").build();
-//            db.programacaoDAO().insertAll(programacao);
-//            List<Programacao> lista_programacao = db.programacaoDAO().getAll();
-//
-//
-//            return lista_programacao;
-//        }
-//
-//        @Override
-//        protected void onPreExecute(){
-//            //Codigo
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Programacao> param){
-//            listViewP.setAdapter(new AdaptadorP(getApplicationContext(), param));
-//        }
-//    }
 
 }

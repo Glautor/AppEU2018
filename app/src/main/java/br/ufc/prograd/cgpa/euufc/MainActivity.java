@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
-
+    Handler handler;
+    boolean skip = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Handler handler = new Handler();
+        handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -27,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(
                 MainActivity.this,LoginActivity.class
         );
-        startActivity(intent);
-        finish();
+        if (!skip) {
+            startActivity(intent);
+        }
+        this.finish();
     }
 
     public void pularActivity(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-
+        skip = true;
         this.finish();
         }
 

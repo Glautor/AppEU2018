@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
             click = false;
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/" + loginCpf.getText().toString().replaceAll("[^0-9]", "");
+            String url = "http://200.19.177.136/api/alunos/" + loginCpf.getText().toString().replaceAll("[^0-9]", "");
             ;
 
 // Request a string response from the provided URL.

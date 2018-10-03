@@ -917,7 +917,7 @@ public class Home extends AppCompatActivity
 
 
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            String URL = "http://sysprppg.ufc.br/eu/2018/Resumos/api/alunos/frequencia";
+            String URL = "http://200.19.177.136/api/alunos/frequencia";
 
 
             for(int i=0;i<checkins.size();i++){
