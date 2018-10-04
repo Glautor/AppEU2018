@@ -5331,166 +5331,165 @@
 
     </string-array>
 
-    <string name="prog_dia_24"><b>Atividades do Dia</b>\n
+    <string name="prog_dia_24"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
         \n
-        09:30 - Solenidade de abertura\n
+        <b>09:30</b> <font color="#3c64bf"> - Solenidade de abertura\n</font>
         Apresentação do Grupo de Música Percussiva: Acadêmicos de Casa Caiada.\n
-        Local: Auditório Centro de Ciências\n
+        <b>Local:</b> Auditório Centro de Ciências\n
         \n
-        10:30 às 12 horas - Conferência de Abertura\n
+        <b>10:30 às 12 horas</b><font color="#3c64bf"> - Conferência de Abertura\n</font>
         Nanotecnologia das Coisas (NoT): a emergência da inter, multi e transdisciplinaridade.\n
         Conferencista/Palestrante: Prof. Oswaldo Luiz Alves\n
-        Local: Auditório Centro de Ciências\n
+        <b>Local:</b> Auditório Centro de Ciências\n
         \n
-        14 às 17 horas - Palestra de Abertura do XII Encontro de Práticas Docentes e V Seminário Institucional de Iniciação à Docência
-        Relações de Poder na Escola\n
+       <b>14 às 17 horas</b><font color="#3c64bf"> - Palestra de Abertura do XII Encontro de Práticas Docentes e V Seminário Institucional de Iniciação à Docência
+        Relações de Poder na Escola\n</font>
         Conferencista/Palestrante: Professor Dr. Luiz Botelho Albuquerque\n
-        Local: Auditório Centro de Ciências\n
+       <b>Local:</b> Auditório Centro de Ciências\n
         \n
-        14 às 16 horas - Apresentações orais\n
-        Local: Instituto de Cultura e Arte (ICA) e Centro de Ciências - Bloco 951\n
+        <b>14 às 16 horas</b><font color="#3c64bf"> - Apresentações orais\n</font>
+        <b>Local:</b> Instituto de Cultura e Arte (ICA) e Centro de Ciências - Bloco 951\n
         \n
-        16 às 18 horas - Sessões temáticas\n
-        Local: Instituto de Cultura e Arte\n
+        <b>16 às 18 horas</b><font color="#3c64bf"> - Sessões temáticas\n</font>
+        <b>Local:</b> Instituto de Cultura e Arte\n
         \n
-        18 às 20 horas - Apresentações orais\n
-        Local: Instituto de Cultura, Centro de Ciências - Bloco 951\n
+        <b>18 às 20 horas</b><font color="#3c64bf"> - Apresentações orais\n</font>
+        <b>Local:</b> Instituto de Cultura, Centro de Ciências - Bloco 951\n
         \n
-        <b>OFICINAS PROMOVIDAS PELA PRAE</b>\n
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
         \n
-        14:00 às 15:30 - Roda de conversa - Assistência Estudantil: vem saber quais são os seus direitos.\n
+        <b>14:00 às 15:30</b><font color="#3c64bf"> - Roda de conversa - Assistência Estudantil: vem saber quais são os seus direitos.\n</font>
         Priscila Gonçalves Marinho (Assistente Social)\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        16:00 às 17:30 - Roda de conversa - Assistência Estudantil: você faz parte dessa construção.\n
+        <b>16:00 às 17:30</b><font color="#3c64bf"> - Roda de conversa - Assistência Estudantil: você faz parte dessa construção.\n</font>
         Priscila Gonçalves Marinho (Assistente Social)\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        18:00 às 20:00 - Roteiro de Documentário\n
+        <b>18:00 às 20:00</b><font color="#3c64bf"> - Roteiro de Documentário\n</font>
         Georgia Henrique Almeida\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        18:00 às 20:00 - Introdução à Fotografia\n
+        <b>18:00 às 20:00</b><font color="#3c64bf"> - Introdução à Fotografia\n</font>
         Georgia Henrique Almeida\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
     </string>
 
-    <string name="prog_dia_25"><b>Atividades do Dia</b>\n
+    <string name="prog_dia_25"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
         \n
-        08 às 12 horas - Apresentações orais e pôsteres\n
-        Local: Centro de Convivência, Instituto de Cultura (ICA) e Centro de Ciências - Blocos 950 e 951\n
+        <b>08 às 12 horas</b><font color="#3c64bf"> - Apresentações orais e pôsteres\n</font>
+        <b>Local:</b> Centro de Convivência, Instituto de Cultura (ICA) e Centro de Ciências - Blocos 950 e 951\n
         \n
-        10:30 às 12 horas - Plenária 1\n
+        <b>10:30 às 12 horas</b><font color="#3c64bf"> - Plenária 1\n</font>
         Envelhecimento e Doenças Neurodegenerativas\n
         Conferencistas/Palestrantes: Prof. João Macedo Coelho Filho e Prof. Jarbas de Sá Roriz Filho\n
-        Local:  Auditório Centro de Ciências\n
+        <b>Local:</b>  Auditório Centro de Ciências\n
         \n
-        14 às 17 horas - Palestras\n
-        14h Melhores Práticas para Corredores de Rua – Prof. Dr. Eduardo V. Mota e Silva\n
+        <b>14 às 17 horas</b><font color="#3c64bf"> - Palestras\n</font>
+        <b>14h</b> Melhores Práticas para Corredores de Rua – Prof. Dr. Eduardo V. Mota e Silva\n
         Marketing Esportivo\n
-        15h Nutrição para corredores de rua – Nutricionista Davi Trompieri\n
+        <b>15h</b> Nutrição para corredores de rua – Nutricionista Davi Trompieri\n
         Professor IEFES/Nutricionista do North Shopping Joquei\n
-        16h Corrida de Rua, Esporte e Empreendedorismo – Prof. Me. Fernando Elpídio\n
-        Local: Auditório Reitor Ícaro de Sousa Moreira - Bloco 902 do Centro de Ciências (CC) do Campus do Pici\n
+        <b>16h</b> Corrida de Rua, Esporte e Empreendedorismo – Prof. Me. Fernando Elpídio\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Bloco 902 do Centro de Ciências (CC) do Campus do Pici\n
         \n
-        14 às 20 horas - Apresentações orais e pôsteres\n
-        Local: Centro de Convivência, Instituto de Cultura e Arte e Centro de Ciências - Blocos 950 e 951\n
+        <b>14 às 20 horas</b><font color="#3c64bf"> - Apresentações orais e pôsteres\n</font>
+        <b>Local:</b> Centro de Convivência, Instituto de Cultura e Arte e Centro de Ciências - Blocos 950 e 951\n
         \n
-        <b>OFICINAS PROMOVIDAS PELA PRAE</b>\n
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
         \n
-        08:30 às 10:00 - Oficina de Relaxamento (turma 1)\n
+        <b>08:30 às 10:00</b><font color="#3c64bf"> - Oficina de Relaxamento (turma 1)\n</font>
         Psicólogo Pedro Câmara\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        10:30 às 12:00 - Roda de conversa - Procrastinação no mundo acadêmico\n
+        <b>10:30 às 12:00</b><font color="#3c64bf"> - Roda de conversa - Procrastinação no mundo acadêmico\n</font>
         Pedagogas Tatiane Regis e Carla Duarte\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        14:00 às 15:30	- Arte Terapia - ateliê de autoconhecimento\n
+        <b>14:00 às 15:30</b><font color="#3c64bf">	- Arte Terapia - ateliê de autoconhecimento\n</font>
         Arteterapeutas: Soraya Pessoa e Luiza Lima\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        16:00 às 17:30 - Conversando sobre Resiliência no Mundo Acadêmico\n
+        <b>16:00 às 17:30</b><font color="#3c64bf"> - Conversando sobre Resiliência no Mundo Acadêmico\n</font>
         Psicóloga Flora Chaves\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
-        18:00 às 20:00 - Educação Financeira\n
+        <b>18:00 às 20:00</b><font color="#3c64bf"> - Educação Financeira\n</font>
         Zacarias Júnior\n
-        Local: Centro de Ciências - Bloco 953\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
         \n
 
     </string>
 
-    <string name="prog_dia_26"><b>Atividades do Dia</b>\n
+    <string name="prog_dia_26"><b><font size="30">Atividades do Dia</font></b>\n
         \n
-          <p>08:30 às 10:00 - Oficina de Relaxamento (turma 2)\n
+          <b>08:30 às 10:00</b><font color="#3c64bf"> - Oficina de Relaxamento (turma 2)\n</font>
               Psicólogo Daví Marques\n
-              Local: Centro de Ciências - Bloco 953</p> \n
+              <b>Local:</b> Centro de Ciências - Bloco 953 \n
 
         \n
-          <p>10:30 às 12:00 - Saúde Vocal\n
+          <b>10:30 às 12:00</b><font color="#3c64bf"> - Saúde Vocal\n</font>
           Fonoaudióloga Daniele Colares\n
-              Local: Centro de Ciências - Bloco 953</p>\n
+              <b>Local:</b> Centro de Ciências - Bloco 953\n
 
         \n
-         <p>13:00 às 15:00 - Roda de conversa - Relações Professor x Aluno\n
+        <b>13:00 às 15:00</b><font color="#3c64bf"> - Roda de conversa - Relações Professor x Aluno\n</font>
           Psicólogo Lindemberg Saldanha \n
-             Centro de Ciências - Bloco 953</p>\n
+            <b>Local:</b> Centro de Ciências - Bloco 953\n
     </string>
 
-    <string name="prog_dia_27"><b>CORRIDA UFC</b>\n
+    <string name="prog_dia_27"><b><font size="30"><font color="#3c64bf">CORRIDA UFC!</font></font></b>\n
     \n
-    Concentração às 5h\n
-    Largada às 6h\n
-    Largada/Chegada: Biblioteca Central do Campus do Pici\n
+    Concentração às <b>5h\n</b>
+    Largada às <b>6h\n</b>
+    <b>Largada/Chegada:</b> Biblioteca Central do Campus do Pici\n
     </string>
 
     <string name="ativ_perm"><b> MOSTRAS, EXPOSIÇÕES, FEIRAS E OUTRAS ATIVIDADES PERMANENTES</b>\n
         \n
-       <p> V Mostra Cultural ICA\n
-        Local: Palco em frente ao Restaurante Universitário e Instituto de Cultura e Arte (ICA) e Arte\n
+        <font color="#3c64bf"> V Mostra Cultural ICA\n</font>
+        <b>Local:</b> Palco em frente ao Restaurante Universitário e Instituto de Cultura e Arte (ICA) e Arte\n
 
         \n
-        Arte sob microscópio\n
-        Local: Salão de vidro - Centro de Convivência\n
+        <font color="#3c64bf">Arte sob microscópio\n</font>
+        <b>Local:</b> Salão de vidro - Centro de Convivência\n
 
         \n
-        Iniciart\n
-        Local: Salão de vidro - Centro de Convivência\n
+        <font color="#3c64bf">Iniciart\n</font>
+        <b>Local:</b> Salão de vidro - Centro de Convivência\n
 
         \n
-        Central Analítica\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Central Analítica\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Projeto Farmácia Viva\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Projeto Farmácia Viva\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Feira de Plantas Medicinais \n(Somente dia 26/10)\n
-        Local: Horto de Plantas Medicinais – Centro de Ciências\n
+        <font color="#3c64bf">Feira de Plantas Medicinais \n(Somente dia 26/10)\n</font>
+        <b>Local:</b> Horto de Plantas Medicinais – Centro de Ciências\n
 \n
-        Edições UFC\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Edições UFC\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Outubro Rosa\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Outubro Rosa\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Secretária de Governança\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Secretária de Governança\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Feira de Artesanato\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Feira de Artesanato\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Feira de Gastronomia\n
-        Local: Centro de Convivência\n
+        <font color="#3c64bf">Feira de Gastronomia\n</font>
+        <b>Local:</b> Centro de Convivência\n
 \n
-        Testes de Saúde\n
-        Local: Instituto de Cultura e Arte (ICA)\n
+        <font color="#3c64bf">Testes de Saúde\n</font>
+        <b>Local:</b> Instituto de Cultura e Arte (ICA)\n
 \n
-        Roda de Conversa Mulheres e Novelos\n
-        Local: Instituto de Cultura e Arte (ICA) – Sala HL 101\n
+        <font color="#3c64bf">Roda de Conversa Mulheres e Novelos\n</font>
+        <b>Local:</b> Instituto de Cultura e Arte (ICA) – Sala HL 101\n
 
-        </p>
     </string>
 
 </resources>
