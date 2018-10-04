@@ -1,4 +1,4 @@
-package com.example.usuario.telaswendel;
+package br.ufc.prograd.cgpa.euufc;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

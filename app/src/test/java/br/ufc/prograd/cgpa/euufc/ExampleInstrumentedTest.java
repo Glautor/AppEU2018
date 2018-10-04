@@ -2,7 +2,6 @@ package br.ufc.prograd.cgpa.euufc;
 
 import android.app.Instrumentation;
 import android.content.Context;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,6 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(JUnitPlatform.class)
 public class ExampleInstrumentedTest extends Object{
     @Test
     public void useAppContext() {
