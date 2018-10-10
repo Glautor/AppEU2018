@@ -10,6 +10,7 @@
         android:id="@+id/gifImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         android:onClick="pularActivity"
         android:src="@drawable/animacao_eu"
         app:layout_constraintBottom_toBottomOf="parent"

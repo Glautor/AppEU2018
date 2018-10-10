@@ -2,10 +2,14 @@ package br.ufc.prograd.cgpa.euufc;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.hololo.tutorial.library.Step;
 import com.hololo.tutorial.library.TutorialActivity;
@@ -13,9 +17,9 @@ import com.hololo.tutorial.library.TutorialActivity;
 public class OnBoardActivity extends TutorialActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //adjustFontScale( getResources().getConfiguration());
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -90,12 +94,44 @@ public class OnBoardActivity extends TutorialActivity {
 
     }
 
+   /* public  void adjustFontScale( Configuration configuration) {
+
+        configuration.fontScale = (float) 1.3;
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        metrics.scaledDensity = configuration.fontScale * metrics.density;
+        getBaseContext().getResources().updateConfiguration(configuration, metrics);
+
+    }*/
+   @Override
+   public Resources getResources() {
+       Resources resources = super.getResources();
+       if (resources != null && resources.getConfiguration().fontScale != 1.3) {
+           Configuration configuration = resources.getConfiguration();
+           configuration.fontScale = (float)1.3;
+           resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+       }
+
+       return resources;
+   }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Resources resources = super.getResources();
+        if (resources != null && resources.getConfiguration().fontScale != 1) {
+            Configuration configuration = resources.getConfiguration();
+            configuration.fontScale = 1;
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        }
+    }
     @Override
     public void finishTutorial() {
         Intent intent = new Intent(
                 OnBoardActivity.this,LoginActivity.class
         );
         startActivity(intent);
+        onStop();
         finish();
     }
 
