@@ -184,8 +184,13 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-//                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
-                    if (myLocation.distanceTo(ica) > 200.0) {
+                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+//                    SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
+//                    int check_id = infoCheckin.getInt("LastCheckin", -1);
+//                    if(check_id != -1) {
+//                        AjustaCheckout aj = new AjustaCheckout();
+//                        aj.execute();
+//                }
                     final Activity activity = this;
                     IntentIntegrator integrator = new IntentIntegrator(activity);
                     integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -563,7 +568,7 @@ public class Home extends AppCompatActivity
             if(doCheckout == true){
 
                 if(qrCode != null){
-                    if(qrCode.equals("icaEU")){
+                    if(qrCode.equals("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                 AppDatabase.class, "database-name").build();
 
@@ -580,12 +585,13 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
-                            //db.close();
+                        //teste
+                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 11 || mesAtual != 10){
+                            db.close();
                             return "falha";
                         }
                         if(horaAtual > 20 || diaAtual > 26 || mesAtual != 10){
-                            //db.close();
+                            db.close();
                             return "falha";
                         }
 
@@ -600,14 +606,14 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-                        //db.close();
+                        db.close();
                         return "checkout";
                     }
                 }
             }else{
 
                 if(qrCode != null){
-                    if(qrCode.equals("icaEU")){
+                    if(qrCode.equals("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")){
                         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                 AppDatabase.class, "database-name").build();
 
@@ -623,12 +629,12 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
-                            //db.close();
+                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 11 || mesAtual != 10){
+                            db.close();
                             return "falha";
                         }
                         if(horaAtual > 20 || diaAtual > 26 || mesAtual != 10){
-                            //db.close();
+                            db.close();
                             return "falha";
                         }
 
@@ -638,7 +644,7 @@ public class Home extends AppCompatActivity
                         // (desse modo, na hora do checkout teremos como atualizar facilmente pois temos a info de id salva)
                         db.checkDao().insertAll(check);
                         saveInfoCheckin(true,db.checkDao().loadIdByHourIn(date));
-                        //db.close();
+                        db.close();
                         return "checkin";
                     }
                 }
@@ -730,9 +736,11 @@ public class Home extends AppCompatActivity
                 Date diaUm14 = new Date();
                 diaUm14.setTime(1540396800000L);
                 int dataUm = Integer.valueOf(dataFm.format(diaUm14));
+                //14 horas
                 int hora14 = Integer.valueOf(horaFm.format(diaUm14));
                 Date diaUm20 = new Date();
                 diaUm20.setTime(1540418400000L);
+                //20 horas
                 int hora20 = Integer.valueOf(horaFm.format(diaUm20));
 
                 Date diaDois14 = new Date();
@@ -748,14 +756,20 @@ public class Home extends AppCompatActivity
                 Date diaTres20 = new Date();
                 diaTres20.setTime(1540591200000L);
 
+                //Setando Pontos de Checkout dos dia de teste(11/10/2018)
+                Date tDiaUm14 = new Date();
+                tDiaUm14.setTime(1539277200000L);
+                int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
+                Date tDiaUm20 = new Date();
+                tDiaUm20.setTime(1539298800000L);
 
                 System.out.println("Data:"+ date);
-                //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
+                //Recebe o último Checkin armazenado para verificar se será necessário fazer ajustes
                 int cid = infoCheck.getInt("LastCheckin", -1);
                 Check checkin = db.checkDao().loadById(cid);
                 int dateCheckin = Integer.valueOf(dataFm.format(checkin.getDHourIn()));
                 int horaCheckin = Integer.valueOf(horaFm.format(checkin.getDHourIn()));
-
+                //Salva o checkout no BD e move o registro de id do Check nas preferências para -1 (para que posteriormente venha a ser um valor de id válido do banco)
                 if(dateCheckin == dataUm){
 
                     if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > dataUm || horaCheckin < hora14 && mesAtual != 10){
@@ -767,7 +781,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-                       // db.close();
+                        db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataUm || horaCheckin < hora20 && mesAtual != 10){
@@ -779,7 +793,7 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-                           // db.close();
+                            db.close();
                             return "checkout";
                         }
                     }
@@ -796,7 +810,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-                      //  db.close();
+                        db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataDois || horaCheckin < hora20 && mesAtual != 10){
@@ -808,7 +822,7 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-                          //  db.close();
+                            db.close();
                             return "checkout";
                         }
                     }
@@ -825,7 +839,7 @@ public class Home extends AppCompatActivity
                         Duration duracao = new Duration(horaInicial, horaFinal);
 
                         saveInfoCheckin(false,-1, duracao);
-                        //db.close();
+                        db.close();
                         return "checkout";
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres || horaCheckin < hora20 && mesAtual != 10){
@@ -837,12 +851,42 @@ public class Home extends AppCompatActivity
                             Duration duracao = new Duration(horaInicial, horaFinal);
 
                             saveInfoCheckin(false,-1, duracao);
-                            //db.close();
+                            db.close();
                             return "checkout";
                         }
                     }
                 }
-                //db.close();
+
+                if(dateCheckin == tDataUm){
+
+                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > tDataUm || horaCheckin < hora14 && mesAtual != 10){
+                        db.checkDao().updateCheckOut(tDiaUm14, cid);
+                        Check check = db.checkDao().loadById(cid);
+
+                        DateTime horaInicial = new DateTime(check.getDHourIn());
+                        DateTime horaFinal = new DateTime(check.getDHourOut());
+                        Duration duracao = new Duration(horaInicial, horaFinal);
+
+                        saveInfoCheckin(false,-1, duracao);
+                        db.close();
+                        return "checkout";
+                    }else{
+                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > tDataUm || horaCheckin < hora20 && mesAtual != 10){
+                            db.checkDao().updateCheckOut(tDiaUm20, cid);
+                            Check check = db.checkDao().loadById(cid);
+
+                            DateTime horaInicial = new DateTime(check.getDHourIn());
+                            DateTime horaFinal = new DateTime(check.getDHourOut());
+                            Duration duracao = new Duration(horaInicial, horaFinal);
+
+                            saveInfoCheckin(false,-1, duracao);
+                            db.close();
+                            return "checkout";
+                        }
+                    }
+                }
+
+                db.close();
             }
 
             return "";
@@ -887,7 +931,7 @@ public class Home extends AppCompatActivity
             int ids[] = {id};
             checkins = db.checkDao().loadAllByIds(ids);
             dados = new String[checkins.size()];
-            //db.close();
+            db.close();
             return checkins;
         }
 
@@ -997,7 +1041,7 @@ public class Home extends AppCompatActivity
             int ids[] = {id};
             List<Check> checksAtt = db.checkDao().loadAllByIds(ids);
             dados = new String[checksAtt.size()];
-            //db.close();
+            db.close();
             respostaSer = null;
             return checksAtt;
         }
@@ -1032,7 +1076,7 @@ public class Home extends AppCompatActivity
             boolean infoCheckout = infoCheckin.getBoolean("DoCheckout?",false);
             int lastCheckinId = infoCheckin.getInt("LastCheckin", -1);
             db.userDao().updateInfoUser(horas,minutos,infoCheckout,lastCheckinId, id);
-            //db.close();
+            db.close();
             return null;
         }
 
