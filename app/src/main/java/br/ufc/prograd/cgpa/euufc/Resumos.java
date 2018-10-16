@@ -53,26 +53,26 @@ public class Resumos extends AppCompatActivity
         SharedPreferences infoUser = getSharedPreferences(LOGIN_ARQUIVO,0);
         textNome.setText(infoUser.getString("nome","@aluno"));
 
-        String[] resumos = getResources().getStringArray(R.array.resumos);
-
-        ListView listview = (ListView) findViewById(R.id.listViewProg);
-
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resumos);
-
-        listview.setAdapter(adapter);
-
-        final EditText busca = (EditText) findViewById(R.id.busca);
-        busca.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s.toString());
-            }
-        });
+//        String[] resumos = getResources().getStringArray(R.array.resumos);
+//
+//        ListView listview = (ListView) findViewById(R.id.listViewProg);
+//
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resumos);
+//
+//        listview.setAdapter(adapter);
+//
+//        final EditText busca = (EditText) findViewById(R.id.busca);
+//        busca.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) {
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                adapter.getFilter().filter(s.toString());
+//            }
+//        });
 
     }
 
