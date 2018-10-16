@@ -184,7 +184,7 @@ public class Home extends AppCompatActivity
         }else{
             if(myLocation != null) {
                 int distancia = (int) myLocation.distanceTo(ica);
-                if (myLocation.distanceTo(ica) < 200.0 || myLocation.distanceTo(ctConv) < 200 || myLocation.distanceTo(bl953) < 200 || myLocation.distanceTo(bl951) < 200 || myLocation.distanceTo(bl953) < 200) {
+                if (myLocation.distanceTo(ica) < 250.0 || myLocation.distanceTo(ctConv) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(bl951) < 250 || myLocation.distanceTo(bl953) < 250) {
 //                    SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
 //                    int check_id = infoCheckin.getInt("LastCheckin", -1);
 //                    if(check_id != -1) {
@@ -206,7 +206,6 @@ public class Home extends AppCompatActivity
                 onStart();
             }
         }
-
     }
 
     @Override
@@ -525,6 +524,7 @@ public class Home extends AppCompatActivity
         SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
         int horas = infoCheckin.getInt("Horas",0);
         int minutos = infoCheckin.getInt("Minutos",0);
+        int segundos = infoCheckin.getInt("Segundos",0);
         SharedPreferences.Editor editor = infoCheckin.edit();
         editor.putBoolean("DoCheckout?",checkout);
         editor.putInt("LastCheckin",idCheck);
@@ -532,10 +532,18 @@ public class Home extends AppCompatActivity
         int minutosAdd = (int) duracao.getStandardMinutes() % 60;
         int horasAdd = (int) duracao.getStandardHours();
 
+        int segundosAdd = (int) (duracao.getStandardSeconds() % 3600) % 60;
+
+
         int horas_final = horas + horasAdd;
         int minutos_final = minutos + minutosAdd;
+        int segundos_final = segundos + segundosAdd;
 
 
+        if(segundos_final > 60){
+            minutos_final = minutos_final + (segundos_final/60);
+            segundos_final = segundos_final % 60;
+        }
 
         if(minutos_final> 60){
             horas_final = horas_final + (minutos_final/60);
@@ -544,6 +552,7 @@ public class Home extends AppCompatActivity
 
         editor.putInt("Horas",horas_final);
         editor.putInt("Minutos",minutos_final);
+        editor.putInt("Segundos",segundos_final);
         editor.commit();
 
 
@@ -586,7 +595,7 @@ public class Home extends AppCompatActivity
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
                         //teste
-                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 11 || mesAtual != 10){
+                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 16 || mesAtual != 10){
                             db.close();
                             return "falha";
                         }
@@ -629,7 +638,7 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 11 || mesAtual != 10){
+                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 19 || mesAtual != 10){
                             db.close();
                             return "falha";
                         }
@@ -757,11 +766,18 @@ public class Home extends AppCompatActivity
                 diaTres20.setTime(1540591200000L);
 
                 //Setando Pontos de Checkout dos dia de teste(11/10/2018)
+//                Date tDiaUm14 = new Date();
+//                tDiaUm14.setTime(1539277200000L);
+//                int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
+//                Date tDiaUm20 = new Date();
+//                tDiaUm20.setTime(1539298800000L);
+
+                //Setando Pontos de Checkout do dia de teste(19/10/2018)
                 Date tDiaUm14 = new Date();
-                tDiaUm14.setTime(1539277200000L);
+                tDiaUm14.setTime(1539968400000L);
                 int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
                 Date tDiaUm20 = new Date();
-                tDiaUm20.setTime(1539298800000L);
+                tDiaUm20.setTime(1539990000000L);
 
                 System.out.println("Data:"+ date);
                 //Recebe o último Checkin armazenado para verificar se será necessário fazer ajustes
@@ -947,6 +963,7 @@ public class Home extends AppCompatActivity
 
     }
 
+    //Envia os checks para o servidor
     public class EnviaCheck extends AsyncTask<Void,Void, List<Check>>{
         @Override
         protected List<Check> doInBackground(Void... params){
@@ -1073,9 +1090,10 @@ public class Home extends AppCompatActivity
             SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
             int horas = infoCheckin.getInt("Horas",0);
             int minutos = infoCheckin.getInt("Minutos",0);
+            int segundos = infoCheckin.getInt("Segundos",0);
             boolean infoCheckout = infoCheckin.getBoolean("DoCheckout?",false);
             int lastCheckinId = infoCheckin.getInt("LastCheckin", -1);
-            db.userDao().updateInfoUser(horas,minutos,infoCheckout,lastCheckinId, id);
+            db.userDao().updateInfoUser(horas,minutos,segundos,infoCheckout,lastCheckinId, id);
             db.close();
             return null;
         }
@@ -1145,6 +1163,7 @@ public class Home extends AppCompatActivity
 
             int minutos = param.getMinutos();
             int horas = param.getHoras();
+            int segundos = param.getSegundos();
 
             mudaHora(view, minutos, horas);
 
@@ -1153,6 +1172,7 @@ public class Home extends AppCompatActivity
             SharedPreferences.Editor editor = infoCheckin.edit();
             editor.putInt("Horas", horas);
             editor.putInt("Minutos",minutos);
+            editor.putInt("Segundos", segundos);
             editor.commit();
         }
 

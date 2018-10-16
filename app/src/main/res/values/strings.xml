@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Encontros Universitários UFC</string>
     <string name="title_activity_splash">EU UFC</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Iniciar</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -24,7 +24,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configurações</string>
-    <string name="title_activity_programacao">Resumos</string>
+    <string name="title_activity_programacao">Títulos dos Resumos</string>
     <string name="title_activity_areas">Programação</string>
     <string name="title_activity_config">Configurações</string>
 
@@ -111,7 +111,7 @@
 
 
     <string-array name="resumos">
-        <item>	"PROCURANDO ENTENDER A MATÉRIA CHATA": EXPERIÊNCIA DE ESTÁGIO EM HISTÓRIA COM TURMAS DE 9 ANO	</item>
+        <item>	"PROCURANDO ENTENDER A MATÉRIA CHATA": EXPERIÊNCIA DE ESTÁGIO EM HISTÓRIA COM TURMAS DE 9º ANO	</item>
         <item>	A ATUAÇÃO DO PSICÓLOGO NA ASSISTÊNCIA SOCIAL.	</item>
         <item>	A CIÊNCIA GEOGRÁFICA NA SALA DE CIÊNCIAS DO SESC FORTALEZA	</item>
         <item>	A ENGENHARIA A SERVIÇO DA PRESERVAÇÃO DO CENTRO HISTÓRICO DE FORTALEZA	</item>
@@ -5612,110 +5612,162 @@
 
     <string name="prog_dia_24"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
         \n
-        <b>09:30</b> <font color="#3c64bf"> - Solenidade de abertura\n</font>
-        Apresentação do Grupo de Música Percussiva: Acadêmicos de Casa Caiada.\n
-        <b>Local:</b> Auditório Centro de Ciências\n
-        \n
-        <b>10:30 às 12 horas</b><font color="#3c64bf"> - Conferência de Abertura\n</font>
-        Nanotecnologia das Coisas (NoT): a emergência da inter, multi e transdisciplinaridade.\n
-        Conferencista/Palestrante: Prof. Oswaldo Luiz Alves\n
-        <b>Local:</b> Auditório Centro de Ciências\n
-        \n
-       <b>14 às 17 horas</b><font color="#3c64bf"> - Palestra de Abertura do XII Encontro de Práticas Docentes e V Seminário Institucional de Iniciação à Docência
-        Relações de Poder na Escola\n</font>
-        Conferencista/Palestrante: Professor Dr. Luiz Botelho Albuquerque\n
-       <b>Local:</b> Auditório Centro de Ciências\n
-        \n
-        <b>14 às 16 horas</b><font color="#3c64bf"> - Apresentações orais\n</font>
-        <b>Local:</b> Instituto de Cultura e Arte (ICA), Bloco 951 e 953 do Centro de Ciências\n
-        \n
-        <b>16 às 18 horas</b><font color="#3c64bf"> - Sessões temáticas\n</font>
+        <b>09:30 <font color="#3c64bf"> \nSolenidade de abertura\n</font></b>
+        Apresentação do Grupo de Música Percussiva: Acadêmicos de Casa Caiada.\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n \n\n
+        <b>10:30 às 12 horas<font color="#3c64bf"> \nConferência de Abertura: Nanotecnologia das Coisas (NoT): a emergência da inter, multi e transdisciplinaridade.\n</font></b>
+        Conferencista/Palestrante: Prof. Oswaldo Luiz Alves - Instituto de Química - Unicamp/Vice-Presidente da Academia Brasileira de Ciências\n
+        Mediador: Prof. Antônio Gomes Souza Filho – Pró-Reitor de Pesquisa e Pós-Graduação\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n \n\n
+        <b>10:30 às 12 horas<font color="#3c64bf"> \nPalestra: Interação Academia-Empresa no Desenvolvimento da Biotecnologia.\n</font></b>
+        Conferencista/Palestrante: Profa. Márjory Lima Holanda Araújo (DBBM/UFC).\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n \n\n
+       <b>14 às 17 horas<font color="#3c64bf"> \nPalestra: Abertura do XII Encontro de Práticas Docentes e V Seminário Institucional de Iniciação à Docência- Relações de Poder na Escola\n</font></b>
+        Conferencista/Palestrante: Professor Dr. Luiz Botelho Albuquerque\n\n
+       <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+        <b>14 às 16 horas<font color="#3c64bf">\nApresentações orais\n</font></b>
+        <b>Local:</b> Instituto de Cultura e Arte, Blocos 951 e 953 do Centro de Ciências.\n
+        \n\n\n
+        <b>16 às 18 horas<font color="#3c64bf"> \nSessões temáticas\n</font></b>
         <b>Local:</b> Instituto de Cultura e Arte\n
-        \n
-        <b>18 às 20 horas</b><font color="#3c64bf"> - Apresentações orais\n</font>
-        <b>Local:</b> Instituto de Cultura, Centro de Ciências - Bloco 951\n
-        \n
+        \n\n\n
+        <b>18 às 20 horas<font color="#3c64bf"> \nApresentações orais\n</font></b>
+        <b>Local:</b> Instituto de Cultura e Arte, Blocos 951 e 953 do Centro de Ciências.\n
+        \n\n\n
         <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
         \n
-        <b>14:00 às 15:30</b><font color="#3c64bf"> - Roda de conversa - Assistência Estudantil: vem saber quais são os seus direitos.\n</font>
-        Priscila Gonçalves Marinho (Assistente Social)\n
+        <b>14:00 às 15:30<font color="#3c64bf"> \nRoda de conversa - Assistência Estudantil: vem saber quais são os seus direitos.\n</font></b>
+        Ministrante: Priscila Gonçalves Marinho (Assistente Social)\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>16:00 às 17:30</b><font color="#3c64bf"> - Roda de conversa - Assistência Estudantil: você faz parte dessa construção.\n</font>
-        Priscila Gonçalves Marinho (Assistente Social)\n
+        \n\n\n
+        <b>16:00 às 17:30<font color="#3c64bf"> \nRoda de conversa - Assistência Estudantil: você faz parte dessa construção.\n</font></b>
+        Ministrante: Priscila Gonçalves Marinho (Assistente Social)\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>18:00 às 20:00</b><font color="#3c64bf"> - Roteiro de Documentário\n</font>
-        Georgia Henrique Almeida\n
+        \n\n\n
+        <b>18:00 às 20:00<font color="#3c64bf">\nRoteiro de Documentário\n</font></b>
+        Facilitadora: Georgia Henrique Almeida\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>18:00 às 20:00</b><font color="#3c64bf"> - Introdução à Fotografia\n</font>
-        Georgia Henrique Almeida\n
-        <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
+        \n\n\n
     </string>
 
     <string name="prog_dia_25"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
         \n
-        <b>08 às 12 horas</b><font color="#3c64bf"> - Apresentações orais e pôsteres\n</font>
+        <b>08 às 12 horas<font color="#3c64bf">\nApresentações orais e pôsteres\n</font></b>
         <b>Local:</b> Centro de Convivência, Instituto de Cultura (ICA), Blocos 950, 951 e 953 do Centro de Ciências\n
-        \n
-        <b>10:30 às 12 horas</b><font color="#3c64bf"> - Plenária 1\n</font>
-        Envelhecimento e Doenças Neurodegenerativas\n
-        Conferencistas/Palestrantes: Prof. João Macedo Coelho Filho e Prof. Jarbas de Sá Roriz Filho\n
-        <b>Local:</b>  Auditório Centro de Ciências\n
-        \n
-        <b>14 às 17 horas</b><font color="#3c64bf"> - Palestras\n</font>
-        <b>14h</b> Melhores Práticas para Corredores de Rua – Prof. Dr. Eduardo V. Mota e Silva\n
-        Marketing Esportivo\n
-        <b>15h</b> Nutrição para corredores de rua – Nutricionista Davi Trompieri\n
-        Professor IEFES/Nutricionista do North Shopping Joquei\n
-        <b>16h</b> Corrida de Rua, Esporte e Empreendedorismo – Prof. Me. Fernando Elpídio\n
-        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Bloco 902 do Centro de Ciências (CC) do Campus do Pici\n
-        \n
-        <b>14 às 20 horas</b><font color="#3c64bf"> - Apresentações orais e pôsteres\n</font>
+        \n\n\n
+        <b>10:30 às 12 horas<font color="#3c64bf">\nPlenária 1: Envelhecimento e Doenças Neurodegenerativas\n</font></b>
+        Conferencistas/Palestrantes: Prof. João Macedo Coelho Filho -FAMED/UFC\n
+        Prof. Jarbas de Sá Roriz Filho - FAMED-UFC\n
+        Mediador: Profa. Geanne Matos de Andrade - Coordenadora de Pesquisa/PRPPG\n\n
+        <b>Local:</b>Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+        <b>14 às 17 horas<font color="#3c64bf"><b>\nPALESTRAS\n</b></font></b>
+         <b>14h</b> Roda de Conversa sobre Dor Menstrual – Mulheres e Novelos\n
+        Realização: Projeto Mulheres e Novelos (IEFES, FAMED e MEAC) Apoio: Prex, Prae-Bia e Secult-Arte\n\n
+        <b>Local:</b> Sala HL 101 do Instituto de Cultura e Arte (ICA)\n\n\n
+
+       <b>14h</b> Melhores Práticas para Corredores de Rua\n
+        Conferencista/Palestrante: Prof. Eduardo V. Mota e Silva (IEFES/UFC)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>15h</b> Nutrição para corredores de rua\n
+        Conferencista/Palestrante: Nutricionista Davi Trompieri (North Shopping Jóquei)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>16h</b> Corrida de Rua, Esporte e Empreendedorismo\n
+        Conferencista/Palestrante: Prof. Fernando Elpídio (Nova Letra/UniFanor)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>14 às 20 horas<font color="#3c64bf"> \nApresentações orais e pôsteres\n\n</font></b>
         <b>Local:</b>  Centro de Convivência, Instituto de Cultura (ICA), Blocos 950, 951 e 953 do Centro de Ciências\n
-        \n
+        \n\n\n
         <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
         \n
-        <b>08:30 às 10:00</b><font color="#3c64bf"> - Oficina de Relaxamento (turma 1)\n</font>
-        Psicólogo Pedro Câmara\n
+        <b>08:30 às 10:00<font color="#3c64bf">\nOficina de Relaxamento (turma 1)\n</font></b>
+        Ministrante: Psicólogo Pedro Câmara\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>10:30 às 12:00</b><font color="#3c64bf"> - Roda de conversa - Procrastinação no mundo acadêmico\n</font>
-        Pedagogas Tatiane Regis e Carla Duarte\n
+        \n\n\n
+        <b>10:30 às 12:00<font color="#3c64bf"> \nRoda de conversa - Procrastinação no mundo acadêmico\n</font></b>
+        Ministrante: Pedagogas Tatiane Regis e Carla Duarte\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>14:00 às 15:30</b><font color="#3c64bf">	- Arte Terapia - ateliê de autoconhecimento\n</font>
-        Arteterapeutas: Soraya Pessoa e Luiza Lima\n
+        \n\n\n
+        <b>14:00 às 15:30<font color="#3c64bf">	\nArte Terapia - ateliê de autoconhecimento\n</font></b>
+        Arteterapeutas: Soraya Pessoa e Luiza Lima\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>16:00 às 17:30</b><font color="#3c64bf"> - Conversando sobre Resiliência no Mundo Acadêmico\n</font>
-        Psicóloga Flora Chaves\n
+        \n\n\n
+        <b>16:00 às 17:30<font color="#3c64bf"> \nConversando sobre Resiliência no Mundo Acadêmico\n</font></b>
+        Ministrante: Psicóloga Flora Chaves\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
-        <b>18:00 às 20:00</b><font color="#3c64bf"> - Educação Financeira\n</font>
-        Zacarias Júnior\n
+        \n\n\n
+        <b>18:00 às 20:00<font color="#3c64bf"> \nEducação Financeira\n</font></b>
+        Ministrante: Zacarias Júnior\n\n
         <b>Local:</b> Centro de Ciências - Bloco 953\n
-        \n
+        \n\n\n
 
     </string>
 
     <string name="prog_dia_26"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
         \n
-          <b>08:30 às 10:00</b><font color="#3c64bf"> - Oficina de Relaxamento (turma 2)\n</font>
-              Psicólogo Daví Marques\n
-              <b>Local:</b> Centro de Ciências - Bloco 953 \n
 
-        \n
-          <b>10:30 às 12:00</b><font color="#3c64bf"> - Saúde Vocal\n</font>
-          Fonoaudióloga Daniele Colares\n
-              <b>Local:</b> Centro de Ciências - Bloco 953\n
+        <b>08 às 12 horas<font color="#3c64bf">\nApresentações orais e pôsteres\n</font></b>
+        <b>Local:</b>Centro de Convivência, Instituto de Cultura e Arte, Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
 
+        <b>08:30 às 10:00 horas<font color="#3c64bf"> \nPalestra: Biologia Molecular Aplicada à Agricultura.\n</font></b>
+          Conferencista/Palestrante: Prof. Danilo de Menezes Daloso.\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n\n\n
+        <b>10:30 às 12 horas<font color="#3c64bf"> \nPlenária 2: Conhecimento em favor da vida: diálogos sobre saúde mental\n</font></b>
+        Conferencista/Palestrantes: Prof. Fábio Gomes de Matos e Souza FAMED - UFC\n
+        Profa. Luísa Weber Bisol FAMED - UFC\n
+        Mediadora: Prof.ª Márcia Maria Tavares Machado Pró-Reitora de Extensão\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+
+         <b>14 às 17 horas<font color="#3c64bf"> \nMesa de Encerramento: O PIBID e a Residência Pedagógica como campo de pesquisa: fundamentos para a relação teoria e prática\n</font></b>
+        Conferencista/Palestrantes: Professores do PIBID, da Residência Pedagógica e Convidados.\n
+        Realização: Encontro de Práticas Docentes e Seminário Institucional de Iniciação à Docência\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+
+        <b>14 às 20 horas<font color="#3c64bf"> \nApresentações orais e pôsteres\n</font></b>
+        <b>Local:</b> Centro de Convivência, Instituto de Cultura e Arte, Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
+
+
+        <b>15:30 às 17 horas<font color="#3c64bf"> \nMesa Redonda: Apresentação do Projeto Masterplan Biotecnologia, uma iniciativa da FIEC.\n</font></b>
+        Conferencista/Palestrantes: Priscilla Caracas Vieira de Souza (Pesquisadora Masterplan/FIEC)\n
+        Francisco Benício Nogueira Diógenes Júnior (Diretor administrativo da Frutã)\n
+        Profa. Márjory Holanda Lima (DBBM - UFC)\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n\n\n
+
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
         \n
-        <b>13:00 às 15:00</b><font color="#3c64bf"> - Roda de conversa - Relações Professor x Aluno\n</font>
-          Psicólogo Lindemberg Saldanha \n
-            <b>Local:</b> Centro de Ciências - Bloco 953\n
+
+        <b>08:30 às 10:00<font color="#3c64bf"> \nOficina de Relaxamento (turma 2)\n</font></b>
+        Ministrante: Psicólogo Daví Marques\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+
+        <b>10:30 às 12:00<font color="#3c64bf"> \nSaúde Vocal\n</font></b>
+        Ministrante: Fonoaudióloga Daniele Colares\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+
+        <b>13:00 às 15:00<font color="#3c64bf"> \nRoda de conversa: Relações Professor x Aluno\n</font></b>
+        Ministrante: Psicólogo Lindemberg Saldanha\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+
+
+
     </string>
 
     <string name="prog_dia_27"><b><font size="30"><font color="#3c64bf">CORRIDA DA UNIVERSIDADE!</font></font></b>\n
@@ -5727,48 +5779,296 @@
 
     <string name="ativ_perm"><b> MOSTRAS, EXPOSIÇÕES, FEIRAS E OUTRAS ATIVIDADES PERMANENTES</b>\n
         \n
-        <font color="#3c64bf"> V Mostra Cultural ICA\n</font>
+        <font color="#3c64bf"><b> V Mostra Cultural ICA\n</b></font>
         <b>Local:</b> Palco em frente ao Restaurante Universitário e Instituto de Cultura e Arte (ICA) e Arte\n
 
         \n
-        <font color="#3c64bf">Arte sob microscópio\n</font>
+        <font color="#3c64bf"><b>Arte sob microscópio\n</b></font>
         <b>Local:</b> Salão de vidro - Centro de Convivência\n
 
         \n
-        <font color="#3c64bf">Iniciart\n</font>
+        <font color="#3c64bf"><b>Iniciart\n</b></font>
         <b>Local:</b> Salão de vidro - Centro de Convivência\n
 
         \n
-        <font color="#3c64bf">Central Analítica\n</font>
+        <font color="#3c64bf"><b>Central Analítica\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Projeto Farmácia Viva\n</font>
+        <font color="#3c64bf"><b>Projeto Farmácia Viva\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Feira de Plantas Medicinais \n(Somente dia 26/10)\n</font>
+        <font color="#3c64bf"><b>Feira de Plantas Medicinais \n(Somente dia 26/10)\n</b></font>
         <b>Local:</b> Horto de Plantas Medicinais – Centro de Ciências\n
 \n
-        <font color="#3c64bf">Edições UFC\n</font>
+        <font color="#3c64bf"><b>Edições UFC\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Outubro Rosa\n</font>
+        <font color="#3c64bf"><b>Outubro Rosa\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Secretária de Governança\n</font>
+        <font color="#3c64bf"><b>Secretária de Governança\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Feira de Artesanato\n</font>
+        <font color="#3c64bf"><b>Feira de Artesanato\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Feira de Gastronomia\n</font>
+        <font color="#3c64bf"><b>Feira de Gastronomia\n</b></font>
         <b>Local:</b> Centro de Convivência\n
 \n
-        <font color="#3c64bf">Testes de Saúde\n</font>
+        <font color="#3c64bf"><b>Testes de Saúde - Testagens rápidas para HIV, Sífilis e Hepatites\n</b></font>
         <b>Local:</b> Instituto de Cultura e Arte (ICA)\n
 \n
-        <font color="#3c64bf">Roda de Conversa Mulheres e Novelos\n</font>
+        <font color="#3c64bf"><b>Roda de Conversa Mulheres e Novelos\n</b></font>
         <b>Local:</b> Instituto de Cultura e Arte (ICA) – Sala HL 101\n
+\n
+        <font color="#3c64bf"><b>Mesinha OAP (Observatório Ambiental do PICI)\n</b></font>
+        <b>Local:</b> UFC Infra e OAP\n
 
     </string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <string name="prog_dia_24B"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
+        \n
+        <b>09:30 \nSolenidade de abertura\n</b>
+        Apresentação do Grupo de Música Percussiva: Acadêmicos de Casa Caiada.\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n \n\n
+        <b>10:30 às 12 horas \nConferência de Abertura: Nanotecnologia das Coisas (NoT): a emergência da inter, multi e transdisciplinaridade.\n</b>
+        Conferencista/Palestrante: Prof. Oswaldo Luiz Alves - Instituto de Química - Unicamp/Vice-Presidente da Academia Brasileira de Ciências\n
+        Mediador: Prof. Antônio Gomes Souza Filho – Pró-Reitor de Pesquisa e Pós-Graduação\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n \n\n
+        <b>10:30 às 12 horas \nPalestra: Interação Academia-Empresa no Desenvolvimento da Biotecnologia.\n</b>
+        Conferencista/Palestrante: Profa. Márjory Lima Holanda Araújo (DBBM/UFC).\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n \n\n
+       <b>14 às 17 horas \nPalestra: Abertura do XII Encontro de Práticas Docentes e V Seminário Institucional de Iniciação à Docência- Relações de Poder na Escola\n</b>
+        Conferencista/Palestrante: Professor Dr. Luiz Botelho Albuquerque\n\n
+       <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+        <b>14 às 16 horas\nApresentações orais\n</b>
+        <b>Local:</b> Instituto de Cultura e Arte, Blocos 951 e 953 do Centro de Ciências.\n
+        \n\n\n
+        <b>16 às 18 horas \nSessões temáticas\n</b>
+        <b>Local:</b> Instituto de Cultura e Arte\n
+        \n\n\n
+        <b>18 às 20 horas \nApresentações orais\n</b>
+        <b>Local:</b> Instituto de Cultura e Arte, Blocos 951 e 953 do Centro de Ciências.\n
+        \n\n\n
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
+        \n
+        <b>14:00 às 15:30 \nRoda de conversa - Assistência Estudantil: vem saber quais são os seus direitos.\n</b>
+        Ministrante: Priscila Gonçalves Marinho (Assistente Social)\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>16:00 às 17:30 \nRoda de conversa - Assistência Estudantil: você faz parte dessa construção.\n</b>
+        Ministrante: Priscila Gonçalves Marinho (Assistente Social)\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>18:00 às 20:00\nRoteiro de Documentário\n</b>
+        Facilitadora: Georgia Henrique Almeida\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+    </string>
+
+    <string name="prog_dia_25B"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
+        \n
+        <b>08 às 12 horas\nApresentações orais e pôsteres\n</b>
+        <b>Local:</b> Centro de Convivência, Instituto de Cultura (ICA), Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
+        <b>10:30 às 12 horas\nPlenária 1: Envelhecimento e Doenças Neurodegenerativas\n</b>
+        Conferencistas/Palestrantes: Prof. João Macedo Coelho Filho -FAMED/UFC\n
+        Prof. Jarbas de Sá Roriz Filho - FAMED-UFC\n
+        Mediador: Profa. Geanne Matos de Andrade - Coordenadora de Pesquisa/PRPPG\n\n
+        <b>Local:</b>Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+        <b>14 às 17 horas \nPALESTRAS\n</b>
+         <b>14h</b> Roda de Conversa sobre Dor Menstrual – Mulheres e Novelos\n
+        Realização: Projeto Mulheres e Novelos (IEFES, FAMED e MEAC) Apoio: Prex, Prae-Bia e Secult-Arte\n\n
+        <b>Local:</b> Sala HL 101 do Instituto de Cultura e Arte (ICA)\n\n\n
+
+       <b>14h</b> Melhores Práticas para Corredores de Rua\n
+        Conferencista/Palestrante: Prof. Eduardo V. Mota e Silva (IEFES/UFC)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>15h</b> Nutrição para corredores de rua\n
+        Conferencista/Palestrante: Nutricionista Davi Trompieri (North Shopping Jóquei)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>16h</b> Corrida de Rua, Esporte e Empreendedorismo\n
+        Conferencista/Palestrante: Prof. Fernando Elpídio (Nova Letra/UniFanor)\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n\n\n
+
+        <b>14 às 20 horas \nApresentações orais e pôsteres\n\n </b>
+        <b>Local:</b>  Centro de Convivência, Instituto de Cultura (ICA), Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
+        \n
+        <b>08:30 às 10:00 \nOficina de Relaxamento (turma 1)\n</b>
+        Ministrante: Psicólogo Pedro Câmara\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>10:30 às 12:00 \nRoda de conversa - Procrastinação no mundo acadêmico\n </b>
+        Ministrante: Pedagogas Tatiane Regis e Carla Duarte\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>14:00 às 15:30\nArte Terapia - ateliê de autoconhecimento\n</b>
+        Arteterapeutas: Soraya Pessoa e Luiza Lima\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>16:00 às 17:30\nConversando sobre Resiliência no Mundo Acadêmico\n</b>
+        Ministrante: Psicóloga Flora Chaves\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+        <b>18:00 às 20:00 \nEducação Financeira\n</b>
+        Ministrante: Zacarias Júnior\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+
+    </string>
+
+
+    <string name="prog_dia_26B"><b><font size="30">ATIVIDADES DO DIA:</font></b>\n
+        \n
+
+        <b>08 às 12 horas \nApresentações orais e pôsteres\n</b>
+        <b>Local:</b>Centro de Convivência, Instituto de Cultura e Arte, Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
+
+        <b>08:30 às 10:00 horas \nPalestra: Biologia Molecular Aplicada à Agricultura.\n</b>
+          Conferencista/Palestrante: Prof. Danilo de Menezes Daloso.\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n\n\n
+        <b>10:30 às 12 horas \nPlenária 2: Conhecimento em favor da vida: diálogos sobre saúde mental\n</b>
+        Conferencista/Palestrantes: Prof. Fábio Gomes de Matos e Souza FAMED - UFC\n
+        Profa. Luísa Weber Bisol FAMED - UFC\n
+        Mediadora: Prof.ª Márcia Maria Tavares Machado Pró-Reitora de Extensão\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+
+         <b>14 às 17 horas \nMesa de Encerramento: O PIBID e a Residência Pedagógica como campo de pesquisa: fundamentos para a relação teoria e prática\n</b>
+        Conferencista/Palestrantes: Professores do PIBID, da Residência Pedagógica e Convidados.\n
+        Realização: Encontro de Práticas Docentes e Seminário Institucional de Iniciação à Docência\n\n
+        <b>Local:</b> Auditório Reitor Ícaro de Sousa Moreira - Centro de Ciências - Bloco 902\n
+        \n\n\n
+
+        <b>14 às 20 horas \nApresentações orais e pôsteres\n</b>
+        <b>Local:</b> Centro de Convivência, Instituto de Cultura e Arte, Blocos 950, 951 e 953 do Centro de Ciências\n
+        \n\n\n
+
+
+        <b>15:30 às 17 horas \nMesa Redonda: Apresentação do Projeto Masterplan Biotecnologia, uma iniciativa da FIEC.\n</b>
+        Conferencista/Palestrantes: Priscilla Caracas Vieira de Souza (Pesquisadora Masterplan/FIEC)\n
+        Francisco Benício Nogueira Diógenes Júnior (Diretor administrativo da Frutã)\n
+        Profa. Márjory Holanda Lima (DBBM - UFC)\n
+        Realização: VIII Semana da Biotecnologia\n\n
+        <b>Local:</b> Auditório do Departamento de Estatística e Matemática Aplicada (DEMA) | Bloco 910 - Centro de Ciências\n
+        \n\n\n
+
+        <b>OFICINAS PROMOVIDAS PELA PRAE:</b>\n
+        \n
+
+        <b>08:30 às 10:00 \nOficina de Relaxamento (turma 2)\n</b>
+        Ministrante: Psicólogo Daví Marques\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+
+        <b>10:30 às 12:00 \nSaúde Vocal\n</b>
+        Ministrante: Fonoaudióloga Daniele Colares\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+        \n\n\n
+
+        <b>13:00 às 15:00 \nRoda de conversa: Relações Professor x Aluno\n</b>
+        Ministrante: Psicólogo Lindemberg Saldanha\n\n
+        <b>Local:</b> Centro de Ciências - Bloco 953\n
+
+
+
+    </string>
+
+    <string name="prog_dia_27B"><b><font size="30">CORRIDA DA UNIVERSIDADE!</font></b>\n
+    \n
+    Concentração às <b>5h\n</b>
+    Largada às <b>6h\n</b>
+    <b>Largada/Chegada:</b> Biblioteca Central do Campus do Pici\n
+    </string>
+
+    <string name="ativ_permB"><b> MOSTRAS, EXPOSIÇÕES, FEIRAS E OUTRAS ATIVIDADES PERMANENTES</b>\n
+        \n
+        <b>V Mostra Cultural ICA\n</b>
+        <b>Local:</b> Palco em frente ao Restaurante Universitário e Instituto de Cultura e Arte (ICA) e Arte\n
+
+        \n
+        <b>Arte sob microscópio\n</b>
+        <b>Local:</b> Salão de vidro - Centro de Convivência\n
+
+        \n
+        <b>Iniciart\n</b>
+        <b>Local:</b> Salão de vidro - Centro de Convivência\n
+
+        \n
+        <b>Central Analítica\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Projeto Farmácia Viva\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Feira de Plantas Medicinais \n(Somente dia 26/10)\n</b>
+        <b>Local:</b> Horto de Plantas Medicinais – Centro de Ciências\n
+\n
+        <b>Edições UFC\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Outubro Rosa\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Secretária de Governança\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Feira de Artesanato\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Feira de Gastronomia\n</b>
+        <b>Local:</b> Centro de Convivência\n
+\n
+        <b>Testes de Saúde - Testagens rápidas para HIV, Sífilis e Hepatites\n</b>
+        <b>Local:</b> Instituto de Cultura e Arte (ICA)\n
+\n
+        <b>Roda de Conversa Mulheres e Novelos\n</b>
+        <b>Local:</b> Instituto de Cultura e Arte (ICA) – Sala HL 101\n
+\n
+        <b>Mesinha OAP (Observatório Ambiental do PICI)\n</b>
+        <b>Local:</b> UFC Infra e OAP\n
+
+    </string>
+
+
+
+
+
+
+
+
+
 
 </resources>

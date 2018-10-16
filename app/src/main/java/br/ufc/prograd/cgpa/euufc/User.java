@@ -25,6 +25,10 @@ public class User {
     @ColumnInfo
     private int minutos;
 
+
+    @ColumnInfo
+    private int segundos;
+
     @ColumnInfo
     private boolean infoCheckout;
 
@@ -98,5 +102,9 @@ public class User {
     public void setLastCheckId(int lastCheckId) {
         this.lastCheckId = lastCheckId;
     }
+
+    public int getSegundos() { return segundos; }
+
+    public void setSegundos(int segundos) { this.segundos = segundos; }
 
 }

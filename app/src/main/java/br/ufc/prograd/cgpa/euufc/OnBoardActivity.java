@@ -107,9 +107,9 @@ public class OnBoardActivity extends TutorialActivity {
    @Override
    public Resources getResources() {
        Resources resources = super.getResources();
-       if (resources != null && resources.getConfiguration().fontScale != 1.3) {
+       if (resources != null && resources.getConfiguration().fontScale != 1.1) {
            Configuration configuration = resources.getConfiguration();
-           configuration.fontScale = (float)1.3;
+           configuration.fontScale = (float)1.1;
            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
        }
 

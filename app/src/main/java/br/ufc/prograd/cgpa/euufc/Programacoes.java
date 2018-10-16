@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,11 +31,18 @@ public class Programacoes extends AppCompatActivity
     NavigationView navigationView;
     //ListView listViewP;
     public Spinner sp;
-    public String[] datas = {"24/10", "25/10", "26/10","27/10","Atividades Permantes"};
+    public String[] datas = {"24/10", "25/10", "26/10","27/10","Atividades Permanentes"};
     TextView txProg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        final int width = dm.widthPixels;
+        final int height = dm.heightPixels;
+
         setContentView(R.layout.activity_programacao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,20 +57,38 @@ public class Programacoes extends AppCompatActivity
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position).equals("24/10")){
-                    txProg.setText(R.string.prog_dia_24);
-                }
-                if(parent.getItemAtPosition(position).equals("25/10")){
-                    txProg.setText(R.string.prog_dia_25);
-                }
-                if(parent.getItemAtPosition(position).equals("26/10")){
-                    txProg.setText(R.string.prog_dia_26);
-                }
-                if(parent.getItemAtPosition(position).equals("27/10")){
-                    txProg.setText(R.string.prog_dia_27);
-                }
-                if(parent.getItemAtPosition(position).equals("Atividades Permantes")){
-                    txProg.setText(R.string.ativ_perm);
+                if (width > 300 || height > 400) {
+                    if (parent.getItemAtPosition(position).equals("24/10")) {
+                        txProg.setText(R.string.prog_dia_24);
+                    }
+                    if (parent.getItemAtPosition(position).equals("25/10")) {
+                        txProg.setText(R.string.prog_dia_25);
+                    }
+                    if (parent.getItemAtPosition(position).equals("26/10")) {
+                        txProg.setText(R.string.prog_dia_26);
+                    }
+                    if (parent.getItemAtPosition(position).equals("27/10")) {
+                        txProg.setText(R.string.prog_dia_27);
+                    }
+                    if (parent.getItemAtPosition(position).equals("Atividades Permanentes")) {
+                        txProg.setText(R.string.ativ_perm);
+                    }
+                }else{
+                    if (parent.getItemAtPosition(position).equals("24/10")) {
+                        txProg.setText(R.string.prog_dia_24B);
+                    }
+                    if (parent.getItemAtPosition(position).equals("25/10")) {
+                        txProg.setText(R.string.prog_dia_25B);
+                    }
+                    if (parent.getItemAtPosition(position).equals("26/10")) {
+                        txProg.setText(R.string.prog_dia_26B);
+                    }
+                    if (parent.getItemAtPosition(position).equals("27/10")) {
+                        txProg.setText(R.string.prog_dia_27B);
+                    }
+                    if (parent.getItemAtPosition(position).equals("Atividades Permanentes")) {
+                        txProg.setText(R.string.ativ_permB);
+                    }
                 }
             }
 

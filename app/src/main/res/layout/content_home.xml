@@ -22,7 +22,7 @@
         android:radius="13dp"
         android:text="FAZER CHECK-IN"
         android:textColor="#ffffe0"
-        android:textSize="30sp"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
