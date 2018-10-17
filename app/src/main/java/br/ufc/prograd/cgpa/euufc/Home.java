@@ -595,7 +595,7 @@ public class Home extends AppCompatActivity
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
                         //teste
-                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 16 || mesAtual != 10){
+                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 19 || mesAtual != 10){
                             db.close();
                             return "falha";
                         }
