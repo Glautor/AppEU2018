@@ -6528,7 +6528,8 @@
 
     <string name="prog_dia_27"><b><font size="30"><font color="#3c64bf">CORRIDA DA UNIVERSIDADE!</font></font></b>\n
     \n
-    Concentração às <b>5h\n</b>
+    Abertura de Portões às <b>5h\n</b>
+    Concentração às <b>5h:30m\n</b>
     Largada às <b>6h\n</b>
     <b>Largada/Chegada:</b> Biblioteca Central do Campus do Pici\n
     </string>
@@ -7341,9 +7342,6 @@
         <b>14:00 \nOficinas de consciência corporal para mulheres com dor menstrual ou dor pélvica crônica\n</b>
         Oficinas e Rodas de Conversa / V Mostra Ica\n\n
         <b>Local:</b> Lab. de Corpo I – Ica - HL 201\n
-
-
-
         \n \n\n
 
         <b>14:00 às 17:00 \nO PIBID e a Residência Pedagógica como campo de pesquisa: fundamentos para a relação teoria e prática\n</b>
@@ -7412,6 +7410,11 @@
         <b>Local:</b> Materioteca – Ica\n
         \n \n\n
 
+        <b>16:00 \nFeijão e Sal\n</b>
+        Teatro / V Mostra Ica\n\n
+        <b>Local:</b> Lab. de corpo II – Ica - HL202\n
+        \n \n
+
         <b>16:00 \Empodera uma Mulher (1h30)\n</b>
         Oficinas e Rodas de Conversa / V Mostra Ica\n\n
         <b>Local:</b> Lab. de corpo III – Ica - HL204\n
@@ -7472,7 +7475,8 @@
 
     <string name="prog_dia_27B"><b><font size="30">CORRIDA DA UNIVERSIDADE!</font></b>\n
     \n
-    Concentração às <b>5h\n</b>
+    Abertura de Portões às <b>5h\n</b>
+    Concentração às <b>5h:30m\n</b>
     Largada às <b>6h\n</b>
     <b>Largada/Chegada:</b> Biblioteca Central do Campus do Pici\n
     </string>

@@ -199,7 +199,7 @@ public class Home extends AppCompatActivity
                     float distancia4 =  myLocation.distanceTo(bl951);
                     float distancia5 =  myLocation.distanceTo(auditorio);
 
-                    if (myLocation.distanceTo(ica) < 250 || myLocation.distanceTo(ctConv) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(bl951) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(auditorio) < 250) {
+                    if (myLocation.distanceTo(ica) < 300 || myLocation.distanceTo(ctConv) < 300 || myLocation.distanceTo(bl953) < 300 || myLocation.distanceTo(bl951) < 300 || myLocation.distanceTo(bl953) < 300 || myLocation.distanceTo(auditorio) < 300) {
                         final Activity activity = this;
                         IntentIntegrator integrator = new IntentIntegrator(activity);
                         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
@@ -617,7 +617,7 @@ public class Home extends AppCompatActivity
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
                         //teste
-                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 19 || mesAtual != 10){
+                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
                             db.close();
                             return "falha";
                         }
@@ -662,7 +662,7 @@ public class Home extends AppCompatActivity
                         int diaAtual = Integer.valueOf(dataFm.format(date));
                         int mesAtual = Integer.valueOf(mesFm.format(date));
 
-                        if(horaAtual < 8 || diaAtual < 24 && diaAtual != 19 || mesAtual != 10){
+                        if(horaAtual < 8 || diaAtual < 24 || mesAtual != 10){
                             db.close();
                             return "falha";
                         }
