@@ -794,19 +794,19 @@ public class Home extends AppCompatActivity
                 Date diaTres20 = new Date();
                 diaTres20.setTime(1540591200000L);
 
-                //Setando Pontos de Checkout dos dia de teste(11/10/2018)
+//                //Setando Pontos de Checkout dos dia de teste(11/10/2018)
+////                Date tDiaUm14 = new Date();
+////                tDiaUm14.setTime(1539277200000L);
+////                int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
+////                Date tDiaUm20 = new Date();
+////                tDiaUm20.setTime(1539298800000L);
+//
+//                //Setando Pontos de Checkout do dia de teste(19/10/2018)
 //                Date tDiaUm14 = new Date();
-//                tDiaUm14.setTime(1539277200000L);
+//                tDiaUm14.setTime(1539968400000L);
 //                int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
 //                Date tDiaUm20 = new Date();
-//                tDiaUm20.setTime(1539298800000L);
-
-                //Setando Pontos de Checkout do dia de teste(19/10/2018)
-                Date tDiaUm14 = new Date();
-                tDiaUm14.setTime(1539968400000L);
-                int tDataUm = Integer.valueOf(dataFm.format(tDiaUm14));
-                Date tDiaUm20 = new Date();
-                tDiaUm20.setTime(1539990000000L);
+//                tDiaUm20.setTime(1539990000000L);
 
                 System.out.println("Data:"+ date);
                 //Recebe o último Checkin armazenado para verificar se será necessário fazer ajustes
@@ -889,35 +889,6 @@ public class Home extends AppCompatActivity
                     }else{
                         if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > dataTres || horaCheckin < hora20 && mesAtual != 10){
                             db.checkDao().updateCheckOut(diaTres20, cid);
-                            Check check = db.checkDao().loadById(cid);
-
-                            DateTime horaInicial = new DateTime(check.getDHourIn());
-                            DateTime horaFinal = new DateTime(check.getDHourOut());
-                            Duration duracao = new Duration(horaInicial, horaFinal);
-
-                            saveInfoCheckin(false,-1, duracao);
-                            db.close();
-                            return "checkout";
-                        }
-                    }
-                }
-
-                if(dateCheckin == tDataUm){
-
-                    if(horaCheckin < hora14 && horaAtual >= hora14 || horaCheckin < hora14 && diaAtual > tDataUm || horaCheckin < hora14 && mesAtual != 10){
-                        db.checkDao().updateCheckOut(tDiaUm14, cid);
-                        Check check = db.checkDao().loadById(cid);
-
-                        DateTime horaInicial = new DateTime(check.getDHourIn());
-                        DateTime horaFinal = new DateTime(check.getDHourOut());
-                        Duration duracao = new Duration(horaInicial, horaFinal);
-
-                        saveInfoCheckin(false,-1, duracao);
-                        db.close();
-                        return "checkout";
-                    }else{
-                        if(horaCheckin < hora20 && horaAtual >= hora20 || horaCheckin < hora20 && diaAtual > tDataUm || horaCheckin < hora20 && mesAtual != 10){
-                            db.checkDao().updateCheckOut(tDiaUm20, cid);
                             Check check = db.checkDao().loadById(cid);
 
                             DateTime horaInicial = new DateTime(check.getDHourIn());
