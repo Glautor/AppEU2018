@@ -30,7 +30,8 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +43,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_splash"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
@@ -58,7 +60,8 @@
             android:label="@string/title_activity_programacao"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Programacoes"
             android:label="@string/title_activity_areas"

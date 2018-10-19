@@ -31,7 +31,7 @@ public class Programacoes extends AppCompatActivity
     NavigationView navigationView;
     //ListView listViewP;
     public Spinner sp;
-    public String[] datas = {"24/10", "25/10", "26/10","27/10","Atividades Permanentes"};
+    public String[] datas = {"24/10", "25/10", "26/10","27/10"};
     TextView txProg;
 
     @Override
@@ -59,35 +59,37 @@ public class Programacoes extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (width > 300 || height > 400) {
                     if (parent.getItemAtPosition(position).equals("24/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_24);
                     }
                     if (parent.getItemAtPosition(position).equals("25/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_25);
                     }
                     if (parent.getItemAtPosition(position).equals("26/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_26);
                     }
                     if (parent.getItemAtPosition(position).equals("27/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_27);
-                    }
-                    if (parent.getItemAtPosition(position).equals("Atividades Permanentes")) {
-                        txProg.setText(R.string.ativ_perm);
                     }
                 }else{
                     if (parent.getItemAtPosition(position).equals("24/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_24B);
                     }
                     if (parent.getItemAtPosition(position).equals("25/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_25B);
                     }
                     if (parent.getItemAtPosition(position).equals("26/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_26B);
                     }
                     if (parent.getItemAtPosition(position).equals("27/10")) {
+                        txProg.scrollTo(0,0);
                         txProg.setText(R.string.prog_dia_27B);
-                    }
-                    if (parent.getItemAtPosition(position).equals("Atividades Permanentes")) {
-                        txProg.setText(R.string.ativ_permB);
                     }
                 }
             }

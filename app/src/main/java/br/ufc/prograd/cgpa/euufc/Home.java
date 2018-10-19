@@ -79,6 +79,7 @@ public class Home extends AppCompatActivity
     Location bl951;
     Location bl953;
     Location ctConv;
+    Location auditorio;
     String respostaSer;
     NavigationView navigationView;
 
@@ -167,43 +168,56 @@ public class Home extends AppCompatActivity
         final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (!gpsEnabled) {
-            // Build an alert dialog here that requests that the user enable
-            // the location services, then when the user clicks the "OK" button,
-            Dialog dialog = new AlertDialog.Builder(this)
-                    .setMessage("Precisamos que você ligue seu GPS")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-//                            enableLocationSettings();
-                            String provedor = setConfigGPS();
+            if(ContextCompat.checkSelfPermission(getApplicationContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // Build an alert dialog here that requests that the user enable
+                // the location services, then when the user clicks the "OK" button,
+                Dialog dialog = new AlertDialog.Builder(this)
+                        .setMessage("Precisamos que você ligue seu GPS")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String providerName = setConfigGPS();
+                            }
+                        })
+                        .create();
 
-                        }
-                    })
-                    .create();
-
-            dialog.show();
+                dialog.show();
+            }else{
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            }
         }else{
-            if(myLocation != null) {
-                int distancia = (int) myLocation.distanceTo(ica);
-                if (myLocation.distanceTo(ica) < 250.0 || myLocation.distanceTo(ctConv) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(bl951) < 250 || myLocation.distanceTo(bl953) < 250) {
-//                    SharedPreferences infoCheckin = getSharedPreferences(CONTROLE_CHECK,0);
-//                    int check_id = infoCheckin.getInt("LastCheckin", -1);
-//                    if(check_id != -1) {
-//                        AjustaCheckout aj = new AjustaCheckout();
-//                        aj.execute();
-//                }
-                    final Activity activity = this;
-                    IntentIntegrator integrator = new IntentIntegrator(activity);
-                    integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                    integrator.setPrompt("Camera Scan");
-                    integrator.setCameraId(0);
-                    integrator.initiateScan();
+            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                if (myLocation != null) {
+                    float distancia1 =  myLocation.distanceTo(ica);
+                    float distancia2 =  myLocation.distanceTo(ctConv);
+                    float distancia3 =  myLocation.distanceTo(bl953);
+                    float distancia4 =  myLocation.distanceTo(bl951);
+                    float distancia5 =  myLocation.distanceTo(auditorio);
+
+                    if (myLocation.distanceTo(ica) < 250 || myLocation.distanceTo(ctConv) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(bl951) < 250 || myLocation.distanceTo(bl953) < 250 || myLocation.distanceTo(auditorio) < 250) {
+                        final Activity activity = this;
+                        IntentIntegrator integrator = new IntentIntegrator(activity);
+                        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                        integrator.setPrompt("Camera Scan");
+                        integrator.setCameraId(0);
+                        integrator.initiateScan();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Você não está na área dos Encontros Universitários", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Você não está na área dos Encontros Universitários", Toast.LENGTH_LONG).show();
+                    myLocation = getLastLocation();
+                    Toast.makeText(getApplicationContext(), "Não conseguimos acessar sua localização. Aguarde alguns segundos ou reinicie o app.", Toast.LENGTH_LONG).show();
+                    onStart();
                 }
             }else{
-                myLocation = getLastLocation();
-                Toast.makeText(getApplicationContext(), "Não conseguimos acessar sua localização. Aguarde alguns segundos ou reinicie o app.", Toast.LENGTH_LONG).show();
-                onStart();
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
             }
         }
     }
@@ -271,8 +285,11 @@ public class Home extends AppCompatActivity
         bl953.setLatitude(-3.7470905);
         bl953.setLongitude(-38.5754332);
         ctConv = new Location(LocationManager.GPS_PROVIDER);
-        ctConv.setLatitude(-3.7447339);
-        ctConv.setLongitude(-38.5733587);
+        ctConv.setLatitude(-3.7455471);
+        ctConv.setLongitude(-38.5723581);
+        auditorio = new Location(LocationManager.GPS_PROVIDER);
+        auditorio.setLatitude(-3.746067);
+        auditorio.setLongitude(-38.5740677);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
         Criteria criteria = new Criteria();
@@ -342,19 +359,22 @@ public class Home extends AppCompatActivity
         }
 
         if (!gpsEnabled) {
-            // Build an alert dialog here that requests that the user enable
-            // the location services, then when the user clicks the "OK" button,
-            Dialog dialog = new AlertDialog.Builder(this)
-                    .setMessage("Precisamos que você ligue seu GPS")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            String providerName = setConfigGPS();
+            if(ContextCompat.checkSelfPermission(getApplicationContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                // Build an alert dialog here that requests that the user enable
+                // the location services, then when the user clicks the "OK" button,
+                Dialog dialog = new AlertDialog.Builder(this)
+                        .setMessage("Precisamos que você ligue seu GPS")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String providerName = setConfigGPS();
+                            }
+                        })
+                        .create();
 
-                        }
-                    })
-                    .create();
-
-            dialog.show();
+                dialog.show();
+            }
         }else{
             if (ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -403,8 +423,10 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        myLocation = location;
+        if(locationManager != null) {
+            @SuppressLint("MissingPermission") Location mylocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            myLocation = location;
+        }
     }
 
     @Override
@@ -617,6 +639,8 @@ public class Home extends AppCompatActivity
                         saveInfoCheckin(false,-1, duracao);
                         db.close();
                         return "checkout";
+                    }else{
+                        return "qr_invalido";
                     }
                 }
             }else{
@@ -655,6 +679,8 @@ public class Home extends AppCompatActivity
                         saveInfoCheckin(true,db.checkDao().loadIdByHourIn(date));
                         db.close();
                         return "checkin";
+                    }else{
+                        return "qr_invalido";
                     }
                 }
             }
@@ -704,6 +730,9 @@ public class Home extends AppCompatActivity
             }
             if(param.equals("falha")){
                 Toast.makeText(getApplicationContext(), "Horário para acesso não permitido. Check não realizado", Toast.LENGTH_LONG).show();
+            }
+            if(param.equals("qr_code")){
+                Toast.makeText(getApplicationContext(), "QRCODE incorreto", Toast.LENGTH_LONG).show();
             }
         }
 
